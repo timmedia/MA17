@@ -25,11 +25,14 @@ Game.preload.prototype = {
     this.load.spritesheet('bridge_1', 'assets/graphics/bridge_1.gif', 150, 150);
     this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
 
+    this.load.tilemap('map_2_1', 'assets/map/level_2_1.csv');
+    this.load.image('tileset_2_1', 'assets/graphics/level_2_1/tileset.gif');
+
 
 
   },
 
   create:function(){
-    this.state.start('level_1_1');
+    this.state.start('level_2_1');
   }
 }

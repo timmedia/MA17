@@ -16,7 +16,7 @@ Game.level_1_1.prototype = {
     this.player.animations.add('jump', [8,9,10,11], 5, true);
 
     //this.box = this.add.sprite(650, 60, 'box_1');
-    this.box_1 = new this.boxObject(0, this, 650, 80);
+    this.box_1 = new this.boxObject(0, this, 700, 80);
     this.box_2 = new this.boxObject(0, this, 750, 210);
 
     this.water = this.add.sprite(458, -20, 'water_1');
@@ -98,6 +98,7 @@ Game.level_1_1.prototype = {
 
     this.physics.arcade.collide(this.player, [this.box_1, this.box_2, this.bridge]);
     this.physics.arcade.collide(this.layer, [this.player, this.box_1, this.box_2]);
+    this.physics.arcade.collide(this.box_1, this.box_2);
 
     this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
 
