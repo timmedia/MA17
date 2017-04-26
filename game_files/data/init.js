@@ -1,4 +1,7 @@
 var game;
+var controls;
+var checkInput;
+var score;
 
 function init() {
   // Disable the context menu on mobile browsers

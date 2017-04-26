@@ -1,6 +1,5 @@
 Game.level_2_1 = function(){};
 
-
 Game.level_2_1.prototype = {
   create:function(){
     this.world.bounds.setTo(0, 0, 900, 450);
@@ -11,30 +10,19 @@ Game.level_2_1.prototype = {
     this.map.setCollisionBetween(0, 2);
     this.layer = this.map.createLayer(0);
 
-
     this.player = this.add.sprite(200, 100, 'player_1_1');
     this.player.anchor.setTo(0.5, 0.5);
-
     this.player.animations.add('idle', [0,1,2,3], 5, true);
     this.player.animations.add('walk', [4,5,6,7], 5, true);
     this.player.animations.add('jump', [8,9,10,11], 5, true);
 
-    this.physics.arcade.gravity.y = 2000;
-    this.physics.arcade.enable(this.player);
-
     this.buttons = this.add.physicsGroup(this.physics.arcade);
-
-    var s = this.buttons.create
 
     this.button_1 = new this.buttonObject(0, this, 127, 380, 'left');
 
 
-
-    this.controls = {
-      right:this.input.keyboard.addKey(Phaser.Keyboard.D),
-      left: this.input.keyboard.addKey(Phaser.Keyboard.A),
-      up:   this.input.keyboard.addKey(Phaser.Keyboard.W)
-    }
+    this.physics.arcade.gravity.y = 2000;
+    this.physics.arcade.enable(this.player);
 
     this.player.walkSpeed = 300;
     this.player.jumpSpeed = -740;
