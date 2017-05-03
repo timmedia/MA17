@@ -12,7 +12,7 @@ function init() {
      return false;
   };
 
-  game = new Phaser.Game(800, 450, Phaser.CANVAS, "", null, false, false);
+  game = new Phaser.Game(800, 450, Phaser.CANVAS, '', null, false, false);
   game.state.add('startup', Game.startup);
   game.state.add('preload', Game.preload);
   game.state.add('leaderboard', Game.leaderboard);

@@ -10,76 +10,29 @@ Game.level_2_1.prototype = {
     this.map.setCollisionBetween(0, 2);
     this.layer = this.map.createLayer(0);
 
-    this.player = this.add.sprite(200, 100, 'player_1_1');
-    this.player.anchor.setTo(0.5, 0.5);
-    this.player.animations.add('idle', [0,1,2,3], 5, true);
-    this.player.animations.add('walk', [4,5,6,7], 5, true);
-    this.player.animations.add('jump', [8,9,10,11], 5, true);
+    this.player = new object.Player(200, 100, 'player_1_1', 300, -740, this);
+    //this.buttons = this.add.physicsGroup(this.physics.arcade);
 
-    this.buttons = this.add.physicsGroup(this.physics.arcade);
+    //this.button_1 = new this.buttonObject(0, this, 127, 380, 'left');
 
-    this.button_1 = new this.buttonObject(0, this, 127, 380, 'left');
-
+    //x, y, sprite, orientation, collideCallback, processCallback, game
+    this.button_1 = new object.Button(127, 380, 'button_1', 90, function(){
+      game.physics.arcade.gravity.y *= -1;
+    }, this);
 
     this.physics.arcade.gravity.y = 2000;
-    this.physics.arcade.enable(this.player);
 
-    this.player.walkSpeed = 300;
-    this.player.jumpSpeed = -740;
+
+    this.controls = controls;
 
   },
   update:function(){
     this.physics.arcade.collide(this.player, this.layer);
-
-    var grounded = this.player.body.touching.down || this.player.body.onFloor();
-    var rightDown = this.controls.right.isDown;
-    var leftDown = this.controls.left.isDown;
-    var upDown = this.controls.up.isDown;
-
-    if(rightDown && !leftDown) {
-      this.player.body.velocity.x = this.player.walkSpeed;
-      this.player.animations.play('walk');
-    }
-    else if(leftDown && !rightDown) {
-      this.player.body.velocity.x = -this.player.walkSpeed;
-      this.player.animations.play('walk');
-    }
-    else {
-      this.player.body.velocity.x = 0;
-      this.player.animations.play('idle');
-    }
-    if(grounded) {
-      if(upDown){
-        this.player.body.velocity.y = this.player.jumpSpeed;
-        this.player.animations.play('jump');
-      }
-    }
+    this.physics.arcade.collide(this.player, this.button_1, this.button_1.collideCallback, null);
 
 
-  },
-  buttonObject: function(index, game, x, y, orientation) {
-    let res = game.add.sprite(x, y, 'button_1');
-    res.anchor.setTo(0.5, 0.5);
-    res.name = index.toString();
-    res.animations.add('up', [0], 0, false);
-    res.animations.add('down', [1], 0, false);
-    res.animations.play('up');
-    switch (orientation) {
-      case 'up':
-        res.angle = 0;
-        break;
-      case 'left':
-        res.angle = 90;
-        break;
-      case 'down':
-        res.angle = 180;
-        break;
-      case 'left':
-        res.angle = -90;
-        break;
-      default:
-        console.log('button orientation invalid');
-    }
-    return res;
+    checkInput(this.player, this.controls);
+
+
   }
 }

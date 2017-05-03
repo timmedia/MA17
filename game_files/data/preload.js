@@ -31,19 +31,53 @@ Game.preload.prototype = {
       right:this.input.keyboard.addKey(Phaser.Keyboard.D),
       left: this.input.keyboard.addKey(Phaser.Keyboard.A),
       up1:  this.input.keyboard.addKey(Phaser.Keyboard.W),
-      up2:  this.input.keyBoard.addKey(Phaser.Keyboard.SPACEBAR)
+      up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     }
 
-    checkInput = function(player, control) {
-      var grounded  = player.body.touching.down || player.body.onFloor();
-      var rightDown = this.controls.right.isDown;
-      var leftDown  = this.controls.left.isDown;
-      var upDown    = this.controls.up1.isDown || this.controls.up2.isDown;
+    /*
+    Return:
+    0   idle
+    1   walking
+    2   jump
+    */
+    checkInput = function(p, ctrl) {
+      var grounded  = p.body.touching.down || p.body.onFloor();
+      var rightDown = ctrl.right.isDown;
+      var leftDown  = ctrl.left.isDown;
+      var upDown    = ctrl.up1.isDown;
+      var res;
+
+
+
+      if(rightDown && !leftDown) {
+        p.body.velocity.x = p.walkSpeed;
+        p.animations.play('walk');
+      }
+      else if(leftDown && !rightDown) {
+        p.body.velocity.x = -p.walkSpeed;
+        p.animations.play('walk');
+      }
+      else {
+        p.body.velocity.x = 0;
+        if(grounded){p.animations.play('idle');}
+      }
+
+      if(grounded) {
+        if(upDown){
+          p.body.velocity.y = p.jumpSpeed;
+        }
+      }
+      else {
+        p.animations.play('jump');
+        if(p.body.velocity.y > p.maxFallingSpeed) {
+          p.body.velocity.y = p.maxFallingSpeed;
+        }
+      }
     }
 
   },
 
   create:function(){
-    this.state.start('level_1_1');
+    this.state.start('level_2_1');
   }
 }

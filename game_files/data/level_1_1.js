@@ -1,23 +1,14 @@
-Game.level_1_1 = function(){};
+Game.level_1_1 = function() {};
 
 Game.level_1_1.prototype = {
   create:function(){
 
-    this.world.bounds.setTo(0, 0, 2400, 450);
     this.background = this.add.sprite(0, 0, 'background_1_1');
 
-    this.player = this.add.sprite(100, 100, 'player_1_1');
-    this.player.anchor.setTo(0.5, 0.5);
-    this.player.animations.add('idle', [0,1,2,3], 5, true);
-    this.player.animations.add('walk', [4,5,6,7], 5, true);
-    this.player.animations.add('jump', [8,9,10,11], 5, true);
-    this.physics.arcade.enable(this.player);
-    this.player.checkWorldBounds = true;
-    this.player.walkSpeed = 300;
-    this.player.jumpSpeed = -900;
+    this.player = new object.Player(100, 100, 'player_1_1', 300, -900, this);
 
-    this.box_1 = new this.boxObject(0, this, 700, 80);
-    this.box_2 = new this.boxObject(0, this, 750, 210);
+    this.box_1 = new object.Box(700, 80, 'box_1', 5000, 0.5, this);
+    this.box_2 = new object.Box(750, 210, 'box_1', 5000, 0.5, this);
 
     this.water = this.add.sprite(458, -20, 'water_1');
     this.water.animations.add('running', [0,1,2,3], 7, true);
@@ -60,8 +51,12 @@ Game.level_1_1.prototype = {
     this.map.setCollisionBetween(0, 2);
 
     this.layer = this.map.createLayer(0);
-    this.layer.resizeWorld();
+    //this.layer.resizeWorld();
     this.camera.follow(this.player);
+
+    this.world.setBounds(0, 0, 1800, 450);
+
+    this.physics.arcade.checkCollision.up = false;
 
     this.physics.arcade.gravity.y = 2000;
 
@@ -70,6 +65,8 @@ Game.level_1_1.prototype = {
   },
   update:function(){
 
+    thisthis = this;
+
     this.physics.arcade.collide(this.player, [this.box_1, this.box_2, this.bridge]);
     this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
     this.physics.arcade.collide(this.player, this.button, this.bridge.switch, null, this);
@@ -77,41 +74,11 @@ Game.level_1_1.prototype = {
     this.physics.arcade.collide(this.layer, [this.player, this.box_1, this.box_2]);
     this.physics.arcade.collide(this.box_1, this.box_2);
 
-    var grounded  = this.player.body.touching.down || this.player.body.onFloor();
-    var rightDown = this.controls.right.isDown;
-    var leftDown  = this.controls.left.isDown;
-    var upDown    = this.controls.up.isDown;
-
-    if(rightDown && !leftDown) {
-      this.player.body.velocity.x = this.player.walkSpeed;
-      this.player.animations.play('walk');
-    }
-    else if(leftDown && !rightDown) {
-      this.player.body.velocity.x = -this.player.walkSpeed;
-      this.player.animations.play('walk');
-    }
-    else {
-      this.player.body.velocity.x = 0;
-      this.player.animations.play('idle');
-    }
-    if(grounded) {
-      if(upDown){
-        this.player.body.velocity.y = this.player.jumpSpeed;
-        this.player.animations.play('jump');
-      }
-    }
+    checkInput(this.player, this.controls);
   },
   killPlayer: function() {
-    this.state.start('level_1_1');
-  },
-  boxObject: function(index, game, x, y) {
-    let res = game.add.sprite(x, y, 'box_1');
-    res.anchor.setTo(0.5, 0.5);
-    res.name = index.toString();
-    game.physics.arcade.enable(res);
-    res.body.drag.x = 5000;
-    res.body.bounce.y = 0.5;
-    res.body.collideWorldBounds = true;
-    return res;
+
+      this.state.start('level_1_1');
+
   }
 }
