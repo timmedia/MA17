@@ -10,23 +10,26 @@ Game.level_2_1.prototype = {
     this.map.setCollisionBetween(0, 2);
     this.layer = this.map.createLayer(0);
 
-    this.player = new object.Player(200, 100, 'player_1_1', 300, -740, this);
+    this.player = new object.Player(200, 100, 'player_2_1', 300, -600, this);
     //this.buttons = this.add.physicsGroup(this.physics.arcade);
 
     //this.button_1 = new this.buttonObject(0, this, 127, 380, 'left');
 
     //x, y, sprite, orientation, collideCallback, processCallback, game
-    this.button_1 = new object.Button(127, 380, 'button_1', 90, function(){
+    this.button_1 = new object.Button(127, 380, 'button_1', 90, function(game){
       game.physics.arcade.gravity.y *= -1;
+      game.player.jumpSpeed *= -1;
     }, this);
 
-    this.physics.arcade.gravity.y = 2000;
+    this.physics.arcade.gravity.y = 1300;
 
 
     this.controls = controls;
 
   },
   update:function(){
+
+    thisthis = this;
     this.physics.arcade.collide(this.player, this.layer);
     this.physics.arcade.collide(this.player, this.button_1, this.button_1.collideCallback, null);
 

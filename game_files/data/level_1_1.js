@@ -5,10 +5,10 @@ Game.level_1_1.prototype = {
 
     this.background = this.add.sprite(0, 0, 'background_1_1');
 
-    this.player = new object.Player(100, 100, 'player_1_1', 300, -900, this);
+    this.player = new object.Player(100, 100, 'player_2_1', 300, -900, this);
 
     this.box_1 = new object.Box(700, 80, 'box_1', 5000, 0.5, this);
-    this.box_2 = new object.Box(750, 210, 'box_1', 5000, 0.5, this);
+    this.box_2 = new object.Box(770, 210, 'box_1', 5000, 0.5, this);
 
     this.water = this.add.sprite(458, -20, 'water_1');
     this.water.animations.add('running', [0,1,2,3], 7, true);
@@ -61,6 +61,8 @@ Game.level_1_1.prototype = {
     this.physics.arcade.gravity.y = 2000;
 
     this.controls = controls;
+
+
 
   },
   update:function(){

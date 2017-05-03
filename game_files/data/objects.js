@@ -3,8 +3,8 @@ object = {
     let res = game.add.sprite(x, y, sprite);
     res.anchor.setTo(0.5, 0.5);
     res.animations.add('idle', [0,1,2,3], 5, true);
-    res.animations.add('walk', [4,5,6,7], 5, true);
-    res.animations.add('jump', [8,9,10,11], 5, true);
+    //res.animations.add('walk', [4,5,6,7], 5, true);
+    //res.animations.add('jump', [8,9,10,11], 5, true);
     res.walkSpeed = walkSpeed;
     res.jumpSpeed = jumpSpeed;
     res.maxFallingSpeed = 900;
@@ -33,7 +33,7 @@ object = {
     res.body.moves = false;
     res.collideCallback = function() {
       if(!res.body.wasTouching.right && res.body.touching.right){
-        collideCallback();
+        collideCallback(game);
         res.animations.play('down');
         res.animations.currentAnim.onComplete.add(function(){res.animations.play('up')});
       }

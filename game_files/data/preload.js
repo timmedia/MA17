@@ -23,6 +23,7 @@ Game.preload.prototype = {
     this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
     this.load.image('box_1', 'assets/graphics/box_1.gif');
     this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
+    this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 80, 80);
     this.load.spritesheet('bridge_1', 'assets/graphics/bridge_1.gif', 150, 150);
     this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
     this.load.image('tileset_2_1', 'assets/graphics/level_2_1/tileset.gif');
@@ -34,20 +35,21 @@ Game.preload.prototype = {
       up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     }
 
-    /*
-    Return:
-    0   idle
-    1   walking
-    2   jump
-    */
     checkInput = function(p, ctrl) {
-      var grounded  = p.body.touching.down || p.body.onFloor();
+      var grounded  = p.body.blocked.down;
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
       var upDown    = ctrl.up1.isDown;
+
+      if(p.jumpSpeed < 0){
+        grounded = p.body.blocked.down || p.body.touching.down;
+      }
+      else {
+        grounded = p.body.blocked.up || p.body.touching.up;
+      }
       var res;
 
-
+      //console.log(grounded);
 
       if(rightDown && !leftDown) {
         p.body.velocity.x = p.walkSpeed;
@@ -74,7 +76,6 @@ Game.preload.prototype = {
         }
       }
     }
-
   },
 
   create:function(){
