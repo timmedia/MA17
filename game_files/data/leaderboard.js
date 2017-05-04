@@ -34,9 +34,7 @@ Game.leaderboard.prototype = {
 
   },
   create:function() {
-
-  },
-  update:function() {
+    this.add.sprite(0, 0, 'leaderboard_background')
 
   }
 }

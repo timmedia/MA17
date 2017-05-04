@@ -16,16 +16,18 @@ Game.level_2_1.prototype = {
     this.button_1 = new object.Button(85, 380, 'button_1', 'right', function(game){
       game.physics.arcade.gravity.y *= -1;
       game.player.jumpSpeed *= -1;
-      game.player.angle += 180;
+      let ang = (game.player.angle + 180)%360;
+      game.add.tween(game.player).to({angle: ang}, 500, Phaser.Easing.Cubic.Out,true);
     }, this);
 
     this.button_2 = new object.Button(715, 50, 'button_1', 'left', function(game){
       game.physics.arcade.gravity.y *= -1;
       game.player.jumpSpeed *= -1;
-      game.player.angle += 180;
+      let ang = (game.player.angle + 180)%360;
+      game.add.tween(game.player).to({angle: ang}, 500, Phaser.Easing.Cubic.Out,true);
     }, this);
 
-    this.box = new object.Box(120, 20, 'box_1', 500, 0.5, this);
+    this.box = new object.Box(500, 420, 'box_1', 5000, 0.5, this);
 
     this.physics.arcade.gravity.y = 1300;
 
@@ -35,8 +37,8 @@ Game.level_2_1.prototype = {
   update:function(){
 
     thisthis = this;
-    this.physics.arcade.collide(this.player, [this.layer, this.box]);
-    this.physics.arcade.collide(this.layer, this.box);
+    this.physics.arcade.collide(this.player, this.box);
+    this.physics.arcade.collide(this.layer, [this.box, this.player]);
     this.physics.arcade.collide(this.player, this.button_1, this.button_1.collideCallback, null);
     this.physics.arcade.collide(this.player, this.button_2, this.button_2.collideCallback, null);
 

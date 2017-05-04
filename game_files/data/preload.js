@@ -17,18 +17,27 @@ Game.preload.prototype = {
 
     //this.load.tilemap('map_1_1', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('map_1_1', 'assets/map/level_1_1.csv');
-    this.load.tilemap('map_2_1', 'assets/map/level_2_1.csv');
-    this.load.image('tileset_1_1', 'assets/graphics/tileset_1.gif');
     this.load.spritesheet('water_1', 'assets/graphics/water_1.gif', 150, 250);
     this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
-    this.load.image('box_1', 'assets/graphics/box_1.gif');
     this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
+
+    this.load.tilemap('map_2_1', 'assets/map/level_2_1.csv');
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
     this.load.spritesheet('bridge_1', 'assets/graphics/bridge_1.gif', 150, 150);
-    this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
-    this.load.image('tileset_2_1', 'assets/graphics/level_2_1/tileset.gif');
 
-    this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif')
+    this.load.image('tileset_1_1', 'assets/graphics/tileset_1.gif');
+
+
+    this.load.image('box_1', 'assets/graphics/box_1.gif');
+    this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
+
+    this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
+
+    this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
+    this.load.spritesheet('button_start_game', 'assets/graphics/main_menu/button_start_game.gif', 300, 60);
+    this.load.spritesheet('button_leaderboard', 'assets/graphics/main_menu/button_leaderboard.gif', 300, 60);
+
+    this.load.image('leaderboard_background', 'assets/graphics/leaderboard/leaderboard_background.gif');
 
     controls = {
       right:this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -41,7 +50,7 @@ Game.preload.prototype = {
       var grounded  = p.body.blocked.down;
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
-      var upDown    = ctrl.up1.isDown;
+      var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
 
       if(p.jumpSpeed < 0){
         grounded = p.body.blocked.down || p.body.touching.down;
@@ -81,6 +90,6 @@ Game.preload.prototype = {
   },
 
   create:function(){
-    this.state.start('level_2_1');
+    this.state.start('main_menu');
   }
 }

@@ -3,8 +3,8 @@ object = {
     let res = game.add.sprite(x, y, sprite);
     res.anchor.setTo(0.5, 0.5);
     res.animations.add('idle', [0,1,2,3,4], 5, true);
-    //res.animations.add('walk', [4,5,6,7], 5, true);
-    //res.animations.add('jump', [8,9,10,11], 5, true);
+    res.animations.add('walk', [0,1,2,3,4], 5, true);
+    res.animations.add('jump', [0,1,2,3,4], 5, true);
     res.walkSpeed = walkSpeed;
     res.jumpSpeed = jumpSpeed;
     res.maxFallingSpeed = 900;

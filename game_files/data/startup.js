@@ -8,8 +8,7 @@ Game.startup.prototype = {
      this.input.maxPointers = 1;
 
      this.stage.disableVisibilityChange = true;
-     // Removal of Jittering
-     // http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/
+     // Removal of Jittering (http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/)
      game.renderer.renderSession.roundPixels = true;
   },
 
