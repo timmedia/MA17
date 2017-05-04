@@ -23,10 +23,12 @@ Game.preload.prototype = {
     this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
     this.load.image('box_1', 'assets/graphics/box_1.gif');
     this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
-    this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 80, 80);
+    this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
     this.load.spritesheet('bridge_1', 'assets/graphics/bridge_1.gif', 150, 150);
     this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
     this.load.image('tileset_2_1', 'assets/graphics/level_2_1/tileset.gif');
+
+    this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif')
 
     controls = {
       right:this.input.keyboard.addKey(Phaser.Keyboard.D),

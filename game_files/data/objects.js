@@ -2,7 +2,7 @@ object = {
   Player: function(x, y, sprite, walkSpeed, jumpSpeed, game) {
     let res = game.add.sprite(x, y, sprite);
     res.anchor.setTo(0.5, 0.5);
-    res.animations.add('idle', [0,1,2,3], 5, true);
+    res.animations.add('idle', [0,1,2,3,4], 5, true);
     //res.animations.add('walk', [4,5,6,7], 5, true);
     //res.animations.add('jump', [8,9,10,11], 5, true);
     res.walkSpeed = walkSpeed;
@@ -28,11 +28,32 @@ object = {
     res.animations.add('up', [0], 2, false);
     res.animations.add('down', [1], 2, false);
     res.animations.play('up');
-    res.angle = orientation;
     game.physics.arcade.enable(res);
     res.body.moves = false;
+    res.angle = orientation;
+    var collisionCheck;
+    switch (orientation) {
+      case 'right':
+        res.angle = 90;
+        break;
+      case 'left':
+        res.angle = -90;
+        break;
+      default:
+        res.angle = 0;
+    }
     res.collideCallback = function() {
-      if(!res.body.wasTouching.right && res.body.touching.right){
+      switch (orientation) {
+        case 'right':
+          collisionCheck = res.body.wasTouching.none && res.body.touching.right;
+          break;
+        case 'left':
+          collisionCheck = res.body.wasTouching.none && res.body.touching.left;
+          break;
+        default:
+          collisionCheck = false;
+      }
+      if(collisionCheck){
         collideCallback(game);
         res.animations.play('down');
         res.animations.currentAnim.onComplete.add(function(){res.animations.play('up')});
