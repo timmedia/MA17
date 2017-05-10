@@ -3,7 +3,7 @@ Game.level_1_1 = function() {};
 Game.level_1_1.prototype = {
   create:function(){
     // Hintergrundbild
-    this.add.sprite(0, 0, 'background_1_1');
+    this.background = this.add.sprite(0, 0, 'background_1_1');
     // Objekte aus Bibliothek werden hinzugefügt
     this.player = new object.Player(100, 100, 'player_2_1', 300, -800, this);
     this.box_1 = new object.Box(700, 80, 'box_1', 5000, 0.5, this);

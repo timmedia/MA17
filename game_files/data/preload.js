@@ -1,27 +1,29 @@
-Game.preload = function() {};
+Game.preload = function() {
+  this.preload_graphic = null;
+};
 
 Game.preload.prototype = {
   preload:function(){
     // Ladebalken wird bestimmt und angezeigt
-    this.preload_graphic = this.add.sprite(this.world.centerX, this.world.centerY, 'preload_graphic');
+    this.preload_graphic = this.add.sprite(0, 0, 'preload_graphic');
     this.load.setPreloadSprite(this.preload_graphic);
 
     // Datein für level_1_1 werden geladen
     this.load.tilemap('map_1_1', 'assets/map/level_1_1.csv');
     this.load.spritesheet('water_1', 'assets/graphics/water_1.gif', 150, 250);
     this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
-    this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
-    this.load.spritesheet('bridge_1', 'assets/graphics/bridge_1.gif', 150, 150);
+    //this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
+    this.load.spritesheet('bridge_1', 'assets/graphics/debug/bridge_1.gif', 150, 150);
 
     // Dateien level_2_1
     this.load.tilemap('map_2_1', 'assets/map/level_2_1.csv');
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
 
     // Debug/Platzhaltergrafiken
-    this.load.image('box_1', 'assets/graphics/box_1.gif');
-    this.load.spritesheet('button_1', 'assets/graphics/button_1.gif', 20, 7);
+    this.load.image('box_1', 'assets/graphics/debug/box.gif');
+    this.load.spritesheet('button_1', 'assets/graphics/debug/button.gif', 20, 7);
     this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
-    this.load.spritesheet('debug_door', 'assets/graphics/debug/door.gif', 50, 100);
+    this.load.spritesheet('debug_door', 'assets/graphics/debug/door.gif', 50, 80);
 
     // Menu Dateien
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
