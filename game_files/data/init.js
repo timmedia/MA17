@@ -2,6 +2,7 @@ var game;
 var controls;
 var checkInput;
 var score;
+var firebaseStarted = false;
 
 function init() {
   // Disable the context menu on mobile browsers
