@@ -24,6 +24,7 @@ Game.preload.prototype = {
     this.load.spritesheet('button_1', 'assets/graphics/debug/button.gif', 20, 7);
     this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
     this.load.spritesheet('debug_door', 'assets/graphics/debug/door.gif', 50, 80);
+    game.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
 
     // Menu Dateien
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
