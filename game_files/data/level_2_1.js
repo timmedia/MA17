@@ -37,13 +37,14 @@ Game.level_2_1.prototype = {
   update:function(){
 
     thisthis = this;
-    this.physics.arcade.collide(this.player, this.box);
+
     this.physics.arcade.collide(this.layer, [this.box, this.player]);
     this.physics.arcade.collide(this.player, this.button_1, this.button_1.collideCallback, null);
     this.physics.arcade.collide(this.player, this.button_2, this.button_2.collideCallback, null);
 
 
     checkInput(this.player, this.controls);
+    this.physics.arcade.collide(this.player, this.box);
 
 
   }
