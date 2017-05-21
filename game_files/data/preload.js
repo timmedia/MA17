@@ -9,22 +9,23 @@ Game.preload.prototype = {
     this.load.setPreloadSprite(this.preload_graphic);
 
     // Datein für level_1_1 werden geladen
-    this.load.tilemap('map_1_1', 'assets/map/level_1_1.csv');
+    this.load.tilemap('map_1_1', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet('water_1', 'assets/graphics/water_1.gif', 150, 250);
     this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
-    //this.load.spritesheet('player_1_1', 'assets/graphics/player_1_1.gif', 40, 80);
-    this.load.spritesheet('bridge_1', 'assets/graphics/debug/bridge_1.gif', 150, 150);
 
     // Dateien level_2_1
-    this.load.tilemap('map_2_1', 'assets/map/level_2_1.csv');
+    this.load.tilemap('map_2_1', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
+    this.load.spritesheet('water_2_1', 'assets/graphics/level_2_1/water_2_1.gif', 61, 312);
 
     // Debug/Platzhaltergrafiken
-    this.load.image('box_1', 'assets/graphics/debug/box.gif');
-    this.load.spritesheet('button_1', 'assets/graphics/debug/button.gif', 20, 7);
+    this.load.image('debug_box', 'assets/graphics/debug/debug_box.gif');
+    this.load.spritesheet('debug_button', 'assets/graphics/debug/debug_button.gif', 20, 7);
     this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
-    this.load.spritesheet('debug_door', 'assets/graphics/debug/door.gif', 50, 80);
-    game.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
+    this.load.spritesheet('debug_door', 'assets/graphics/debug/debug_door.gif', 50, 80);
+    this.load.spritesheet('debug_bridge', 'assets/graphics/debug/debug_bridge.gif', 150, 150);
+    this.load.image('debug_key', 'assets/graphics/debug/debug_key.gif');
+    this.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
 
     // Menu Dateien
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
@@ -43,7 +44,7 @@ Game.preload.prototype = {
       up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     }
 
-    // Globale Funktion: Keyboard inout ist in jedem Level gleich
+    // Globale Funktion: Keyboard input ist in jedem Level gleich
     checkInput = function(p, ctrl) {
       var grounded;
       var rightDown = ctrl.right.isDown;
