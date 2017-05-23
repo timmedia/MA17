@@ -36,12 +36,15 @@ Game.preload.prototype = {
     this.load.image('leaderboard_background', 'assets/graphics/leaderboard/leaderboard_background.gif');
     this.load.image('leaderboard_button_back', 'assets/graphics/leaderboard/leaderboard_button_back.gif');
 
-    // Globale variable: Keyboard Inputss
+    // Keyboard Inputs
     controls = {
       right:this.input.keyboard.addKey(Phaser.Keyboard.D),
       left: this.input.keyboard.addKey(Phaser.Keyboard.A),
       up1:  this.input.keyboard.addKey(Phaser.Keyboard.W),
-      up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+      up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
+      lvl1: this.input.keyboard.addKey(Phaser.Keyboard.ONE),
+      lvl2: this.input.keyboard.addKey(Phaser.Keyboard.TWO),
+      lvl3: this.input.keyboard.addKey(Phaser.Keyboard.THREE)
     }
 
     // Globale Funktion: Keyboard input ist in jedem Level gleich
@@ -50,6 +53,9 @@ Game.preload.prototype = {
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
       var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
+
+      if(ctrl.lvl1.isDown){game.state.start('level_1_1')}
+      else if(ctrl.lvl2.isDown){game.state.start('level_2_1')}
 
       // Bestimmung in welcher Richtung die Gravitationskrafe ist (Anhand von Sprungkraft)
       if(p.jumpSpeed < 0){

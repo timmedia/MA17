@@ -1,3 +1,5 @@
+var game;
+
 // Globale variable mit häufig genutzen Objekten
 
 /*
