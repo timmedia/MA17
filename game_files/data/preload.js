@@ -1,6 +1,4 @@
-Game.preload = function() {
-  this.preload_graphic = null;
-};
+Game.preload = function() {};
 
 Game.preload.prototype = {
   preload:function(){
@@ -38,27 +36,34 @@ Game.preload.prototype = {
 
     // Keyboard Inputs
     controls = {
-      right:this.input.keyboard.addKey(Phaser.Keyboard.D),
-      left: this.input.keyboard.addKey(Phaser.Keyboard.A),
-      up1:  this.input.keyboard.addKey(Phaser.Keyboard.W),
-      up2:  this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
-      lvl1: this.input.keyboard.addKey(Phaser.Keyboard.ONE),
-      lvl2: this.input.keyboard.addKey(Phaser.Keyboard.TWO),
-      lvl3: this.input.keyboard.addKey(Phaser.Keyboard.THREE)
+      right:  this.input.keyboard.addKey(Phaser.Keyboard.D),
+      left:   this.input.keyboard.addKey(Phaser.Keyboard.A),
+      up1:    this.input.keyboard.addKey(Phaser.Keyboard.W),
+      up2:    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
+      lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
+      lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
+      lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE)
     }
 
-    // Globale Funktion: Keyboard input ist in jedem Level gleich
+    // Globale Funktion: Input-Abfrage ist in jedem Level gleich
     checkInput = function(p, ctrl) {
+      // benötigte Variablen
       var grounded;
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
+      // Sprung entweder mit Leertaste oder mit 'W'
       var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
 
-      if(ctrl.lvl1.isDown){game.state.start('level_1_1')}
-      else if(ctrl.lvl2.isDown){game.state.start('level_2_1')}
+      // Cheats: Mit '1' und '2' lassen sich Levels starten
+      if(ctrl.lvl1.isDown) {
+        game.state.start('level_1_1');
+      }
+      else if(ctrl.lvl2.isDown){
+        game.state.start('level_2_1');
+      }
 
-      // Bestimmung in welcher Richtung die Gravitationskrafe ist (Anhand von Sprungkraft)
-      if(p.jumpSpeed < 0){
+      // Bestimmung in welche Richtung die Gravitationskraft zeigt (Anhand von Sprungkraft)
+      if(p.jumpSpeed < 0) {
         grounded = p.body.blocked.down || p.body.touching.down;
       }
       else {
@@ -79,13 +84,14 @@ Game.preload.prototype = {
         if(grounded){p.animations.play('idle');}
       }
 
-      // Spieler kann nur vom Boden springen
       if(grounded) {
+        // Spieler kann nur vom Boden springen
         if(upDown){
           p.body.velocity.y = p.jumpSpeed;
         }
       }
       else {
+        // Falls er nicht am Boden ist, muss die Sprung-Animation gespielt werden
         p.animations.play('jump');
         // Spieler darf eine gewisse Geschwindigkeit nicht überschreiten (Probleme mit der Physik)
         if(p.body.velocity.y > p.maxFallingSpeed) {

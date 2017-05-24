@@ -3,7 +3,8 @@ var game;
 // Globale variable mit häufig genutzen Objekten
 
 /*
-Die Grundidee der Objekte stammt von: https://mozdevs.github.io/html5-games-workshop/en/guides/platformer/the-main-character-sprite/
+Die Grundidee der Objekte stammt von:
+https://mozdevs.github.io/html5-games-workshop/en/guides/platformer/the-main-character-sprite/
 
 Lösung zu eine Kontext-Problem (bei Phaser.Sprite.call ist es 'context.game' anstatt nur 'context'): http://www.html5gamedevs.com/topic/4830-animations-adding-error-in-extended-sprite/#comment-56740
 

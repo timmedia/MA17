@@ -1,21 +1,22 @@
 Game = {};
-
+// 'Startup'-State wird definiert
 Game.startup = function(){};
 
 Game.startup.prototype = {
   init:function() {
-     // Später für Multi-Touch
+     // Anzahl Inputs (später ev. für Multitouch-Support)
      this.input.maxPointers = 1;
      this.stage.disableVisibilityChange = true;
-     // Jitter-Effekt behoben (http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/)
+     // Behebungs eines Zittereffekts
+     // Lösung von: http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/
      game.renderer.renderSession.roundPixels = true;
   },
   preload:function() {
-    // Ladebalken wird geladen
+    // Ladebalken wird in den Cache geladen
     this.load.image('preload_graphic', 'assets/graphics/preload_graphic.gif');
   },
   create:function() {
-    // Nächster state wird gestartet
+    // 'Preload'-state wird gestartet
     this.state.start('preload');
   }
 }
