@@ -1,5 +1,5 @@
 Game = {};
-// 'Startup'-State wird definiert
+// 'Startup'-State als leere Funktion
 Game.startup = function(){};
 
 Game.startup.prototype = {
@@ -7,6 +7,7 @@ Game.startup.prototype = {
      // Anzahl Inputs (später ev. für Multitouch-Support)
      this.input.maxPointers = 1;
      this.stage.disableVisibilityChange = true;
+
      // Behebungs eines Zittereffekts
      // Lösung von: http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/
      game.renderer.renderSession.roundPixels = true;

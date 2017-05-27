@@ -57,7 +57,7 @@ Box = function(x, y, sprite, drag, bounce, context) {
   context.game.add.existing(this);
 }
 Box.prototype = Object.create(Phaser.Sprite.prototype);
-Player.prototype.constructor = Box;
+Box.prototype.constructor = Box;
 
 Button = function(x, y, sprite, orientation, collideCallback, context) {
   Phaser.Sprite.call(this, context.game, x, y, sprite);
@@ -104,7 +104,7 @@ Button = function(x, y, sprite, orientation, collideCallback, context) {
   this.game.add.existing(this);
 }
 Button.prototype = Object.create(Phaser.Sprite.prototype);
-Player.prototype.constructor = Button;
+Button.prototype.constructor = Button;
 
 Door = function(x, y, sprite, orientation, locked, overlapCallback, context) {
   // Sprite wird hinzugefügt & Festpunkt gesetzt, Körper kann sich nicht bewegen
@@ -114,9 +114,9 @@ Door = function(x, y, sprite, orientation, locked, overlapCallback, context) {
   // Animationen der Türe
   this.animations.add('locked', [0], 1, false);
   this.animations.add('closed', [1], 1, false);
-  this.animations.add('open', [5], 1, false);
-  this.animations.add('opening', [1,2,3,4,5], 10, false);
-  this.animations.add('closing', [5,4,3,2,1], 10, false);
+  this.animations.add('open', [2], 1, false);
+  this.animations.add('opening', [5,4,3,2], 10, false);
+  this.animations.add('closing', [2,3,4,5], 10, false);
 
   // Türe standardgemäss geschlossen
   if(locked){
@@ -181,4 +181,16 @@ Door = function(x, y, sprite, orientation, locked, overlapCallback, context) {
   context.game.add.existing(this);
 }
 Door.prototype = Object.create(Phaser.Sprite.prototype);
-Player.prototype.constructor = Door;
+Door.prototype.constructor = Door;
+
+Key = function(x, y, sprite, overlapCallback, context) {
+  // Sprite
+  Phaser.Sprite.call(this, context.game, x, y, sprite);
+
+  context.game.physics.arcade.enable(this);
+  this.body.moves = false;
+
+  context.game.add.existing(this);
+}
+Key.prototype = Object.create(Phaser.Sprite.prototype);
+Key.prototype.constructor = Key;

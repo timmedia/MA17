@@ -9,7 +9,14 @@ Game.preload.prototype = {
     // Datein für level_1_1 werden geladen
     this.load.tilemap('map_1_1', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet('water_1', 'assets/graphics/water_1.gif', 150, 250);
-    this.load.image('background_1_1', 'assets/graphics/background_1_1.gif');
+    this.load.image('1_1_background', 'assets/graphics/level_1_1/background.gif');
+    this.load.image('1_1_midground', 'assets/graphics/level_1_1/midground.gif');
+    this.load.image('1_1_foreground', 'assets/graphics/level_1_1/foreground.gif');
+    this.load.image('1_1_box', 'assets/graphics/level_1_1/box.gif');
+    this.load.image('1_1_bridge', 'assets/graphics/level_1_1/bridge.gif');
+    this.load.spritesheet('1_1_water_splash', 'assets/graphics/level_1_1/water_splash.gif', 177, 50);
+    this.load.spritesheet('1_1_water_foreground', 'assets/graphics/level_1_1/water_foreground.png', 1210, 25);
+    this.load.spritesheet('1_1_door', 'assets/graphics/level_1_1/door.gif', 75, 107);
 
     // Dateien level_2_1
     this.load.tilemap('map_2_1', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -20,8 +27,9 @@ Game.preload.prototype = {
     this.load.image('debug_box', 'assets/graphics/debug/debug_box.gif');
     this.load.spritesheet('debug_button', 'assets/graphics/debug/debug_button.gif', 20, 7);
     this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
+    this.load.image('empty10x10', 'assets/graphics/debug/empty10x10.gif');
     this.load.spritesheet('debug_door', 'assets/graphics/debug/debug_door.gif', 50, 80);
-    this.load.spritesheet('debug_bridge', 'assets/graphics/debug/debug_bridge.gif', 150, 150);
+    this.load.image('debug_bridge', 'assets/graphics/debug/debug_bridge.gif');
     this.load.image('debug_key', 'assets/graphics/debug/debug_key.gif');
     this.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
 
@@ -29,6 +37,9 @@ Game.preload.prototype = {
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
     this.load.spritesheet('button_start_game', 'assets/graphics/main_menu/button_start_game.gif', 300, 60);
     this.load.spritesheet('button_leaderboard', 'assets/graphics/main_menu/button_leaderboard.gif', 300, 60);
+
+    // Tutorial-Welt Dateien
+    this.load.tilemap('map_tutorial', 'assets/map/tutorial.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Leaderboard Dateien
     this.load.image('leaderboard_background', 'assets/graphics/leaderboard/leaderboard_background.gif');
@@ -72,11 +83,15 @@ Game.preload.prototype = {
 
       // Laufrichtung & Animation
       if(rightDown && !leftDown) {
-        p.body.velocity.x = p.walkSpeed;
+        if(p.body.velocity.x < p.walkSpeed){
+          p.body.velocity.x += 15;
+        }
         p.animations.play('walk');
       }
       else if(leftDown && !rightDown) {
-        p.body.velocity.x = -p.walkSpeed;
+        if(p.body.velocity.x > -p.walkSpeed){
+          p.body.velocity.x -= 15;
+        }
         p.animations.play('walk');
       }
       else {

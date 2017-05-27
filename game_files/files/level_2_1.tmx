@@ -4,7 +4,7 @@
   <image source="../assets/graphics/debug/tile10x10.gif" width="10" height="10"/>
  </tileset>
  <tileset firstgid="2" name="debug_box" tilewidth="40" tileheight="40" tilecount="1" columns="1">
-  <image source="../assets/graphics/debug/box.gif" width="40" height="40"/>
+  <image source="../assets/graphics/debug/debug_box.gif" width="40" height="40"/>
  </tileset>
  <tileset firstgid="3" name="debug_door" tilewidth="50" tileheight="80" tilecount="6" columns="6">
   <image source="../assets/graphics/debug/debug_door.gif" width="300" height="80"/>
@@ -62,6 +62,6 @@
   <object id="1" gid="2" x="589" y="180" width="40" height="40"/>
  </objectgroup>
  <objectgroup name="Object Layer Door">
-  <object id="3" gid="3" x="386" y="109" width="50" height="80"/>
+  <object id="3" gid="3" x="386" y="110" width="50" height="80"/>
  </objectgroup>
 </map>

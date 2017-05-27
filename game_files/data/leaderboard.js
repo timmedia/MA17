@@ -1,5 +1,6 @@
 /*
-Das High-score System läuft über Google Firebase, der Code wurde grossteils von der Dokumentation übernommen und verändert.
+Das High-score System läuft über Google Firebase
+der Code wurde grossteils von der Dokumentation übernommen und modifiziert
 https://firebase.google.com/docs/database/web/read-and-write
 */
 
@@ -24,7 +25,7 @@ Game.leaderboard.prototype = {
         messagingSenderId: "420780087481"
       };
 
-      // Firebase wird initialisiert
+      // Firebase wird initialisiert, login mit config-Daten
       firebase.initializeApp(config);
 
       // Firebase soll nur 1x starten
@@ -45,11 +46,11 @@ Game.leaderboard.prototype = {
     // 'lvl' kann später genutzt werden um die Highscores für bestimmte Levels anzuzeigen
     var lvl = 'total';
 
-    // Einträge werden angezeit
+    // Eintragspositionen
     this.text_row1 = this.add.bitmapText(200, 200, 'debug_font','',24);
     this.text_row2 = this.add.bitmapText(300, 200, 'debug_font','',24);
 
-    // Daten werden abgerufen und beim Eintreffen wird die 'writeScore'-Funktion abgerufen
+    // Daten werden abgerufen und beim Eintreffen wird die 'writeScore'-Funktion abgerufen (ansynchron)
     var data = firebase.database().ref(lvl);
     data.on('value', this.writeScore);
   },
@@ -63,7 +64,7 @@ Game.leaderboard.prototype = {
     // Abspeicherung der eingetroffenen Einträge
     let s = snapshot.val();
 
-    // Reset bisheriger Einträge (sonst würden die neuen bloss hinzugefügt werden)
+    // Reset bisheriger Einträge (sonst würden die neuen bloss unten hinzugefügt werden)
     board = ['', ''];
 
     // Einzelner Eintrag hinzugefügt, jeweils auf eine neue Zeile

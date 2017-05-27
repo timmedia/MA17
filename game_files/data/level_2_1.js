@@ -3,7 +3,7 @@ Game.level_2_1 = function(){};
 Game.level_2_1.prototype = {
   create:function(){
     // Hintergrundbild
-    this.background = this.add.sprite(0, 0, 'background_1_1');
+    this.background = this.add.sprite(0, 0, '1_1_background');
 
     // Tilemapse ab JSON (enthält auch Koordinaten für Kiste & Türe)
     this.map = this.add.tilemap('map_2_1', 10, 10);
@@ -27,7 +27,7 @@ Game.level_2_1.prototype = {
 
     // Türe wird ab JSON-Datei geladen
     this.map.objects['Object Layer Door'].forEach(function(door){
-      this.door = new Door(door.x, door.y, 'debug_door', 'up', true, function(game){
+      this.door = new Door(door.x, door.y, '1_1_door', 'up', true, function(game){
         game.state.start('main_menu');
       }, this);
     }, this);
@@ -39,17 +39,18 @@ Game.level_2_1.prototype = {
     }, this);
 
     // Spieler wird hinzugefügt
-    this.player = new Player(200, 100, 'player_2_1', 300, -600, this);
+    this.player = new Player(200, 300, 'player_2_1', 300, -600, this);
 
-    // Schlüssel (wird gebraucht um Türe zu öffnen), Physik aktiviert, jedoch nicht beweglich
-    this.key = this.add.sprite(390, 416, 'debug_key');
-    this.physics.arcade.enable(this.key);
-    this.key.body.moves = false;
-    // Schlüssel soll beim Berühren die Türe entsperren & verschwinden
-    this.key.overlapCallback = function(){
-      this.door.unlock();
-      this.key.destroy();
-    }
+    // // Schlüssel (wird gebraucht um Türe zu öffnen), Physik aktiviert, jedoch nicht beweglich
+    // this.key = this.add.sprite(390, 416, 'debug_key');
+    // this.physics.arcade.enable(this.key);
+    // this.key.body.moves = false;
+    // // Schlüssel soll beim Berühren die Türe entsperren & verschwinden
+    // this.key.overlapCallback = function(){
+    //   this.door.unlock();
+    //   this.key.destroy();
+    // }
+    this.key = new Key(390, 416, 'debug_key', null, this);
 
     // Wasserfall & Animationen
     this.water = this.add.sprite(405, 285, 'water_2_1');
@@ -93,6 +94,7 @@ Game.level_2_1.prototype = {
 
     // Inputs werden geladen
     this.controls = controls;
+
   },
   update:function(){
     // Kollisionsbestimmungen ohne Effekt
@@ -106,7 +108,7 @@ Game.level_2_1.prototype = {
     this.physics.arcade.overlap(this.player, this.door, this.door.overlapCallback, this.door.processCallback, this);
 
     // Schlüssel
-    this.physics.arcade.overlap(this.player, this.key, this.key.overlapCallback, null, this);
+    this.physics.arcade.overlap(this.player, this.key, this.collectKey, null, this);
 
     // Berühren des Wassers ist tödlich
     this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
@@ -126,5 +128,9 @@ Game.level_2_1.prototype = {
   killPlayer: function(){
     // Tod des Spielers bedeutet Neustart des Levels
     this.state.start('level_2_1');
+  },
+  collectKey: function() {
+    this.door.unlock();
+    this.key.kill();
   }
 }

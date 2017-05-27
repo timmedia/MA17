@@ -13,7 +13,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":45,
+         "height":0,
          "name":"Object Layer Boxes",
          "objects":[
                 {
@@ -31,13 +31,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":80,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":45,
+         "height":0,
          "name":"Object Layer Door",
          "objects":[
                 {
@@ -50,12 +50,12 @@
                  "visible":true,
                  "width":50,
                  "x":386,
-                 "y":109
+                 "y":110
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":80,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -80,7 +80,7 @@
         {
          "columns":1,
          "firstgid":2,
-         "image":"..\/graphics\/debug\/box.gif",
+         "image":"..\/graphics\/debug\/debug_box.gif",
          "imageheight":40,
          "imagewidth":40,
          "margin":0,

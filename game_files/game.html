@@ -3,22 +3,26 @@
   <head>
     <title>Game Canvas</title>
     <meta charset="utf-8" />
+    <!-- Reset Skalierung -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <!-- Firebase Bibliothek -->
     <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
-
+    <!-- Dateien für das Spiel -->
     <script type="text/javascript" src="data/phaser.js"></script>
     <script type="text/javascript" src="data/init.js"></script>
     <script type="text/javascript" src="data/objects.js"></script>
     <script type="text/javascript" src="data/startup.js"></script>
     <script type="text/javascript" src="data/preload.js"></script>
     <script type="text/javascript" src="data/leaderboard.js"></script>
-    <script type="text/javascript" src="data/main_menu.js"></script>
+    <script type="text/javascript" src="data/mainmenu.js"></script>
+    <script type="text/javascript" src="data/tutorial.js"></script>
     <script type="text/javascript" src="data/level_1_1.js"></script>
     <script type="text/javascript" src="data/level_2_1.js"></script>
+    <!-- Styling -->
     <link rel="stylesheet" href="data/style.css"/>
   </head>
   <body>
+    <!-- init()-Funktion wird nach Laden der Seite gestartet -->
     <script type="text/javascript">
       window.onload = init;
     </script>
