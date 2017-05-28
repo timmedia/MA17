@@ -7,19 +7,19 @@ Game.preload.prototype = {
     this.load.setPreloadSprite(this.preload_graphic);
 
     // Datein für level_1_1 werden geladen
-    this.load.tilemap('map_1_1', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
-    this.load.spritesheet('water_1', 'assets/graphics/water_1.gif', 150, 250);
+    this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('1_1_background', 'assets/graphics/level_1_1/background.gif');
     this.load.image('1_1_midground', 'assets/graphics/level_1_1/midground.gif');
     this.load.image('1_1_foreground', 'assets/graphics/level_1_1/foreground.gif');
     this.load.image('1_1_box', 'assets/graphics/level_1_1/box.gif');
     this.load.image('1_1_bridge', 'assets/graphics/level_1_1/bridge.gif');
+    this.load.spritesheet('1_1_waterfall', 'assets/graphics/level_1_1/waterfall.png', 200, 240);
     this.load.spritesheet('1_1_water_splash', 'assets/graphics/level_1_1/water_splash.gif', 177, 50);
     this.load.spritesheet('1_1_water_foreground', 'assets/graphics/level_1_1/water_foreground.png', 1210, 25);
     this.load.spritesheet('1_1_door', 'assets/graphics/level_1_1/door.gif', 75, 107);
 
     // Dateien level_2_1
-    this.load.tilemap('map_2_1', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('2_1_map', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
     this.load.spritesheet('water_2_1', 'assets/graphics/level_2_1/water_2_1.gif', 61, 312);
 
@@ -51,6 +51,7 @@ Game.preload.prototype = {
       left:   this.input.keyboard.addKey(Phaser.Keyboard.A),
       up1:    this.input.keyboard.addKey(Phaser.Keyboard.W),
       up2:    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
+      tut:    this.input.keyboard.addKey(Phaser.Keyboard.ZERO),
       lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
       lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
       lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE)
@@ -69,33 +70,40 @@ Game.preload.prototype = {
       if(ctrl.lvl1.isDown) {
         game.state.start('level_1_1');
       }
-      else if(ctrl.lvl2.isDown){
+      else if(ctrl.lvl2.isDown) {
         game.state.start('level_2_1');
       }
+      else if(ctrl.tut.isDown) {
+        game.state.start('tutorial');
+      }
 
-      // Bestimmung in welche Richtung die Gravitationskraft zeigt (Anhand von Sprungkraft)
+      // Bestimmung ob der Spieler den Boden berührt
+      // (wenn die Sprungkraft negativ ist, zeigt die Gravitation nach unten, vice-verse)
       if(p.jumpSpeed < 0) {
+        // Gravitation nach unten
         grounded = p.body.blocked.down || p.body.touching.down;
       }
       else {
+        // Gravitation nach oben
         grounded = p.body.blocked.up || p.body.touching.up;
       }
 
       // Laufrichtung & Animation
+      // Spieler soll sich nur bewegen wenn entweder die Taste nach links oder nach rechts gedrückt ist
       if(rightDown && !leftDown) {
-        if(p.body.velocity.x < p.walkSpeed){
-          p.body.velocity.x += 15;
-        }
+        // Spieler bewegt sich nach rechts
+        p.body.velocity.x = p.walkSpeed;
         p.animations.play('walk');
       }
       else if(leftDown && !rightDown) {
-        if(p.body.velocity.x > -p.walkSpeed){
-          p.body.velocity.x -= 15;
-        }
+        // Spieler bewegt sich nach links
+        p.body.velocity.x = -p.walkSpeed;
         p.animations.play('walk');
       }
       else {
+        // Spieler steht still
         p.body.velocity.x = 0;
+        // Stillstand-Animation soll nur spielen wenn der Charakter den Boden berührt
         if(grounded){p.animations.play('idle');}
       }
 

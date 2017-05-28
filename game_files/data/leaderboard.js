@@ -4,25 +4,25 @@ der Code wurde grossteils von der Dokumentation übernommen und modifiziert
 https://firebase.google.com/docs/database/web/read-and-write
 */
 
-// Anzeigetext (Leaderboard)
+// Anzeigetext anfangs leer
 var board = ['', ''];
 
 Game.leaderboard = function() {};
 
 Game.leaderboard.prototype = {
-  init:function() {
+  init: function() {
 
     // Firebase soll nur gestartet werden, falls es noch nicht läuft
     if (!firebaseStarted) {
 
       // Firebase Login-Daten
       var config = {
-        apiKey: "AIzaSyDQUGKLU4HZAL0YTwEUejABnW-BaWklVzQ",
-        authDomain: "ma17-df8f1.firebaseapp.com",
-        databaseURL: "https://ma17-df8f1.firebaseio.com",
-        projectId: "ma17-df8f1",
-        storageBucket: "ma17-df8f1.appspot.com",
-        messagingSenderId: "420780087481"
+        apiKey: 'AIzaSyDQUGKLU4HZAL0YTwEUejABnW-BaWklVzQ',
+        authDomain: 'ma17-df8f1.firebaseapp.com',
+        databaseURL: 'https://ma17-df8f1.firebaseio.com',
+        projectId: 'ma17-df8f1',
+        storageBucket: 'ma17-df8f1.appspot.com',
+        messagingSenderId: '420780087481'
       };
 
       // Firebase wird initialisiert, login mit config-Daten
@@ -31,12 +31,8 @@ Game.leaderboard.prototype = {
       // Firebase soll nur 1x starten
       firebaseStarted = true;
     }
-
-    // Textpositionen für Highscoreeinträge [x, y]
-    this.textPositions = [[10, 20], [10, 40], [10, 50], [10, 50], [10, 60], [100, 20], [100, 30], [100, 40], [100, 50], [100, 60]];
   },
-  create:function() {
-
+  create: function() {
     // Hintergrundbild
     this.add.sprite(0, 0, 'leaderboard_background');
 
@@ -50,17 +46,16 @@ Game.leaderboard.prototype = {
     this.text_row1 = this.add.bitmapText(200, 200, 'debug_font','',24);
     this.text_row2 = this.add.bitmapText(300, 200, 'debug_font','',24);
 
-    // Daten werden abgerufen und beim Eintreffen wird die 'writeScore'-Funktion abgerufen (ansynchron)
+    // Daten werden abgerufen und beim Eintreffen wird die 'writeScore'-Funktion gestartet (ansynchron)
     var data = firebase.database().ref(lvl);
     data.on('value', this.writeScore);
   },
-  update:function() {
+  update: function() {
     // Anzeige der Einträge
     this.text_row1.setText(board[0]);
     this.text_row2.setText(board[1]);
   },
-  writeScore:function(snapshot){
-
+  writeScore: function(snapshot) {
     // Abspeicherung der eingetroffenen Einträge
     let s = snapshot.val();
 
