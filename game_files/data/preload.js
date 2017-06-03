@@ -6,7 +6,34 @@ Game.preload.prototype = {
     this.preload_graphic = this.add.sprite(0, 0, 'preload_graphic');
     this.load.setPreloadSprite(this.preload_graphic);
 
-    // Datein für level_1_1 werden geladen
+    /*
+    Erklärung der Funktionsargumente:
+
+    Bild laden:
+    this.load.image(arg1, arg2);
+    arg1: Name des Bildes, wird benötigt um später im Code darauf zuzugreifen zu können (key)
+    aeg2: Pfad/Ort des Bildes in den Unterordnern
+
+    Tilemap laden:
+    this.load.tilemap(arg1, arg2, arg3, arg4);
+    arg1 & arg2: gleich wie vorher
+    arg3: (hier nicht genutzt, könnte alternative JSON-Datei laden)
+    arg4: Art des Tilemaps (CSV, JSON)
+
+    Spritesheet laden:
+    this.load.spritesheet(arg1, arg2, arg3, arg4);
+    arg1 & arg2: gleich wie vorher
+    arg3: Grösse eines einzelnen Bildes (x-Wert)
+    arg4: Grösse eines einzelnen Bildes (y-Wert)
+
+    Bitmap-Schriftart:
+    this.load.bitmapFont(arg1, arg2, arg3);
+    arg1: gleich wie vorher
+    arg2: Pfad der Grafik der Schriftart
+    arg3: Pfad der XML-Datei mit Informationen zur Anordnung der Buchstaben
+    */
+
+    // Datein level_1_1
     this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('1_1_background', 'assets/graphics/level_1_1/background.gif');
     this.load.image('1_1_midground', 'assets/graphics/level_1_1/midground.gif');
@@ -16,21 +43,24 @@ Game.preload.prototype = {
     this.load.spritesheet('1_1_waterfall', 'assets/graphics/level_1_1/waterfall.png', 200, 240);
     this.load.spritesheet('1_1_water_splash', 'assets/graphics/level_1_1/water_splash.gif', 177, 50);
     this.load.spritesheet('1_1_water_foreground', 'assets/graphics/level_1_1/water_foreground.png', 1210, 25);
-    this.load.spritesheet('1_1_door', 'assets/graphics/level_1_1/door.gif', 75, 107);
+    this.load.spritesheet('1_1_door', 'assets/graphics/level_1_1/door.gif', 75, 106);
+    this.load.spritesheet('1_1_button', 'assets/graphics/level_1_1/button.gif', 16, 9);
 
     // Dateien level_2_1
     this.load.tilemap('2_1_map', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.image('2_1_background', 'assets/graphics/level_2_1/background.gif');
+    this.load.image('2_1_midground', 'assets/graphics/level_2_1/midground.png');
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
-    this.load.spritesheet('water_2_1', 'assets/graphics/level_2_1/water_2_1.gif', 61, 312);
+    this.load.spritesheet('2_1_water', 'assets/graphics/level_2_1/water.png', 122, 325);
 
-    // Debug/Platzhaltergrafiken
+    // Debug / Platzhaltergrafiken
     this.load.image('debug_box', 'assets/graphics/debug/debug_box.gif');
-    this.load.spritesheet('debug_button', 'assets/graphics/debug/debug_button.gif', 20, 7);
     this.load.image('debug10x10', 'assets/graphics/debug/tile10x10.gif');
     this.load.image('empty10x10', 'assets/graphics/debug/empty10x10.gif');
-    this.load.spritesheet('debug_door', 'assets/graphics/debug/debug_door.gif', 50, 80);
     this.load.image('debug_bridge', 'assets/graphics/debug/debug_bridge.gif');
     this.load.image('debug_key', 'assets/graphics/debug/debug_key.gif');
+    this.load.spritesheet('debug_door', 'assets/graphics/debug/debug_door.gif', 50, 80);
+    this.load.spritesheet('debug_button', 'assets/graphics/debug/debug_button.gif', 20, 7);
     this.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
 
     // Menu Dateien
@@ -59,14 +89,16 @@ Game.preload.prototype = {
 
     // Globale Funktion: Input-Abfrage ist in jedem Level gleich
     checkInput = function(p, ctrl) {
+
       // benötigte Variablen
       var grounded;
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
+
       // Sprung entweder mit Leertaste oder mit 'W'
       var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
 
-      // Cheats: Mit '1' und '2' lassen sich Levels starten
+      // Cheats: Mit '1' '2' und '0s' lassen sich Levels starten
       if(ctrl.lvl1.isDown) {
         game.state.start('level_1_1');
       }
