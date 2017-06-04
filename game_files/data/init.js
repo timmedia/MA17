@@ -4,6 +4,7 @@ var controls;
 var checkInput;
 var score;
 var firebaseStarted = false;
+var fullscreen;
 
 function init() {
   // Kontextmenu (Rechtsklick, btw. langer Druck auf Mobilgeräten) wird deaktiviert
@@ -25,5 +26,8 @@ function init() {
   game.state.add('tutorial', Game.tutorial);
   game.state.add('level_1_1', Game.level_1_1);
   game.state.add('level_2_1', Game.level_2_1);
+  game.state.add('level_3_1', Game.level_3_1);
+  game.state.add('concept_1', Game.concept_1);
+  game.state.add('concept_2', Game.concept_2);
   game.state.start('startup');
 }

@@ -8,9 +8,13 @@ Game.startup.prototype = {
      this.input.maxPointers = 1;
      this.stage.disableVisibilityChange = true;
 
+     // Skalierung
+     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
      // Behebungs eines Zittereffekts
      // Lösung von: http://www.html5gamedevs.com/topic/12485-sprite-jittering-with-camera-follow/
      game.renderer.renderSession.roundPixels = true;
+
   },
   preload:function() {
     // Ladebalken wird in den Cache geladen

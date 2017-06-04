@@ -134,6 +134,7 @@ Game.level_1_1.prototype = {
     // Brücke: Physik aktiviert, kann sich nicht bewegen
     this.physics.arcade.enable(this.bridge);
     this.bridge.body.moves = false;
+    this.bridge.body.setSize(10, 150, -10, 0);
 
     // Brücke ist nicht unten (wird später benötigt)
     this.bridge.down = false;
@@ -156,15 +157,17 @@ Game.level_1_1.prototype = {
         // Andere Animation des Wasserfalls
         this.water.animations.play('running_down');
         this.water.body.setSize(150, 240, 25, 0);
+        this.bridge.body.setSize(10, 150, -10, 0);
       }
       else {
-        // Brücke geht nach unten, wenn sie unten ist (nach 500ms), soll das Platschen erscheinen
+        // Brücke geht nach unten; wenn sie unten ist (nach 500ms), soll das Platschen erscheinen
         this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out,true);
         this.time.events.add(500, function(){this.water_splash.animations.play('splash'); this.water_splash.visible = true;}, this);
         this.bridge.down = true;
         this.water.animations.play('transition');
         this.water.animations.currentAnim.onComplete.add(function(){this.water.animations.play('running_up')}, this);
         this.water.body.setSize(150, 100, 25, 0);
+        this.bridge.body.setSize(150, 150, 0, 20);
       }
     }
 
@@ -192,10 +195,8 @@ Game.level_1_1.prototype = {
   },
   update:function(){
     // Kollisionsbestimmung zwischen Objekten (ohne Auswirkung)
-    this.physics.arcade.collide(this.player, [this.layer, this.boxes]);
-    this.physics.arcade.collide(this.player, this.bridge);
-    this.physics.arcade.collide(this.layer, this.boxes);
-    this.physics.arcade.collide(this.boxes, this.boxes);
+    this.physics.arcade.collide(this.player, [this.layer, this.boxes, this.bridge]);
+    this.physics.arcade.collide(this.boxes, [this.boxes, this.layer]);
 
     // Beim berühren des Wassers stirbt der Spieler
     this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);

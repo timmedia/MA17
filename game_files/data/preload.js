@@ -51,7 +51,11 @@ Game.preload.prototype = {
     this.load.image('2_1_background', 'assets/graphics/level_2_1/background.gif');
     this.load.image('2_1_midground', 'assets/graphics/level_2_1/midground.png');
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
-    this.load.spritesheet('2_1_water', 'assets/graphics/level_2_1/water.png', 122, 325);
+    this.load.spritesheet('2_1_water', 'assets/graphics/level_2_1/waterfall.png', 122, 310);
+    this.load.spritesheet('2_1_key', 'assets/graphics/level_2_1/key.png', 24, 39);
+
+    // Dateien level_3_1
+    this.load.tilemap('3_1_map', 'assets/map/level_3_1.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Debug / Platzhaltergrafiken
     this.load.image('debug_box', 'assets/graphics/debug/debug_box.gif');
@@ -59,9 +63,19 @@ Game.preload.prototype = {
     this.load.image('empty10x10', 'assets/graphics/debug/empty10x10.gif');
     this.load.image('debug_bridge', 'assets/graphics/debug/debug_bridge.gif');
     this.load.image('debug_key', 'assets/graphics/debug/debug_key.gif');
+    this.load.image('debug_ball', 'assets/graphics/debug/debug_ball.gif');
+    this.load.image('debug_enemy', 'assets/graphics/debug/debug_enemy.gif');
+    this.load.image('debug_player', 'assets/graphics/debug/debug_player.gif');
     this.load.spritesheet('debug_door', 'assets/graphics/debug/debug_door.gif', 50, 80);
     this.load.spritesheet('debug_button', 'assets/graphics/debug/debug_button.gif', 20, 7);
     this.load.bitmapFont('debug_font', 'assets/font/debug/debug_font.png', 'assets/font/debug/debug_font.xml');
+    this.load.tilemap('debug_map_box', 'assets/map/box.json', null, Phaser.Tilemap.TILED_JSON);
+
+    // Tutorial
+    this.load.image('tutorial_background', 'assets/graphics/tutorial/background.gif');
+    this.load.image('tutorial_midground', 'assets/graphics/tutorial/midground.gif');
+    this.load.image('tutorial_foreground', 'assets/graphics/tutorial/foreground.png');
+    this.load.image('tutorial_michael', 'assets/graphics/tutorial/michael.gif');
 
     // Menu Dateien
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
@@ -84,7 +98,8 @@ Game.preload.prototype = {
       tut:    this.input.keyboard.addKey(Phaser.Keyboard.ZERO),
       lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
       lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
-      lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE)
+      lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE),
+      shft:   this.input.keyboard.addKey(Phaser.Keyboard.SHIFT)
     }
 
     // Globale Funktion: Input-Abfrage ist in jedem Level gleich
@@ -104,6 +119,9 @@ Game.preload.prototype = {
       }
       else if(ctrl.lvl2.isDown) {
         game.state.start('level_2_1');
+      }
+      else if(ctrl.lvl3.isDown) {
+        game.state.start('level_3_1');
       }
       else if(ctrl.tut.isDown) {
         game.state.start('tutorial');
@@ -126,11 +144,13 @@ Game.preload.prototype = {
         // Spieler bewegt sich nach rechts
         p.body.velocity.x = p.walkSpeed;
         p.animations.play('walk');
+        p.scale.x = 1;
       }
       else if(leftDown && !rightDown) {
         // Spieler bewegt sich nach links
         p.body.velocity.x = -p.walkSpeed;
         p.animations.play('walk');
+        p.scale.x = -1;
       }
       else {
         // Spieler steht still

@@ -202,6 +202,10 @@ Key = function(x, y, sprite, collideCallback, context) {
   // Kontext wird übernommen
   Phaser.Sprite.call(this, context.game, x, y, sprite);
 
+  //Animationen
+  this.animations.add('glow', [0,1,2,3], 5, true);
+  this.animations.play('glow');
+
   // Physik aktiviert, Körper kann sich nicht bewegen
   context.game.physics.arcade.enable(this);
   this.body.moves = false;

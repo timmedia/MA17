@@ -1,12 +1,12 @@
 Game.level_2_1 = function(){};
 
 Game.level_2_1.prototype = {
-  create:function(){
+  create: function() {
     // Hintergrundbild
     this.background = this.add.sprite(0, 0, '2_1_background');
 
     // Tilemapse ab JSON (enthält auch Koordinaten für Kiste & Türe)
-    this.map = this.add.tilemap('2_1_map', 10, 10);
+    this.map = this.add.tilemap('2_1_map');
 
     // Debug-Grafik
     this.map.addTilesetImage('debug10x10');
@@ -24,7 +24,7 @@ Game.level_2_1.prototype = {
     // Gruppe kann später im Kollisionscheck benutzt werden
     this.buttons = this.game.add.group();
     this.buttons.add(new Button(80, 380, '1_1_button', 'right', this.switchGravity, this));
-    this.buttons.add(new Button(720, 50, '1_1_button', 'left', this.switchGravity, this));
+    this.buttons.add(new Button(720, 100, '1_1_button', 'left', this.switchGravity, this));
 
     // Vorläufige Kollisionsbestimmung beider Knöpfe in einer Funktion
     this.buttons.collideCallback = function(o1, o2){
@@ -44,10 +44,10 @@ Game.level_2_1.prototype = {
     }, this);
 
     // Schlüssel wird hinzugefügt
-    this.key = new Key(390, 416, 'debug_key', this.collectKey, this);
+    this.key = new Key(390, 400, '2_1_key', this.collectKey, this);
 
     // Wasserfall Grafik, Festpunkt
-    this.water = this.add.sprite(405, 291, '2_1_water');
+    this.water = this.add.sprite(405, 285, '2_1_water');
     this.water.anchor.setTo(0.5, 0.5);
 
     // Wasserfall Animationen
@@ -95,13 +95,13 @@ Game.level_2_1.prototype = {
     // Gravitationskraft
     this.physics.arcade.gravity.y = 1300;
   },
-  update: function(){
+  update: function() {
     // Kollisionsbestimmungen ohne Auswirkung
     this.physics.arcade.collide(this.layer, [this.boxes, this.player]);
     this.physics.arcade.collide(this.player, this.boxes);
 
     // Beim berühren der Knöpfe soll die Gravitation geändert werden
-    this.physics.arcade.collide(this.player, this.buttons, this.buttons.collideCallback, null, this);
+    this.physics.arcade.overlap(this.player, this.buttons, this.buttons.collideCallback, null, this);
 
     // Türe
     this.physics.arcade.overlap(this.player, this.door, this.door.collideCallback, this.door.processCallback, this);
@@ -127,7 +127,7 @@ Game.level_2_1.prototype = {
     // Animierter übergang der Winkel-Werte
     this.add.tween(this.player).to({angle: ang}, 500, Phaser.Easing.Cubic.Out,true);
   },
-  killPlayer: function(){
+  killPlayer: function() {
     // Tod des Spielers bedeutet Neustart des Levels
     this.state.start('level_2_1');
   },
