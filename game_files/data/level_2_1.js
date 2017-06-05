@@ -90,7 +90,11 @@ Game.level_2_1.prototype = {
     }
 
     // Spieler wird hinzugefügt
-    this.player = new Player(200, 300, 'player_2_1', 300, -600, this);
+    this.player = new Player(200, 300, 'player_1', 300, -600, this);
+
+    // schwarzer Overlay
+    this.blackscreen = this.add.sprite(0, 0, 'blackscreen');
+    this.add.tween(this.blackscreen).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true);
 
     // Gravitationskraft
     this.physics.arcade.gravity.y = 1300;
@@ -101,7 +105,7 @@ Game.level_2_1.prototype = {
     this.physics.arcade.collide(this.player, this.boxes);
 
     // Beim berühren der Knöpfe soll die Gravitation geändert werden
-    this.physics.arcade.overlap(this.player, this.buttons, this.buttons.collideCallback, null, this);
+    this.physics.arcade.collide(this.player, this.buttons, this.buttons.collideCallback, null, this);
 
     // Türe
     this.physics.arcade.overlap(this.player, this.door, this.door.collideCallback, this.door.processCallback, this);

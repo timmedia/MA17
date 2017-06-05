@@ -27,37 +27,48 @@ Game.level_3_1.prototype = {
     this.player.checkWorldBounds = true;
     this.player.events.onOutOfBounds.add(this.killPlayer, this);
 
-    // Feuerbälle
+    // Feuerball-Gruppe mit 20 deaktivierten Elementen wird erstellt
+    // Idee von: https://www.codecaptain.io/blog/game-development/shooting-bullets-using-phaser-groups/518
     this.player.fireballs = this.game.add.group();
     this.player.fireballs.enableBody = true;
     this.player.fireballs.createMultiple(20, 'debug_ball');
 
+    // Lösch-Funktion
     this.player.fireballs.reset = function(laser) {
       laser.kill();
     }
 
+    // Alle Elemente sollen gelöscht werden, nachdem sie das Spielfeld verlassen
     this.player.fireballs.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', this.player.fireballs.reset);
     this.player.fireballs.setAll('checkWorldBounds', true);
+    // Keinen Einfluss der Gravitationskraft
     this.player.fireballs.setAll('body.allowGravity', false);
 
+    // Schiess-Funktion
     this.player.fireballs.shoot = function(dir) {
+      // erstes deaktivierte Element wird genommen und aktiviert
       var fireball = this.player.fireballs.getFirstExists(false);
       if (fireball) {
+        // Position des Balles beim Spieler
         fireball.reset(this.player.x, this.player.y);
+        // Geschwindigkeit in x-Richtung
         fireball.body.velocity.setTo(dir*700, 0);
       }
     }
 
+    // wird verwendet damit der Spieler beim Eindrücken der Schiess-Taste nur einmal schiesst
     this.player.fireballs.wasShot = false;
 
     // Gravitationskraft
     this.physics.arcade.gravity.y = 1800;
 
+    // Gegner wird hinzugefügt
     this.enemy = this.add.sprite(500, 400, 'debug_enemy');
     this.enemy.anchor.setTo(0.5, 1);
     this.game.physics.arcade.enable(this.enemy);
     this.enemy.body.moves = false;
 
+    // Funktion welche beim Treffen des Gegners ausgeführt wird
     this.enemy.damageTaken = function(o1, o2) {
       this.player.fireballs.reset(o2);
     }

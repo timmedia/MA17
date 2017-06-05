@@ -20,9 +20,31 @@ Game.tutorial.prototype = {
     // Hintergrundbild
     this.miground = this.add.sprite(0, 0, 'tutorial_midground');
 
+    // Mentor
+    this.michael = this.add.sprite(155, 440, 'tutorial_michael');
+    this.michael.anchor.setTo(0.5, 1);
+
+    // Anweisungen
+    this.speechbubble = this.add.sprite(257, 300, 'tutorial_speechbubbles');
+    this.speechbubble.anchor.setTo(0.5, 0.5);
+    this.speechbubble.frame = 0;
+    this.speechbubble.scale.setTo(0, 0);
+
+    this.speechbubble.busy = true;
+
+    this.speechbubble.openBubble = function(n) {
+      this.speechbubble.frame = n;
+      this.add.tween(this.speechbubble.scale).to({x: 1, y: 1}, 300, Phaser.Easing.Quadratic.Out, true);
+      this.speechbubble.busy = false;
+    }
+
+    this.speechbubble.closeBubble = function() {
+      this.add.tween(this.speechbubble.scale).to({x: 0, y: 0}, 200, Phaser.Easing.Quadratic.InOut, true);
+    }
+
     // Koordinaten der Türe ab JSON
     this.map.objects['Object Layer Door'].forEach(function(door){
-      this.door = new Door(door.x, door.y, 'debug_door', 'up', true, function(){
+      this.door = new Door(door.x, door.y, '1_1_door', 'up', true, function(){
         this.state.start('level_1_1');
       }, this);
     }, this);
@@ -45,15 +67,16 @@ Game.tutorial.prototype = {
       else {return false;}
     }
 
-    // Mentor
-    this.michael = this.add.sprite(80, 440, 'tutorial_michael');
-    this.michael.anchor.setTo(0.5, 1);
-
     // Spieler wird hinzugefügt
-    this.player = new Player(200, 300, 'player_2_1', 300, -800, this);
+    this.player = new Player(300, 300, 'player_1', 300, -800, this);
 
     // Vordergrund
     this.foreground = this.add.sprite(0, 0, 'tutorial_foreground');
+
+    // schwarzer Overlay
+    this.blackscreen = this.add.sprite(0, 0, 'blackscreen');
+    this.add.tween(this.blackscreen).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true);
+    this.time.events.add(1500, this.speechbubble.openBubble, this, 0);
 
     // Gravitationskraft
     this.physics.arcade.gravity.y = 2000;
@@ -72,8 +95,9 @@ Game.tutorial.prototype = {
     // Kollision mit Türe, kann nur geöffnet werden wenn nicht verschlossen
     this.physics.arcade.overlap(this.player, this.door, this.door.collideCallback, this.door.processCallback, this);
 
-    // Input wird abgefragt
     checkInput(this.player, controls);
+
+    this.michaelCheck();
   },
   buttonPress: function() {
     // Knopfdruck: Schlüssel soll sichtbar sein
@@ -85,5 +109,43 @@ Game.tutorial.prototype = {
     // Berühren des Schlüssels soll Türe öffnen und Schlüssel zerstören
     this.door.unlock();
     this.key.destroy();
+  },
+  michaelCheck: function() {
+    switch (this.speechbubble.frame) {
+      case 0:
+        if (!this.speechbubble.busy && this.player.body.velocity.x != 0) {
+          this.time.events.add(2000, this.speechbubble.closeBubble, this);
+          this.speechbubble.busy = true;
+          this.time.events.add(2500, this.speechbubble.openBubble, this, 1);
+        }
+        break;
+      case 1:
+        if (!this.speechbubble.busy && this.player.body.velocity.y != 0) {
+          this.speechbubble.closeBubble.call(this);
+          this.speechbubble.busy = true;
+          this.time.events.add(500, this.speechbubble.openBubble, this, 2);
+        }
+        break;
+      case 2:
+        if (!this.speechbubble.busy) {
+          this.physics.arcade.overlap(this.player, this.door, function(){
+            this.time.events.add(2000, this.speechbubble.closeBubble, this);
+            this.speechbubble.busy = true;
+            this.time.events.add(2500, this.speechbubble.openBubble, this, 3);
+          }, null, this);
+        }
+        break;
+      case 3:
+        if (!this.speechbubble.busy) {
+          this.physics.arcade.overlap(this.player, this.button, function(){
+            this.speechbubble.closeBubble.call(this);
+            this.speechbubble.busy = true;
+            this.time.events.add(500, this.speechbubble.openBubble, this, 4);
+          }, null, this);
+        }
+        break;
+      default:
+        break;
+    }
   }
 }

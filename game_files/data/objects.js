@@ -20,9 +20,9 @@ Player = function(x, y, sprite, walkSpeed, jumpSpeed, context) {
   this.anchor.setTo(0.5, 0.5);
 
   // Animationen werden hinzugefügt
-  this.animations.add('idle', [0,1,2,3,4], 5, true);
-  this.animations.add('walk', [0,1,2,3,4], 5, true);
-  this.animations.add('jump', [0,1,2,3,4], 5, true);
+  this.animations.add('idle', [10,11,12,13], 5, true);
+  this.animations.add('walk', [0,1,2,3,4,5,6,7,8,9], 10, true);
+  this.animations.add('jump', [0], 10, true);
 
   // Physik wird für den Spieler aktiviert
   context.game.physics.arcade.enable(this);

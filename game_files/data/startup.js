@@ -18,7 +18,7 @@ Game.startup.prototype = {
   },
   preload:function() {
     // Ladebalken wird in den Cache geladen
-    this.load.image('preload_graphic', 'assets/graphics/preload_graphic.gif');
+    this.load.image('preload_graphic', 'assets/graphics/preload/bar.gif');
   },
   create:function() {
     // 'Preload'-state wird gestartet

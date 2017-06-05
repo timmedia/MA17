@@ -131,7 +131,7 @@ Game.level_1_1.prototype = {
     this.bridge = this.add.sprite(420, 120, '1_1_bridge');
     this.bridge.anchor.setTo(0, 1);
 
-    // Brücke: Physik aktiviert, kann sich nicht bewegen
+    // Brücke: Physik aktiviert, kann sich nicht bewegen, Hitbox gesetzt (funktioniert noch nicht 100%)
     this.physics.arcade.enable(this.bridge);
     this.bridge.body.moves = false;
     this.bridge.body.setSize(10, 150, -10, 0);
@@ -156,6 +156,7 @@ Game.level_1_1.prototype = {
         this.bridge.down = false;
         // Andere Animation des Wasserfalls
         this.water.animations.play('running_down');
+        // Hitboxen verändert
         this.water.body.setSize(150, 240, 25, 0);
         this.bridge.body.setSize(10, 150, -10, 0);
       }
@@ -165,6 +166,7 @@ Game.level_1_1.prototype = {
         this.time.events.add(500, function(){this.water_splash.animations.play('splash'); this.water_splash.visible = true;}, this);
         this.bridge.down = true;
         this.water.animations.play('transition');
+        // Nach dem Übergang soll normale Animation wieder spielen
         this.water.animations.currentAnim.onComplete.add(function(){this.water.animations.play('running_up')}, this);
         this.water.body.setSize(150, 100, 25, 0);
         this.bridge.body.setSize(150, 150, 0, 20);
@@ -175,7 +177,7 @@ Game.level_1_1.prototype = {
     this.button = new Button(350, 120, '1_1_button', 'down', this.bridge.switch, this);
 
     //Spieler wird hinzugefügt
-    this.player = new Player(100, 300, 'player_2_1', 300, -800, this);
+    this.player = new Player(100, 300, 'player_1', 300, -800, this);
 
     // Wenn der Spieler das Sichtbare Spielfeld verlässt (und y-Koord. > 0: nicht oben, nur unten) wird das Level neu gestartet
     this.player.checkWorldBounds = true;
@@ -192,6 +194,10 @@ Game.level_1_1.prototype = {
 
     // Kamera folgt dem Spieler
     this.camera.follow(this.player);
+
+    // schwarzer Overlay
+    this.blackscreen = this.add.sprite(0, 0, 'blackscreen');
+    this.add.tween(this.blackscreen).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true);
   },
   update:function(){
     // Kollisionsbestimmung zwischen Objekten (ohne Auswirkung)

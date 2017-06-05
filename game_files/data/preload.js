@@ -3,7 +3,7 @@ Game.preload = function() {};
 Game.preload.prototype = {
   preload:function(){
     // Ladebalken wird bestimmt und angezeigt
-    this.preload_graphic = this.add.sprite(0, 0, 'preload_graphic');
+    this.preload_graphic = this.add.sprite(0, 300, 'preload_graphic');
     this.load.setPreloadSprite(this.preload_graphic);
 
     /*
@@ -32,6 +32,10 @@ Game.preload.prototype = {
     arg2: Pfad der Grafik der Schriftart
     arg3: Pfad der XML-Datei mit Informationen zur Anordnung der Buchstaben
     */
+
+    // Dateien Generell
+    this.load.spritesheet('player_1', 'assets/graphics/player/01.gif', 54, 72);
+    this.load.image('blackscreen', 'assets/graphics/general/black.gif');
 
     // Datein level_1_1
     this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -76,14 +80,13 @@ Game.preload.prototype = {
     this.load.image('tutorial_midground', 'assets/graphics/tutorial/midground.gif');
     this.load.image('tutorial_foreground', 'assets/graphics/tutorial/foreground.png');
     this.load.image('tutorial_michael', 'assets/graphics/tutorial/michael.gif');
+    this.load.spritesheet('tutorial_speechbubbles', 'assets/graphics/tutorial/speechbubbles.png', 134, 82);
+    this.load.tilemap('map_tutorial', 'assets/map/tutorial.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Menu Dateien
     this.load.image('menu_screen', 'assets/graphics/main_menu/menu_screen.gif');
-    this.load.spritesheet('button_start_game', 'assets/graphics/main_menu/button_start_game.gif', 300, 60);
-    this.load.spritesheet('button_leaderboard', 'assets/graphics/main_menu/button_leaderboard.gif', 300, 60);
-
-    // Tutorial-Welt Dateien
-    this.load.tilemap('map_tutorial', 'assets/map/tutorial.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.spritesheet('button_start_game', 'assets/graphics/main_menu/button_start_game.gif', 108, 48);
+    this.load.spritesheet('button_leaderboard', 'assets/graphics/main_menu/button_leaderboard.gif', 248, 36);
 
     // Leaderboard Dateien
     this.load.image('leaderboard_background', 'assets/graphics/leaderboard/leaderboard_background.gif');
@@ -109,6 +112,13 @@ Game.preload.prototype = {
       var grounded;
       var rightDown = ctrl.right.isDown;
       var leftDown  = ctrl.left.isDown;
+      var gravitySwitched;
+      if (p.jumpSpeed < 0) {
+        gravitySwitched = 1;
+      }
+      else {
+        gravitySwitched = -1;
+      }
 
       // Sprung entweder mit Leertaste oder mit 'W'
       var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
@@ -129,7 +139,7 @@ Game.preload.prototype = {
 
       // Bestimmung ob der Spieler den Boden berührt
       // (wenn die Sprungkraft negativ ist, zeigt die Gravitation nach unten, vice-verse)
-      if(p.jumpSpeed < 0) {
+      if(gravitySwitched === 1) {
         // Gravitation nach unten
         grounded = p.body.blocked.down || p.body.touching.down;
       }
@@ -144,13 +154,13 @@ Game.preload.prototype = {
         // Spieler bewegt sich nach rechts
         p.body.velocity.x = p.walkSpeed;
         p.animations.play('walk');
-        p.scale.x = 1;
+        p.scale.x = gravitySwitched;
       }
       else if(leftDown && !rightDown) {
         // Spieler bewegt sich nach links
         p.body.velocity.x = -p.walkSpeed;
         p.animations.play('walk');
-        p.scale.x = -1;
+        p.scale.x = -gravitySwitched;
       }
       else {
         // Spieler steht still
