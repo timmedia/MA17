@@ -155,18 +155,21 @@ Game.preload.prototype = {
         p.body.velocity.x = p.walkSpeed;
         p.animations.play('walk');
         p.scale.x = gravitySwitched;
+        p.body.setSize(54, 72, 0, 0);
       }
       else if(leftDown && !rightDown) {
         // Spieler bewegt sich nach links
         p.body.velocity.x = -p.walkSpeed;
         p.animations.play('walk');
         p.scale.x = -gravitySwitched;
+        p.body.setSize(54, 72, 0, 0);
       }
       else {
         // Spieler steht still
         p.body.velocity.x = 0;
         // Stillstand-Animation soll nur spielen wenn der Charakter den Boden berührt
         if(grounded){p.animations.play('idle');}
+        p.body.setSize(26, 72, 14, 0);
       }
 
       if(grounded) {
@@ -178,6 +181,7 @@ Game.preload.prototype = {
       else {
         // Falls er nicht am Boden ist, muss die Sprung-Animation gespielt werden
         p.animations.play('jump');
+        p.body.setSize(54, 72, 0, 0);
         // Spieler darf eine gewisse Geschwindigkeit nicht überschreiten (Probleme mit der Physik)
         if(p.body.velocity.y > p.maxFallingSpeed) {
           p.body.velocity.y = p.maxFallingSpeed;
