@@ -81,6 +81,9 @@ Game.level_1_1 = function() {};
 // Prototyp der Funktion wird definiert
 Game.level_1_1.prototype = {
   create: function() {
+    // Maximale Zeit um das Level zu beenden
+    this.maxTime = 50;
+
     // Hintergrund
     this.background = this.add.sprite(0, 0, '1_1_background');
 
@@ -219,6 +222,9 @@ Game.level_1_1.prototype = {
 
     // Input wird abgefragt
     checkInput(this.player, controls);
+
+    // Timer
+    //console.log(checkTime.call(this, this.maxTime, this.killPlayer));
   },
   killPlayer: function() {
     // Tod des Spielers bewirkt Neustart des Levels

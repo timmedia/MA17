@@ -188,6 +188,20 @@ Game.preload.prototype = {
         }
       }
     }
+    // Zeit-check
+    checkTime = function(maxTime, action) {
+      // verbleibende Zeit ist verlaufene Zeit von der maximalen Zeit subtrahiert
+      let res = maxTime - this.game.time.totalElapsedSeconds();
+      // wenn die Zeit vorüber ist, soll das Level neu gestartet werden
+      if (res <= 0) {
+        // Reset Zeit & Level
+        this.game.time.reset();
+        action.call(this);
+        return 0.0;
+      }
+      // Zeit mit einer Dezimalstelle zurückgegeben
+      return res.toFixed(1);
+    }
   },
   create:function(){
     // Menu wird gestartet

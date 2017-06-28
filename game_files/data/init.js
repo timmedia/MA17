@@ -2,6 +2,7 @@
 var game;
 var controls;
 var checkInput;
+var checkTime;
 var score;
 var firebaseStarted = false;
 var fullscreen;

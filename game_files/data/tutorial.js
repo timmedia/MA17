@@ -24,21 +24,26 @@ Game.tutorial.prototype = {
     this.michael = this.add.sprite(155, 440, 'tutorial_michael');
     this.michael.anchor.setTo(0.5, 1);
 
-    // Anweisungen
+    // Anweisungen (erste Sprechblase, frame 0)
     this.speechbubble = this.add.sprite(257, 300, 'tutorial_speechbubbles');
     this.speechbubble.anchor.setTo(0.5, 0.5);
     this.speechbubble.frame = 0;
     this.speechbubble.scale.setTo(0, 0);
-
     this.speechbubble.busy = true;
 
+    // Funktion um Sprechblase zu öffnen
     this.speechbubble.openBubble = function(n) {
+      // n-tes frame der Spritesheet wird angezeigt
       this.speechbubble.frame = n;
+      // Animation (vergrössert)
       this.add.tween(this.speechbubble.scale).to({x: 1, y: 1}, 300, Phaser.Easing.Quadratic.Out, true);
+      // Nächste Animation soll nur nach dieser ablaufen
       this.speechbubble.busy = false;
     }
 
+    // Funktion um Sprechblase zu schliessen
     this.speechbubble.closeBubble = function() {
+      // Animation (verkleinert)
       this.add.tween(this.speechbubble.scale).to({x: 0, y: 0}, 200, Phaser.Easing.Quadratic.InOut, true);
     }
 
@@ -111,33 +116,46 @@ Game.tutorial.prototype = {
     this.key.destroy();
   },
   michaelCheck: function() {
+    // switch, welche Sprechblase gerade angezeigt wird
     switch (this.speechbubble.frame) {
+      // erste Sprechblase (laufen)
       case 0:
+        // Sprechblase soll weggehen wenn der Spieler läuft
         if (!this.speechbubble.busy && this.player.body.velocity.x != 0) {
+          // Verzögerung von 2 Sekunden
           this.time.events.add(2000, this.speechbubble.closeBubble, this);
           this.speechbubble.busy = true;
           this.time.events.add(2500, this.speechbubble.openBubble, this, 1);
         }
         break;
+      // zweite Sprechblase (springen)
       case 1:
+        // Sprechblase soll beim Sprung verschwinden
         if (!this.speechbubble.busy && this.player.body.velocity.y != 0) {
-          this.speechbubble.closeBubble.call(this);
+          // Verzögerung
+          this.time.events.add(1000, this.speechbubble.closeBubble, this);
           this.speechbubble.busy = true;
           this.time.events.add(500, this.speechbubble.openBubble, this, 2);
         }
         break;
+      // Dritte Sprechblase (Türe berühren)
       case 2:
         if (!this.speechbubble.busy) {
+          // Kollisionscheck: Berührung der Türe
           this.physics.arcade.overlap(this.player, this.door, function(){
+            // Türe wurde berührt
             this.time.events.add(2000, this.speechbubble.closeBubble, this);
             this.speechbubble.busy = true;
             this.time.events.add(2500, this.speechbubble.openBubble, this, 3);
           }, null, this);
         }
         break;
+      // Vierte Sprechblase (Knopf drücken)
       case 3:
         if (!this.speechbubble.busy) {
+          // Kollisionscheck: Berührung Knopf
           this.physics.arcade.overlap(this.player, this.button, function(){
+            // Knopf wurde gedrückt
             this.speechbubble.closeBubble.call(this);
             this.speechbubble.busy = true;
             this.time.events.add(500, this.speechbubble.openBubble, this, 4);
