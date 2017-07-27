@@ -30,5 +30,6 @@ function init() {
   game.state.add('level_3_1', Game.level_3_1);
   game.state.add('concept_1', Game.concept_1);
   game.state.add('concept_2', Game.concept_2);
+  game.state.add('l4', Game.l4);
   game.state.start('startup');
 }

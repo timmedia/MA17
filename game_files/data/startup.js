@@ -5,7 +5,7 @@ Game.startup = function(){};
 Game.startup.prototype = {
   init:function() {
      // Anzahl Inputs (später ev. für Multitouch-Support)
-     this.input.maxPointers = 1;
+     this.input.maxPointers = 2;
      this.stage.disableVisibilityChange = true;
 
      // Skalierung

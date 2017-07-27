@@ -62,6 +62,10 @@
   <object id="1" gid="2" x="589" y="180" width="40" height="40"/>
  </objectgroup>
  <objectgroup name="Object Layer Door">
-  <object id="3" gid="3" x="386" y="110" width="50" height="80"/>
+  <object id="3" gid="3" x="386" y="110" width="50" height="80">
+   <properties>
+    <property name="locked" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -48,7 +48,7 @@ Game.preload.prototype = {
     this.load.spritesheet('1_1_water_splash', 'assets/graphics/level_1_1/water_splash.gif', 177, 50);
     this.load.spritesheet('1_1_water_foreground', 'assets/graphics/level_1_1/water_foreground.png', 1210, 25);
     this.load.spritesheet('1_1_door', 'assets/graphics/level_1_1/door.gif', 75, 106);
-    this.load.spritesheet('1_1_button', 'assets/graphics/level_1_1/button.gif', 16, 9);
+    this.load.spritesheet('1_1_button', 'assets/graphics/level_1_1/button.gif', 16, 16);
 
     // Dateien level_2_1
     this.load.tilemap('2_1_map', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -57,6 +57,8 @@ Game.preload.prototype = {
     this.load.spritesheet('player_2_1', 'assets/graphics/level_2_1/player_2_1.gif', 40, 68);
     this.load.spritesheet('2_1_water', 'assets/graphics/level_2_1/waterfall.png', 122, 310);
     this.load.spritesheet('2_1_key', 'assets/graphics/level_2_1/key.png', 24, 39);
+
+    this.load.tilemap('l4_map', 'assets/map/l4.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Dateien level_3_1
     this.load.tilemap('3_1_map', 'assets/map/level_3_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -92,6 +94,10 @@ Game.preload.prototype = {
     this.load.image('leaderboard_background', 'assets/graphics/leaderboard/leaderboard_background.gif');
     this.load.image('leaderboard_button_back', 'assets/graphics/leaderboard/leaderboard_button_back.gif');
 
+    // Touch Eingabe
+    this.load.image('joystick_1', 'assets/graphics/touch_controls/joystick_1.gif');
+    this.load.image('joystick_2', 'assets/graphics/touch_controls/joystick_2.gif');
+
     // Keyboard Inputs
     controls = {
       right:  this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -102,92 +108,13 @@ Game.preload.prototype = {
       lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
       lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
       lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE),
-      shft:   this.input.keyboard.addKey(Phaser.Keyboard.SHIFT)
+      shft:   this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
+      j_left: false,
+      j_right:false,
+      j_up:   false
     }
 
-    // Globale Funktion: Input-Abfrage ist in jedem Level gleich
-    checkInput = function(p, ctrl) {
 
-      // benötigte Variablen
-      var grounded;
-      var rightDown = ctrl.right.isDown;
-      var leftDown  = ctrl.left.isDown;
-      var gravitySwitched;
-      if (p.jumpSpeed < 0) {
-        gravitySwitched = 1;
-      }
-      else {
-        gravitySwitched = -1;
-      }
-
-      // Sprung entweder mit Leertaste oder mit 'W'
-      var upDown    = ctrl.up1.isDown || ctrl.up2.isDown;
-
-      // Cheats: Mit '1' '2' und '0s' lassen sich Levels starten
-      if(ctrl.lvl1.isDown) {
-        game.state.start('level_1_1');
-      }
-      else if(ctrl.lvl2.isDown) {
-        game.state.start('level_2_1');
-      }
-      else if(ctrl.lvl3.isDown) {
-        game.state.start('level_3_1');
-      }
-      else if(ctrl.tut.isDown) {
-        game.state.start('tutorial');
-      }
-
-      // Bestimmung ob der Spieler den Boden berührt
-      // (wenn die Sprungkraft negativ ist, zeigt die Gravitation nach unten, vice-verse)
-      if(gravitySwitched === 1) {
-        // Gravitation nach unten
-        grounded = p.body.blocked.down || p.body.touching.down;
-      }
-      else {
-        // Gravitation nach oben
-        grounded = p.body.blocked.up || p.body.touching.up;
-      }
-
-      // Laufrichtung & Animation
-      // Spieler soll sich nur bewegen wenn entweder die Taste nach links oder nach rechts gedrückt ist
-      if(rightDown && !leftDown) {
-        // Spieler bewegt sich nach rechts
-        p.body.velocity.x = p.walkSpeed;
-        p.animations.play('walk');
-        p.scale.x = gravitySwitched;
-        p.body.setSize(54, 72, 0, 0);
-      }
-      else if(leftDown && !rightDown) {
-        // Spieler bewegt sich nach links
-        p.body.velocity.x = -p.walkSpeed;
-        p.animations.play('walk');
-        p.scale.x = -gravitySwitched;
-        p.body.setSize(54, 72, 0, 0);
-      }
-      else {
-        // Spieler steht still
-        p.body.velocity.x = 0;
-        // Stillstand-Animation soll nur spielen wenn der Charakter den Boden berührt
-        if(grounded){p.animations.play('idle');}
-        p.body.setSize(26, 72, 14, 0);
-      }
-
-      if(grounded) {
-        // Spieler kann nur vom Boden springen
-        if(upDown){
-          p.body.velocity.y = p.jumpSpeed;
-        }
-      }
-      else {
-        // Falls er nicht am Boden ist, muss die Sprung-Animation gespielt werden
-        p.animations.play('jump');
-        p.body.setSize(54, 72, 0, 0);
-        // Spieler darf eine gewisse Geschwindigkeit nicht überschreiten (Probleme mit der Physik)
-        if(p.body.velocity.y > p.maxFallingSpeed) {
-          p.body.velocity.y = p.maxFallingSpeed;
-        }
-      }
-    }
     // Zeit-check
     checkTime = function(maxTime, action) {
       // verbleibende Zeit ist verlaufene Zeit von der maximalen Zeit subtrahiert
@@ -205,6 +132,6 @@ Game.preload.prototype = {
   },
   create:function(){
     // Menu wird gestartet
-    this.state.start('main_menu');
+    this.state.start('l4');
   }
 }

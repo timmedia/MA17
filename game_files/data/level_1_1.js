@@ -75,163 +75,92 @@ Kollisionscheck: this.physics.arcade.overlap(arg1, arg2, arg3, arg4, arg5);
 
 */
 
-// level_1_1 state als leere Funktion
-Game.level_1_1 = function() {};
+Game.level_1_1 = function() {};                                                 // level_1_1 state als leere Funktion
 
-// Prototyp der Funktion wird definiert
-Game.level_1_1.prototype = {
-  create: function() {
-    // Maximale Zeit um das Level zu beenden
-    this.maxTime = 50;
+Game.level_1_1.prototype.create = function() {                                  // Prototyp der Funktion wird definiert
 
-    // Hintergrund
-    this.background = this.add.sprite(0, 0, '1_1_background');
+  this.maxTime = 50;                                                            // Maximale Zeit um das Level zu beenden
 
-    // Weltgrösse wird beschränkt
-    this.world.setBounds(0, 0, 1200, 450);
+  LoadMapData(this, '1_1_map');                                                 // Objekte werden ab JSON geladen (Türe, Kisten)
+  this.world.setBounds(0, 0, 1200, 450);                                        // Weltgrösse wird beschränkt
+  this.physics.arcade.gravity.y = 2000;                                         // Gravitationskraft
 
-    // Level data ab JSON Datei, leere Grafik, soll mit Objekten kollidieren
-    this.map = this.add.tilemap('1_1_map');
-    this.map.addTilesetImage('debug10x10', 'empty10x10');
-    this.map.setCollision(1);
+  this.water = new StaticGameObject(this, 400, 240, '1_1_waterfall');
+  this.water.animations.add('running_down', [0,1,2,3], 10, true);               // Wasserfall Animationen
+  this.water.animations.add('transition', [4,5,6,7], 10, false);
+  this.water.animations.add('running_up', [8,9,10,11], 10, true);
+  this.water.animations.play('running_down');
+  this.water.body.setSize(100, 240, 50, 0);
 
-    // Tilemap als Layer (für Kollisionsüberprüfung)
-    this.layer = this.map.createLayer('Tile Layer 1');
+  this.bridge = new StaticGameObject(this, 420, 120, '1_1_bridge');
+  this.bridge.body.setSize(10, 150, -10, 0);
+  this.bridge.down = false;
 
-    // Mittelgrund
-    this.midground = this.add.sprite(0, 0, '1_1_midground');
+  this.water_splash = this.add.sprite(405, 70, '1_1_water_splash');
+  this.water_splash.animations.add('splash', [0,1,2,3], 10, true);
+  this.water_splash.visible = false;
 
-    // Gravitationskraft
-    this.physics.arcade.gravity.y = 2000;
+  this.button = new Button(this, 350, 120, '1_1_button', 0, this.bridgeSwitch);
 
-    // Überall wo in der JSON-Datei eine Box plaziert wurde, soll ein Box-Objekt hin
-    // Lösung von: https://gist.github.com/jdfight/9646833f9bbdcb1104db
-    this.boxes = this.game.add.group();
-    this.map.objects['Object Layer Boxes'].forEach(function(box){
-      this.boxes.add(new Box(box.x, box.y, '1_1_box', 5000, 0.5, this));
-    }, this);
+  this.player = new Player(this, 100, 300, 'player_1', 300, -800);
+  this.camera.follow(this.player);                                          // Kamera soll Spieler folgen
+  this.player.checkWorldBounds = true;
+  this.player.events.onOutOfBounds.add(function() {
+    if (this.player.y > 0) {this.killPlayer();}
+  }, this);
 
-    this.map.objects['Object Layer Door'].forEach(function(door){
-      this.door = new Door(door.x, door.y, '1_1_door', 'up', false, this.startNextLevel, this);
-    }, this);
+  var water_foreground = this.add.sprite(0, 450, '1_1_water_foreground');
+  water_foreground.anchor.setTo(0, 1);
+  water_foreground.animations.add('moving', [0,1,2,3,4,5], 5, true);
+  water_foreground.animations.play('moving');
 
-    // Wasserfall, Sprite wird hinzugefügt, Festpunkt in der Mitte
-    this.water = this.add.sprite(495, 120, '1_1_waterfall');
-    this.water.anchor.setTo(0.5, 0.5);
+  this.parallax = SetupParallax(this, '1_1_foreground', '1_1_midground', '1_1_background');
 
-    // Wasserfall Animationen
-    this.water.animations.add('running_down', [0,1,2,3], 10, true);
-    this.water.animations.add('transition', [4,5,6,7], 10, false);
-    this.water.animations.add('running_up', [8,9,10,11], 10, true);
-    this.water.animations.play('running_down');
+  LevelFade(this);
+}
 
-    // Wasserfall: Physik wird aktiviert, jedoch ohne Bewegung, Hitbox verkleinert
-    this.physics.arcade.enable(this.water);
-    this.water.body.moves = false;
-    this.water.body.setSize(150, 240, 25, 0);
+Game.level_1_1.prototype.update = function() {
 
-    // Sprite der Brücke, Festpunkt
-    this.bridge = this.add.sprite(420, 120, '1_1_bridge');
-    this.bridge.anchor.setTo(0, 1);
+  this.physics.arcade.collide(this.player, [this.layer, this.boxes, this.bridge]);
+  this.physics.arcade.collide(this.boxes, [this.boxes, this.layer]);
 
-    // Brücke: Physik aktiviert, kann sich nicht bewegen, Hitbox gesetzt (funktioniert noch nicht 100%)
-    this.physics.arcade.enable(this.bridge);
-    this.bridge.body.moves = false;
-    this.bridge.body.setSize(10, 150, -10, 0);
+  this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
+  this.physics.arcade.overlap(this.button, this.player, this.button.callback, this.button.processCallback, this);
+  this.physics.arcade.overlap(this.door, this.player, this.door.callback, this.door.processCallback, this);
 
-    // Brücke ist nicht unten (wird später benötigt)
-    this.bridge.down = false;
+  UpdateParallax(this, this.parallax);
+}
 
-    // Platschen des Wassers, soll nur sichtbar sein wenn die Brücke unten ist -> standargemäss nicht
-    this.water_splash = this.add.sprite(405, 70, '1_1_water_splash');
-    this.water_splash.animations.add('splash', [0,1,2,3], 10, true);
-    this.water_splash.visible = false;
+Game.level_1_1.prototype.killPlayer = function() {
+  this.state.restart();
+}
 
-    // Funktion, welche aktiviert wird, wenn die Brücke nach oben/untern klappt
-    this.bridge.switch = function() {
-      // Brücke geht rauf/runter
-      if(this.bridge.down) {
-        // Animation der Brücke nach oben
-        this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true);
-        // Platschen des Wasser soll aufhören & nicht sichtbar sein
-        this.water_splash.animations.stop();
-        this.water_splash.visible = false;
-        this.bridge.down = false;
-        // Andere Animation des Wasserfalls
-        this.water.animations.play('running_down');
-        // Hitboxen verändert
-        this.water.body.setSize(150, 240, 25, 0);
-        this.bridge.body.setSize(10, 150, -10, 0);
-      }
-      else {
-        // Brücke geht nach unten; wenn sie unten ist (nach 500ms), soll das Platschen erscheinen
-        this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out,true);
-        this.time.events.add(500, function(){this.water_splash.animations.play('splash'); this.water_splash.visible = true;}, this);
-        this.bridge.down = true;
-        this.water.animations.play('transition');
-        // Nach dem Übergang soll normale Animation wieder spielen
-        this.water.animations.currentAnim.onComplete.add(function(){this.water.animations.play('running_up')}, this);
-        this.water.body.setSize(150, 100, 25, 0);
-        this.bridge.body.setSize(150, 150, 0, 20);
-      }
+Game.level_1_1.prototype.doorAction = function() {
+  this.state.start('level_2_1');
+}
+
+Game.level_1_1.prototype.bridgeSwitch = function () {
+    if (this.bridge.down) {
+      this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true);
+      this.water_splash.animations.stop();
+      this.water_splash.visible = false;
+      this.bridge.down = false;
+      this.water.animations.play('running_down');
+      this.water.body.setSize(150, 240, 25, 0);
+      this.bridge.body.setSize(10, 150, -10, 0);
     }
-
-    // Knopfdruck lässt die Brücke fallen/nach oben gehen
-    this.button = new Button(350, 120, '1_1_button', 'down', this.bridge.switch, this);
-
-    //Spieler wird hinzugefügt
-    this.player = new Player(100, 300, 'player_1', 300, -800, this);
-
-    // Wenn der Spieler das Sichtbare Spielfeld verlässt (und y-Koord. > 0: nicht oben, nur unten) wird das Level neu gestartet
-    this.player.checkWorldBounds = true;
-    this.player.events.onOutOfBounds.add(function(){if(this.player.y > 0) {this.killPlayer();}}, this);
-
-    // Vordergrund (Wasser), animiert
-    this.water_foreground = this.add.sprite(0, 450, '1_1_water_foreground');
-    this.water_foreground.animations.add('moving', [0,1,2,3,4,5], 5, true);
-    this.water_foreground.animations.play('moving');
-    this.water_foreground.anchor.setTo(0, 1);
-
-    // Vordergrund (Kabel in der Luft)
-    this.foreground = this.add.sprite(0, 0, '1_1_foreground');
-
-    // Kamera folgt dem Spieler
-    this.camera.follow(this.player);
-
-    // schwarzer Overlay
-    this.blackscreen = this.add.sprite(0, 0, 'blackscreen');
-    this.add.tween(this.blackscreen).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true);
-  },
-  update:function(){
-    // Kollisionsbestimmung zwischen Objekten (ohne Auswirkung)
-    this.physics.arcade.collide(this.player, [this.layer, this.boxes, this.bridge]);
-    this.physics.arcade.collide(this.boxes, [this.boxes, this.layer]);
-
-    // Beim berühren des Wassers stirbt der Spieler
-    this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
-
-    // Knopfdruck soll Brücke bewegen
-    this.physics.arcade.overlap(this.player, this.button, this.button.collideCallback, null, this);
-
-    // Türe soll nächstes Level starten
-    this.physics.arcade.overlap(this.player, this.door, this.door.collideCallback, null, this);
-
-    // Hintergrund bewegt sich weniger schnell, Vordergrund schneller (in jeweils entgegengesetzte Richtung)
-    this.background.x = parseInt(-this.world.x/3);
-    this.foreground.x = parseInt(this.world.x/3);
-
-    // Input wird abgefragt
-    checkInput(this.player, controls);
-
-    // Timer
-    //console.log(checkTime.call(this, this.maxTime, this.killPlayer));
-  },
-  killPlayer: function() {
-    // Tod des Spielers bewirkt Neustart des Levels
-    this.state.start('level_1_1');
-  },
-  startNextLevel: function() {
-    // nächstes Level
-    this.state.start('level_2_1');
-  }
+    else {
+      this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out,true);
+      this.time.events.add(500, function(){
+        this.water_splash.animations.play('splash');
+        this.water_splash.visible = true;
+      }, this);
+      this.bridge.down = true;
+      this.water.animations.play('transition');
+      this.water.animations.currentAnim.onComplete.add(function(){
+        this.water.animations.play('running_up');
+      }, this);
+      this.water.body.setSize(150, 100, 25, 0);
+      this.bridge.body.setSize(150, 150, 0, 20);
+    }
 }

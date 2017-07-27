@@ -125,7 +125,7 @@ Button = function(x, y, sprite, orientation, collideCallback, context) {
 Button.prototype = Object.create(Phaser.Sprite.prototype);
 Button.prototype.constructor = Button;
 
-Door = function(x, y, sprite, orientation, locked, collideCallback, context) {
+Door = function(x, y, sprite, orientation, locked, callback, context) {
   // Kontext übernommen
   Phaser.Sprite.call(this, context.game, x, y, sprite);
 
@@ -218,3 +218,45 @@ Key = function(x, y, sprite, collideCallback, context) {
 }
 Key.prototype = Object.create(Phaser.Sprite.prototype);
 Key.prototype.constructor = Key;
+
+// Joystick
+Joystick = function(context) {
+  // 'this' Kontext wird vom Phaser-Sprite-Objekt übernommen, Sprite wird hinzugefügt
+  Phaser.Sprite.call(this, context.game, 100, 350, 'joystick_1');
+  this.alpha = 0.2;
+  this.anchor.setTo(0.5, 0.5);
+  this.fixedToCamera = true;
+  this.overlay = context.add.sprite(this.x, this.y, 'joystick_2');
+  this.overlay.alpha = 0.5;
+  this.overlay.anchor.setTo(0.5, 0.5);
+  this.overlay.fixedToCamera = true;
+
+  this.update = function() {
+    if (context.input.pointer1.isDown) {
+      if (context.input.pointer1.screenX < this.cameraOffset.x + 50 && context.input.pointer1.y > this.cameraOffset.y - 50) {
+        this.overlay.cameraOffset.x = context.input.pointer1.screenX;
+        this.overlay.cameraOffset.y = context.input.pointer1.y;
+        if (context.input.pointer1.screenX > this.cameraOffset.x) {
+          controls.j_right = true;
+          controls.j_left = false;
+        }
+        else {
+          controls.j_left = true;
+          controls.j_right = false;
+        }
+      }
+    }
+    else {
+      this.overlay.cameraOffset.x = this.cameraOffset.x;
+      this.overlay.cameraOffset.y = this.cameraOffset.y;
+      controls.j_right = false;
+      controls.j_left = false;
+    }
+  }
+
+
+  // Objekt wird ins Level hinzugefügt
+  context.game.add.existing(this);
+}
+Joystick.prototype = Object.create(Phaser.Sprite.prototype);
+Joystick.prototype.constructor = Joystick;

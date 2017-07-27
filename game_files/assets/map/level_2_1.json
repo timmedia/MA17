@@ -45,6 +45,14 @@
                  "height":80,
                  "id":3,
                  "name":"",
+                 "properties":
+                    {
+                     "locked":true
+                    },
+                 "propertytypes":
+                    {
+                     "locked":"bool"
+                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,
