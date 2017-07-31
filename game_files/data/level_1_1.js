@@ -75,92 +75,65 @@ Kollisionscheck: this.physics.arcade.overlap(arg1, arg2, arg3, arg4, arg5);
 
 */
 
-Game.level_1_1 = function() {};                                                 // level_1_1 state als leere Funktion
+class Level01 extends GameState {
+  build() {
+    this.setup('1_1_map', 1200, 480, 2000, 50, 'main_menu', '1_1_foreground', '1_1_midground', '1_1_background')
 
-Game.level_1_1.prototype.create = function() {                                  // Prototyp der Funktion wird definiert
+    this.water = new StaticGameObject(this, 400, 240, '1_1_waterfall')
+    this.water.animations.add('running_down', [0, 1, 2, 3], 10, true)              // Wasserfall Animationen
+    this.water.animations.add('transition', [4, 5, 6, 7], 10, false)
+    this.water.animations.add('running_up', [8, 9, 10, 11], 10, true)
+    this.water.animations.play('running_down')
+    this.water.body.setSize(100, 240, 50, 0)
+    this.damagePlayerList.push(this.water)
 
-  this.maxTime = 50;                                                            // Maximale Zeit um das Level zu beenden
+    this.bridge = new StaticGameObject(this, 420, 120, '1_1_bridge')
+    this.bridge.body.setSize(10, 150, -10, 0)
+    this.bridge.down = false
+    this.collidePlayerList.push(this.bridge)
 
-  LoadMapData(this, '1_1_map');                                                 // Objekte werden ab JSON geladen (Türe, Kisten)
-  this.world.setBounds(0, 0, 1200, 450);                                        // Weltgrösse wird beschränkt
-  this.physics.arcade.gravity.y = 2000;                                         // Gravitationskraft
+    this.water_splash = this.add.sprite(405, 70, '1_1_water_splash')
+    this.water_splash.animations.add('splash', [0, 1, 2, 3], 10, true)
+    this.water_splash.visible = false
 
-  this.water = new StaticGameObject(this, 400, 240, '1_1_waterfall');
-  this.water.animations.add('running_down', [0,1,2,3], 10, true);               // Wasserfall Animationen
-  this.water.animations.add('transition', [4,5,6,7], 10, false);
-  this.water.animations.add('running_up', [8,9,10,11], 10, true);
-  this.water.animations.play('running_down');
-  this.water.body.setSize(100, 240, 50, 0);
+    this.button = new Button(this, 350, 120, '1_1_button', 0, this.bridgeSwitch)
 
-  this.bridge = new StaticGameObject(this, 420, 120, '1_1_bridge');
-  this.bridge.body.setSize(10, 150, -10, 0);
-  this.bridge.down = false;
+    this.player = new Player(this, 100, 300, 'player_1', 300, -800)
+    this.camera.follow(this.player)                                        // Kamera soll Spieler folgen
+    this.player.checkWorldBounds = true
+    this.player.events.onOutOfBounds.add(() => {
+      if (this.player.y > 0) this.damagePlayer()
+    })
 
-  this.water_splash = this.add.sprite(405, 70, '1_1_water_splash');
-  this.water_splash.animations.add('splash', [0,1,2,3], 10, true);
-  this.water_splash.visible = false;
-
-  this.button = new Button(this, 350, 120, '1_1_button', 0, this.bridgeSwitch);
-
-  this.player = new Player(this, 100, 300, 'player_1', 300, -800);
-  this.camera.follow(this.player);                                          // Kamera soll Spieler folgen
-  this.player.checkWorldBounds = true;
-  this.player.events.onOutOfBounds.add(function() {
-    if (this.player.y > 0) {this.killPlayer();}
-  }, this);
-
-  var water_foreground = this.add.sprite(0, 450, '1_1_water_foreground');
-  water_foreground.anchor.setTo(0, 1);
-  water_foreground.animations.add('moving', [0,1,2,3,4,5], 5, true);
-  water_foreground.animations.play('moving');
-
-  this.parallax = SetupParallax(this, '1_1_foreground', '1_1_midground', '1_1_background');
-
-  LevelFade(this);
-}
-
-Game.level_1_1.prototype.update = function() {
-
-  this.physics.arcade.collide(this.player, [this.layer, this.boxes, this.bridge]);
-  this.physics.arcade.collide(this.boxes, [this.boxes, this.layer]);
-
-  this.physics.arcade.collide(this.player, this.water, this.killPlayer, null, this);
-  this.physics.arcade.overlap(this.button, this.player, this.button.callback, this.button.processCallback, this);
-  this.physics.arcade.overlap(this.door, this.player, this.door.callback, this.door.processCallback, this);
-
-  UpdateParallax(this, this.parallax);
-}
-
-Game.level_1_1.prototype.killPlayer = function() {
-  this.state.restart();
-}
-
-Game.level_1_1.prototype.doorAction = function() {
-  this.state.start('level_2_1');
-}
-
-Game.level_1_1.prototype.bridgeSwitch = function () {
+    const water_foreground = this.add.sprite(0, 450, '1_1_water_foreground')
+    water_foreground.anchor.setTo(0, 1)
+    water_foreground.animations.add('moving', [0, 1, 2, 3, 4, 5], 5, true)
+    water_foreground.animations.play('moving')
+  }
+  bridgeSwitch() {
     if (this.bridge.down) {
-      this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true);
-      this.water_splash.animations.stop();
-      this.water_splash.visible = false;
-      this.bridge.down = false;
-      this.water.animations.play('running_down');
-      this.water.body.setSize(150, 240, 25, 0);
-      this.bridge.body.setSize(10, 150, -10, 0);
+      this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true)
+      this.water_splash.animations.stop()
+      this.water_splash.visible = false
+      this.bridge.down = false
+      this.water.animations.play('running_down')
+      this.water.body.setSize(150, 240, 25, 0)
+      this.bridge.body.setSize(10, 150, -10, 0)
     }
     else {
-      this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out,true);
-      this.time.events.add(500, function(){
-        this.water_splash.animations.play('splash');
-        this.water_splash.visible = true;
-      }, this);
-      this.bridge.down = true;
-      this.water.animations.play('transition');
-      this.water.animations.currentAnim.onComplete.add(function(){
-        this.water.animations.play('running_up');
-      }, this);
-      this.water.body.setSize(150, 100, 25, 0);
-      this.bridge.body.setSize(150, 150, 0, 20);
+      this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true)
+      this.time.events.add(500, () => {
+        this.water_splash.animations.play('splash')
+        this.water_splash.visible = true
+      })
+      this.bridge.down = true
+      this.water.animations.play('transition')
+      this.water.animations.currentAnim.onComplete.add(() => {
+        this.water.animations.play('running_up')
+      })
+      this.water.body.setSize(150, 100, 25, 0)
+      this.bridge.body.setSize(150, 150, 0, 20)
     }
+  }
+  loop() { }
 }

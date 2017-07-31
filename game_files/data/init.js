@@ -25,11 +25,12 @@ function init() {
   game.state.add('leaderboard', Game.leaderboard);
   game.state.add('main_menu', Game.main_menu);
   game.state.add('tutorial', Game.tutorial);
-  game.state.add('level_1_1', Game.level_1_1);
-  game.state.add('level_2_1', Game.level_2_1);
+  game.state.add('Tutorial', Tutorial);
+  // game.state.add('level_2_1', Game.level_2_1);
   game.state.add('level_3_1', Game.level_3_1);
   game.state.add('concept_1', Game.concept_1);
   game.state.add('concept_2', Game.concept_2);
-  game.state.add('l4', Game.l4);
+  game.state.add('Level01', Level01);
+  game.state.add('Level02', Level02);
   game.state.start('startup');
 }

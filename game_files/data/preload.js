@@ -1,7 +1,7 @@
 Game.preload = function() {};
 
 Game.preload.prototype = {
-  preload:function(){
+  preload: function() {
     // Ladebalken wird bestimmt und angezeigt
     this.preload_graphic = this.add.sprite(0, 300, 'preload_graphic');
     this.load.setPreloadSprite(this.preload_graphic);
@@ -132,6 +132,6 @@ Game.preload.prototype = {
   },
   create:function(){
     // Menu wird gestartet
-    this.state.start('l4');
+    this.state.start('Level02');
   }
 }
