@@ -24,7 +24,7 @@ class GameState extends Phaser.State {
   create() {
     this.build()
     this.levelFade()
-    this.setupParallax(this.foreground, this.midground, this.background)
+    this.setupParallax()
   }
   update() {
     this.checkCollisions()
@@ -39,7 +39,9 @@ class GameState extends Phaser.State {
     game.state.restart()
   }
   nextLevel() {
-    game.state.start(this.nextLevel)
+    this.time.events.add(500,
+      game.state.start
+    , game, this.nextLevel)
   }
   levelFade() {
     let fade = this.add.sprite(0, 0, 'blackscreen')

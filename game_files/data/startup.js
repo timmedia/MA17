@@ -1,12 +1,28 @@
 Game = {};
+
+class Startup extends Phaser.State {
+  init() {
+    this.input.maxPointers = 2
+    this.stage.disableVisibilityChange = true
+    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+    game.renderer.renderSession.roundPixels = true
+  }
+  preload() {
+    this.load.image('preload_graphic', 'assets/graphics/preload/bar.gif')
+  }
+  create() {
+    this.state.start('Preload')
+  }
+}
+
 // 'Startup'-State als leere Funktion
 Game.startup = function () {};
 
 Game.startup.prototype = {
   init: function () {
      // Anzahl Inputs (später ev. für Multitouch-Support)
-     this.input.maxPointers = 2;
-     this.stage.disableVisibilityChange = true;
+     this.input.maxPointers = 2
+     this.stage.disableVisibilityChange = true
 
      // Skalierung
      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -22,6 +38,6 @@ Game.startup.prototype = {
   },
   create: function () {
     // 'Preload'-state wird gestartet
-    this.state.start('preload');
+    this.state.start('Preload');
   }
 }

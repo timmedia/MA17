@@ -17,11 +17,11 @@ function init() {
   };
 
   // Neues Spiel-Objekt ab Vorlage von Phaser
-  game = new Phaser.Game(800, 450, Phaser.CANVAS, '', null, false, false);
+  game = new Phaser.Game(800, 480, Phaser.CANVAS, '', null, false, false);
 
   // Alle States werden hinzugefügt & die erste gestartet
   game.state.add('startup', Game.startup);
-  game.state.add('preload', Game.preload);
+  game.state.add('Preload', Preload);
   game.state.add('leaderboard', Game.leaderboard);
   game.state.add('main_menu', Game.main_menu);
   game.state.add('tutorial', Game.tutorial);
