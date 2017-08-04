@@ -3,12 +3,12 @@ var LevelFade;
 var SetupParallax;
 var UpdateParallax;
 
-var globalDebug = false
+var globalDebug = true
 
 class GameState extends Phaser.State {
   setup(map, boundX, boundY, gravity, maxTime, nextLevel, fg, mg, bg) {
-    this.collideLayerList = []
     this.collidePlayerList = []
+    this.collideLayerList = []
     this.damagePlayerList = []
     this.loadMapData(map)
     this.maxTime = maxTime
@@ -26,7 +26,7 @@ class GameState extends Phaser.State {
     this.levelFade()
     this.setupParallax()
   }
-  update() {
+  update(dt) {
     this.checkCollisions()
     this.loop()
   }
@@ -39,9 +39,9 @@ class GameState extends Phaser.State {
     game.state.restart()
   }
   nextLevel() {
-    this.time.events.add(500,
-      game.state.start
-    , game, this.nextLevel)
+    this.time.events.add(500,() => {
+      game.state.start(this.nextLevel)
+    })
   }
   levelFade() {
     let fade = this.add.sprite(0, 0, 'blackscreen')
@@ -81,7 +81,9 @@ class GameState extends Phaser.State {
     if (this.parallax[0] && this.parallax[1] && this.parallax[2]) {
       this.parallax[0].update = () => {
         this.parallax[0].x = this.world.x / 3
+        this.parallax[0].y = this.world.y / 3
         this.parallax[2].x = - this.world.x / 3
+        this.parallax[2].y = - this.world.y / 3
       }
     }
     if (this.parallax[1]) this.parallax[1].sendToBack()
@@ -226,6 +228,7 @@ class Door extends StaticGameObject {
   }
   callback(self) {
     self.animations.play('opening')
+    self.locked = true // Animation once only
     self.animations.currentAnim.onComplete.add(self.endCallback, this)
   }
 }

@@ -2,7 +2,6 @@ class Preload extends Phaser.State {
   preload() {
     this.preloadGraphic = this.add.sprite(0, 300, 'preload_graphic');
     this.load.setPreloadSprite(this.preloadGraphic);
-
     this.load.spritesheet('player_1', 'assets/graphics/player/01.gif', 54, 72);
     this.load.image('blackscreen', 'assets/graphics/general/black.gif');
     this.load.image('fade_out', 'assets/graphics/general/fade_out.png')
@@ -25,6 +24,12 @@ class Preload extends Phaser.State {
     this.load.spritesheet('2_1_key', 'assets/graphics/level_2_1/key.png', 24, 39);
 
     this.load.tilemap('l4_map', 'assets/map/l4.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('l5_map', 'assets/map/l5.json', null, Phaser.Tilemap.TILED_JSON);
+
+    this.load.image('Level03 background', 'assets/graphics/Level03/background.gif')
+    this.load.image('Level03 midground', 'assets/graphics/Level03/midground.gif')
+    this.load.tilemap('Level03 map', 'assets/map/Level03.json', null, Phaser.Tilemap.TILED_JSON)
+
     this.load.tilemap('3_1_map', 'assets/map/level_3_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('2_1_map', 'assets/map/level_2_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -80,7 +85,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level01');
+    this.state.start('Level03');
   }
 }
 
@@ -146,6 +151,7 @@ Game.preload.prototype = {
     this.load.spritesheet('2_1_key', 'assets/graphics/level_2_1/key.png', 24, 39);
 
     this.load.tilemap('l4_map', 'assets/map/l4.json', null, Phaser.Tilemap.TILED_JSON);
+    this.load.tilemap('l5_map', 'assets/map/l5.json', null, Phaser.Tilemap.TILED_JSON);
 
     // Dateien level_3_1
     this.load.tilemap('3_1_map', 'assets/map/level_3_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -219,6 +225,6 @@ Game.preload.prototype = {
   },
   create:function(){
     // Menu wird gestartet
-    this.state.start('Level01');
+    this.state.start('Level05');
   }
 }

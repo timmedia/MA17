@@ -1,11 +1,9 @@
-Game = {};
-
 class Startup extends Phaser.State {
   init() {
     this.input.maxPointers = 2
     this.stage.disableVisibilityChange = true
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
-    game.renderer.renderSession.roundPixels = true
+    window.game.renderer.renderSession.roundPixels = true
   }
   preload() {
     this.load.image('preload_graphic', 'assets/graphics/preload/bar.gif')

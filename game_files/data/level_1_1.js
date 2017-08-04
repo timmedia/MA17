@@ -75,6 +75,8 @@ Kollisionscheck: this.physics.arcade.overlap(arg1, arg2, arg3, arg4, arg5);
 
 */
 
+var self
+
 class Level01 extends GameState {
   build() {
     this.setup('1_1_map', 1200, 480, 2000, 50, 'main_menu', '1_1_foreground', '1_1_midground', '1_1_background')
@@ -115,12 +117,11 @@ class Level01 extends GameState {
       this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true)
       this.water_splash.animations.stop()
       this.water_splash.visible = false
-      this.bridge.down = false
       this.water.animations.play('running_down')
       this.water.body.setSize(150, 240, 25, 0)
       this.bridge.body.setSize(10, 150, -10, 0)
-    }
-    else {
+      this.bridge.down = false
+    } else {
       this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true)
       this.time.events.add(500, () => {
         this.water_splash.animations.play('splash')

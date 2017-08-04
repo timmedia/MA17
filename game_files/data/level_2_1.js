@@ -21,7 +21,7 @@ class Level02 extends GameState {
       this.water.direction = 'up'
       this.water.animations.play('go_up')
       this.water.animations.currentAnim.onComplete.add(() => {
-        this.water.animations.play('up');
+        this.water.animations.play('up')
       })
       this.water.body.setSize(35, 150, 44, 0)
     } else {
