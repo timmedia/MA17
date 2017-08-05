@@ -44,5 +44,4 @@ class Level02 extends GameState {
     this.door.unlock()
     this.key.destroy()
   }
-  loop() {  }
 }

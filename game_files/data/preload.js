@@ -4,7 +4,6 @@ class Preload extends Phaser.State {
     this.load.setPreloadSprite(this.preloadGraphic);
     this.load.spritesheet('player_1', 'assets/graphics/player/01.gif', 54, 72);
     this.load.image('blackscreen', 'assets/graphics/general/black.gif');
-    this.load.image('fade_out', 'assets/graphics/general/fade_out.png')
 
     this.load.image('1_1_background', 'assets/graphics/level_1_1/background.gif');
     this.load.image('1_1_midground', 'assets/graphics/level_1_1/midground.gif');
@@ -28,7 +27,15 @@ class Preload extends Phaser.State {
 
     this.load.image('Level03 background', 'assets/graphics/Level03/background.gif')
     this.load.image('Level03 midground', 'assets/graphics/Level03/midground.gif')
+    this.load.image('Level03 foreground', 'assets/graphics/Level03/foreground.gif')
+
+    this.load.image('Level05 cloud1', 'assets/graphics/Level05/cloud1.gif')
+    this.load.image('Level05 cloud2', 'assets/graphics/Level05/cloud2.gif')
+    this.load.image('Level05 cloud3', 'assets/graphics/Level05/cloud3.gif')
+    this.load.image('Level05 cloud4', 'assets/graphics/Level05/cloud4.gif')
+
     this.load.tilemap('Level03 map', 'assets/map/Level03.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('Level05 map', 'assets/map/Level05.json', null, Phaser.Tilemap.TILED_JSON)
 
     this.load.tilemap('3_1_map', 'assets/map/level_3_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -85,7 +92,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level03');
+    this.state.start('Level05');
   }
 }
 
@@ -127,7 +134,6 @@ Game.preload.prototype = {
     // Dateien Generell
     this.load.spritesheet('player_1', 'assets/graphics/player/01.gif', 54, 72);
     this.load.image('blackscreen', 'assets/graphics/general/black.gif');
-    this.load.image('fade_out', 'assets/graphics/general/fade_out.png')
 
     // Datein level_1_1
     this.load.tilemap('1_1_map', 'assets/map/level_1_1.json', null, Phaser.Tilemap.TILED_JSON);

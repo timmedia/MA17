@@ -136,5 +136,4 @@ class Level01 extends GameState {
       this.bridge.body.setSize(150, 150, 0, 20)
     }
   }
-  loop() { }
 }

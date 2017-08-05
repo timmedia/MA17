@@ -15,21 +15,18 @@ class GameState extends Phaser.State {
     this.nextLevel = nextLevel
     this.world.setBounds(0, 0, boundX, boundY)
     this.physics.arcade.gravity.y = gravity
-    this.parallax = [
-      fg ? this.add.sprite(0, 0, fg) : null,
-      mg ? this.add.sprite(0, 0, mg) : null,
-      bg ? this.add.sprite(0, 0, bg) : null
-    ]
+    this.parallaxImages = [fg || null, mg  || null, bg || null]
   }
   create() {
     this.build()
-    this.levelFade()
     this.setupParallax()
+    this.levelFade()
   }
   update(dt) {
     this.checkCollisions()
     this.loop()
   }
+  loop() {  }
   checkCollisions() {
     this.physics.arcade.collide(this.layer, this.collideLayerList)
     this.physics.arcade.collide(this.player, this.collidePlayerList)
@@ -38,20 +35,23 @@ class GameState extends Phaser.State {
   damagePlayer() {
     game.state.restart()
   }
-  nextLevel() {
+  goToNextLevel() {
     this.time.events.add(500,() => {
       game.state.start(this.nextLevel)
     })
   }
   levelFade() {
-    let fade = this.add.sprite(0, 0, 'blackscreen')
+    var fade = this.add.sprite(0, 0, 'blackscreen')
+    fade.fixedToCamera = true
     this.add.tween(fade).to({alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true)
+    this.time.events.add(1000, fade.kill, this)
   }
   loadMapData(map) {
     var map = this.add.tilemap(map)
-    map.addTilesetImage('debug10x10', (globalDebug ? 'debug10x10' : 'empty10x10'))
+    map.addTilesetImage('debug10x10', 'debug10x10')
     map.setCollision(1, 8)
     this.layer = map.createLayer('Tile Layer 1')
+    this.layer.alpha = globalDebug ? 1 : 0
 
     var doorLayer = map.objects['Object Layer Door']
     var boxesLayer = map.objects['Object Layer Boxes']
@@ -59,9 +59,8 @@ class GameState extends Phaser.State {
     if (doorLayer) {
       this.doors = this.game.add.group()
       doorLayer.forEach(door => {
-        var locked = false
-        if (door.properties && door.properties.locked) locked = true
-        this.door = new Door(this, door.x, door.y, '1_1_door', 0, locked, this.nextLevel)
+        var locked = door.properties && door.properties.locked
+        this.door = new Door(this, door.x, door.y, '1_1_door', 0, locked, this.goToNextLevel)
         this.door.update = () => {
           this.physics.arcade.overlap(this.door, this.player, this.door.callback, this.door.processCallback, this)
         }
@@ -78,6 +77,11 @@ class GameState extends Phaser.State {
     }
   }
   setupParallax() {
+    this.parallax = [
+      this.parallaxImages[0] ? this.add.sprite(0, 0, this.parallaxImages[0]) : null,
+      this.parallaxImages[1] ? this.add.sprite(0, 0, this.parallaxImages[1]) : null,
+      this.parallaxImages[2] ? this.add.sprite(0, 0, this.parallaxImages[2]) : null
+    ]
     if (this.parallax[0] && this.parallax[1] && this.parallax[2]) {
       this.parallax[0].update = () => {
         this.parallax[0].x = this.world.x / 3
