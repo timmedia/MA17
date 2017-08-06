@@ -28,6 +28,8 @@ class Preload extends Phaser.State {
     this.load.image('Level03 background', 'assets/graphics/Level03/background.gif')
     this.load.image('Level03 midground', 'assets/graphics/Level03/midground.gif')
     this.load.image('Level03 foreground', 'assets/graphics/Level03/foreground.gif')
+    this.load.image('Level03 water1', 'assets/graphics/Level03/water1.png')
+    this.load.spritesheet('Level03 water2', 'assets/graphics/Level03/water2.png', 560, 74)
 
     this.load.image('Level05 cloud1', 'assets/graphics/Level05/cloud1.gif')
     this.load.image('Level05 cloud2', 'assets/graphics/Level05/cloud2.gif')
@@ -92,7 +94,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level05');
+    this.state.start('Level03');
   }
 }
 

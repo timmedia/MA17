@@ -15,7 +15,9 @@ class Level05 extends GameState {
       [1220, 350, 2],
       [1400, 290, 0],
       [1650, 310, 7],
-      [1750, 200, 6]
+      [1750, 200, 6],
+      [1920, 190, 5],
+      [2200, 390, 1]
     ]
     this.platforms = this.game.add.group()
     clouds.forEach(cloud => {
@@ -72,7 +74,7 @@ class Level05 extends GameState {
     res.body.maxVelocity.y = 2
     res.body.checkCollision.left = false
     res.body.checkCollision.right = false
-    res.body.checkCollision.bottom = false
+    res.body.checkCollision.down = false
     res.anchor.setTo(0.5, 0.5)
     this.collidePlayerList.push(res)
     res.update = () => {

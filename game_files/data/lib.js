@@ -3,7 +3,7 @@ var LevelFade;
 var SetupParallax;
 var UpdateParallax;
 
-var globalDebug = true
+var globalDebug = false
 
 class GameState extends Phaser.State {
   setup(map, boundX, boundY, gravity, maxTime, nextLevel, fg, mg, bg) {
