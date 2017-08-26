@@ -75,64 +75,71 @@ Kollisionscheck: this.physics.arcade.overlap(arg1, arg2, arg3, arg4, arg5);
 
 */
 
-var self
-
 class Level01 extends GameState {
   build() {
-    this.setup('1_1_map', 1200, 480, 2000, 50, 'main_menu', '1_1_foreground', '1_1_midground', '1_1_background')
+    this.setup(
+      'Level01 Map',
+      1200, 480,
+      2000,
+      50,
+      'Level02',
+      'Level01 Foreground',
+      'Level01 Midground',
+      'Level01 Background'
+    )
 
-    this.water = new StaticGameObject(this, 400, 240, '1_1_waterfall')
-    this.water.animations.add('running_down', [0, 1, 2, 3], 10, true)              // Wasserfall Animationen
-    this.water.animations.add('transition', [4, 5, 6, 7], 10, false)
-    this.water.animations.add('running_up', [8, 9, 10, 11], 10, true)
-    this.water.animations.play('running_down')
-    this.water.body.setSize(100, 240, 50, 0)
-    this.damagePlayerList.push(this.water)
+    this.waterfall = new StaticGameObject(this, 400, 240, 'Level01 Waterfall')
+    this.waterfall.animations.add('down', [0, 1, 2, 3], 10, true)              // Wasserfall Animationen
+    this.waterfall.animations.add('transition', [4, 5, 6, 7], 10, false)
+    this.waterfall.animations.add('up', [8, 9, 10, 11], 10, true)
+    this.waterfall.animations.play('down')
+    this.waterfall.body.setSize(100, 240, 50, 0)
+    this.damagePlayerList.push(this.waterfall)
 
-    this.bridge = new StaticGameObject(this, 420, 120, '1_1_bridge')
+    this.bridge = new StaticGameObject(this, 420, 120, 'Level01 Bridge')
     this.bridge.body.setSize(10, 150, -10, 0)
     this.bridge.down = false
     this.collidePlayerList.push(this.bridge)
 
-    this.water_splash = this.add.sprite(405, 70, '1_1_water_splash')
-    this.water_splash.animations.add('splash', [0, 1, 2, 3], 10, true)
-    this.water_splash.visible = false
+    this.splash = this.add.sprite(405, 70, 'Level01 Splash')
+    this.splash.animations.add('default', [0, 1, 2, 3], 10, true)
+    this.splash.visible = false
 
-    this.button = new Button(this, 350, 120, '1_1_button', 0, this.bridgeSwitch)
+    this.button = new Button(this, 350, 120, 'General Button', 0, this.bridgeSwitch)
 
-    this.player = new Player(this, 100, 300, 'player_1', 300, -800)
+    this.player = new Player(this, 100, 300, 'Player 01', 300, -800)
     this.camera.follow(this.player)                                        // Kamera soll Spieler folgen
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
       if (this.player.y > 0) this.damagePlayer()
     })
 
-    const water_foreground = this.add.sprite(0, 450, '1_1_water_foreground')
-    water_foreground.anchor.setTo(0, 1)
-    water_foreground.animations.add('moving', [0, 1, 2, 3, 4, 5], 5, true)
-    water_foreground.animations.play('moving')
+    var water = this.add.sprite(0, 450, 'Level01 Water')
+    water.anchor.setTo(0, 1)
+    water.animations.add('default', [0, 1, 2, 3, 4, 5], 5, true)
+    water.animations.play('default')
   }
   bridgeSwitch() {
     if (this.bridge.down) {
       this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true)
-      this.water_splash.animations.stop()
-      this.water_splash.visible = false
-      this.water.animations.play('running_down')
-      this.water.body.setSize(150, 240, 25, 0)
+      this.splash.animations.stop()
+      this.splash.visible = false
+      this.waterfall.animations.play('down')
+      this.waterfall.body.setSize(150, 240, 25, 0)
       this.bridge.body.setSize(10, 150, -10, 0)
       this.bridge.down = false
     } else {
       this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true)
       this.time.events.add(500, () => {
-        this.water_splash.animations.play('splash')
-        this.water_splash.visible = true
+        this.splash.animations.play('default')
+        this.splash.visible = true
       })
       this.bridge.down = true
-      this.water.animations.play('transition')
-      this.water.animations.currentAnim.onComplete.add(() => {
-        this.water.animations.play('running_up')
+      this.waterfall.animations.play('transition')
+      this.waterfall.animations.currentAnim.onComplete.add(() => {
+        this.waterfall.animations.play('up')
       })
-      this.water.body.setSize(150, 100, 25, 0)
+      this.waterfall.body.setSize(150, 100, 25, 0)
       this.bridge.body.setSize(150, 150, 0, 20)
     }
   }

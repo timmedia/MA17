@@ -1,0 +1,14 @@
+/* keine Ränder  */
+html, body, canvas {
+  margin: 0px;
+  padding: 0px;
+}
+/* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
+/* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */
+canvas {
+  image-rendering:        -moz-crisp-edges;
+  image-rendering:        -o-crisp-edges;
+  image-rendering:        -webkit-optimize-contrast;
+  image-rendering:        crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}

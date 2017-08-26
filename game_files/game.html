@@ -3,46 +3,30 @@
   <head>
     <title>Game Canvas</title>
     <meta charset="utf-8" />
-    <!-- Reset Skalierung -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Firebase Bibliothek -->
+
     <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
-    <!-- Dateien für das Spiel -->
-    <script type="text/javascript" src="data/phaser.js"></script>
-    <script type="text/javascript" src="data/init.js"></script>
-    <script type="text/javascript" src="data/lib.js"></script>
-    <script type="text/javascript" src="data/startup.js"></script>
-    <script type="text/javascript" src="data/preload.js"></script>
-    <script type="text/javascript" src="data/leaderboard.js"></script>
-    <script type="text/javascript" src="data/mainmenu.js"></script>
-    <script type="text/javascript" src="data/tutorial.js"></script>
-    <script type="text/javascript" src="data/level_1_1.js"></script>
-    <script type="text/javascript" src="data/level_2_1.js"></script>
-    <script type="text/javascript" src="data/level_3_1.js"></script>
-    <script type="text/javascript" src="data/l4.js"></script>
-    <script type="text/javascript" src="data/l5.js"></script>
-    <script type="text/javascript" src="data/concept_1.js"></script>
-    <script type="text/javascript" src="data/concept_2.js"></script>
-    <!-- Styling -->
-    <style>
-      /* keine Ränder  */
-      html, body, canvas {
-        margin: 0px;
-        padding: 0px;
-      }
-      /* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
-      /* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */
-      canvas {
-        image-rendering:        -moz-crisp-edges;
-        image-rendering:        -o-crisp-edges;
-        image-rendering:        -webkit-optimize-contrast;
-        image-rendering:        crisp-edges;
-        -ms-interpolation-mode: nearest-neighbor;
-      }
-    </style>
+
+    <script src="js/phaser/phaser.js"></script>
+
+    <script src="js/states/init.js"></script>
+    <script src="js/states/startup.js"></script>
+    <script src="js/states/preload.js"></script>
+    <script src="js/states/menu.js"></script>
+    <script src="js/states/leaderboard.js"></script>
+
+    <script src="js/library/objects.js"></script>
+    <script src="js/library/gamestate.js"></script>
+
+    <script src="js/levels/tutorial.js"></script>
+    <script src="js/levels/01.js"></script>
+    <script src="js/levels/02.js"></script>
+    <script src="js/levels/03.js"></script>
+    <script src="js/levels/04.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <!-- init()-Funktion wird nach Laden der Seite gestartet -->
     <script type="text/javascript">
       window.onload = init;
     </script>
