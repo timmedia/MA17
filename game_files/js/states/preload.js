@@ -59,6 +59,7 @@ class Preload extends Phaser.State {
     loadMap('Level02 Map',  '02.json')
     loadMap('Level03 Map',  '03.json')
     loadMap('Level04 Map',  '04.json')
+    loadMap('Level05 Map',  '05.json')
 
     loadImg('Debug tile10x10',  'debug/tile10x10.gif')
     loadImg('Debug empty10x10', 'debug/empty10x10.gif')
@@ -79,7 +80,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level04');
+    this.state.start('Level05');
   }
 }
 

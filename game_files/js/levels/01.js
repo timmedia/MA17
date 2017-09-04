@@ -107,7 +107,7 @@ class Level01 extends GameState {
 
     this.button = new Button(this, 350, 120, 'General Button', 0, this.bridgeSwitch)
 
-    this.player = new Player(this, 100, 300, 'Player 01', 300, -800)
+    this.player = new Player(this, 100, 300, 'Player 01', 250, -800)
     this.camera.follow(this.player)                                        // Kamera soll Spieler folgen
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {

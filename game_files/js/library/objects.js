@@ -57,16 +57,17 @@ class Player extends DynamicGameObject {
     else if (controls.tut.isDown) game.state.start('tutorial')
 
     if (rightDown && !leftDown) {
-      this.body.acceleration.x = 3000
+      this.body.acceleration.x = 2000
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? -1 : 1
     } else if (leftDown && !rightDown) {
-      this.body.acceleration.x = - 3000
+      this.body.acceleration.x = - 2000
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? 1 : -1
     } else {
       this.body.velocity.x = 0
-      this.body.acceleration.x = 0
+      if (this.body.acceleration.x > 0) { this.body.acceleration.x -= 2000 }
+      else if (this.body.acceleration.x < 0) { this.body.acceleration.x += 2000 }
       if (grounded) this.animations.play('idle')
     }
     if (grounded) {

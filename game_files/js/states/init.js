@@ -18,6 +18,7 @@ class Game extends Phaser.Game {
     this.state.add('Level02', Level02)
     this.state.add('Level03', Level03)
     this.state.add('Level04', Level04)
+    this.state.add('Level05', Level05)
     this.state.start('Startup')
   }
 }
