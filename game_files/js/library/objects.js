@@ -38,9 +38,11 @@ class Player extends DynamicGameObject {
     this.animations.add('jump', [0], 10, true)                           // Animation: springen
     this.anchor.setTo(0.5, 0.5)                                            // Festpunkt soll horizontal mittig sein (wegen der Spieglung bei Richtungswechsel)
     this.body.setSize(25, 72, 17, 0)                                     // Hitbox wird verkleinert
-    this.body.maxVelocity.x = walkSpeed || 300                                 // Laufgeschwindigkeit ab Argument, falls nicht vorhanden = 0
+    //this.body.maxVelocity.x = walkSpeed || 300                                 // Laufgeschwindigkeit ab Argument, falls nicht vorhanden = 0
     this.jumpSpeed = jumpSpeed || 0                                      // Sprunggeschwindigkeit ab Argument, falls nicht vorhanden = 0
     context.collideLayerList.push(this)
+    this.mu = 50
+    this.baseAcceleration = {x: 0.0001, y: 0}
   }
   update() {
     const rightDown = controls.right.isDown || controls.j_right
@@ -51,30 +53,30 @@ class Player extends DynamicGameObject {
       ? this.body.blocked.up || this.body.touching.up
       : this.body.blocked.down || this.body.touching.down
 
-    if (controls.lvl1.isDown) game.state.start('level_1_1')
-    else if (controls.lvl2.isDown) game.state.start('level_2_1')
-    else if (controls.lvl3.isDown) game.state.start('level_3_1')
-    else if (controls.tut.isDown) game.state.start('tutorial')
-
-    if (rightDown && !leftDown) {
-      this.body.acceleration.x = 2000
+    if (controls.right.isDown) {
+      this.body.acceleration.x += (controls.right.duration === 0)
+        ? 1500
+        : - this.body.acceleration.x / 100
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? -1 : 1
-    } else if (leftDown && !rightDown) {
-      this.body.acceleration.x = - 2000
+    }
+    if (controls.left.isDown) {
+      this.body.acceleration.x += (controls.left.duration === 0)
+        ? - 1500
+        : - this.body.acceleration.x / 100
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? 1 : -1
-    } else {
-      this.body.velocity.x = 0
-      if (this.body.acceleration.x > 0) { this.body.acceleration.x -= 2000 }
-      else if (this.body.acceleration.x < 0) { this.body.acceleration.x += 2000 }
+    }
+    if (!controls.right.isDown && !controls.left.isDown) {
+      this.body.acceleration.x = - this.body.velocity.x * this.mu
+      //this.body.acceleration.x += 1000
       if (grounded) this.animations.play('idle')
     }
     if (grounded) {
       if (upDown) this.body.velocity.y = this.jumpSpeed
     } else {
       this.animations.play('jump')
-    }
+    } 
   }
 }
 

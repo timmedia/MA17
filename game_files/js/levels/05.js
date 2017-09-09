@@ -16,11 +16,8 @@ class Level05 extends GameState {
     this.player.events.onOutOfBounds.add(() => {
       (this.player.y > 0) ? this.damagePlayer() : this.nextLevel()
     })
-
   }
   loop() {
-    this.player.body.x -= 2
-    console.log(this.player.body.acceleration.x)
     self = this
   }
 }
