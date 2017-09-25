@@ -54,16 +54,16 @@ class Player extends DynamicGameObject {
       : this.body.blocked.down || this.body.touching.down
 
     if (controls.right.isDown) {
-      this.body.acceleration.x += (controls.right.duration === 0)
-        ? 1500
-        : - this.body.acceleration.x / 100
+      this.body.acceleration.x = (controls.right.duration === 0)
+        ? 7000
+        : this.body.acceleration.x / 2
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? -1 : 1
     }
     if (controls.left.isDown) {
-      this.body.acceleration.x += (controls.left.duration === 0)
-        ? - 1500
-        : - this.body.acceleration.x / 100
+      this.body.acceleration.x = (controls.left.duration === 0)
+        ? - 7000
+        : this.body.acceleration.x / 2
       this.animations.play('walk')
       this.scale.x = gravitySwitched ? 1 : -1
     }
@@ -76,7 +76,7 @@ class Player extends DynamicGameObject {
       if (upDown) this.body.velocity.y = this.jumpSpeed
     } else {
       this.animations.play('jump')
-    } 
+    }
   }
 }
 
