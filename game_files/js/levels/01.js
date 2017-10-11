@@ -75,6 +75,8 @@ Kollisionscheck: this.physics.arcade.overlap(arg1, arg2, arg3, arg4, arg5);
 
 */
 
+
+/* Klasse Level 01 */
 class Level01 extends GameState {
   build() {
     this.setup(
@@ -87,60 +89,67 @@ class Level01 extends GameState {
       'Level01 Midground',
       'Level01 Background'
     )
+      /* WASSERFALL */
+    this.waterfall = new StaticGameObject(this, 400, 240, 'Level01 Waterfall')  // Hinzugeben des Wasserfall-Bildes
+    this.waterfall.animations.add('down', [0, 1, 2, 3], 10, true)               // Animation: Wasser fliess nach unten
+    this.waterfall.animations.add('transition', [4, 5, 6, 7], 10, false)        // Animation: Überganges
+    this.waterfall.animations.add('up', [8, 9, 10, 11], 10, true)               // Animation: Wasser fliess nach oben
+    this.waterfall.animations.play('down')                                      // erste Animation soll starten
+    this.waterfall.body.setSize(100, 240, 50, 0)                                // Hitbox wird angepasst (kleiner als Grafik)
+    this.damagePlayerList.push(this.waterfall)                                  // Wasserfall soll bei Kolision Spieler schaden
 
-    this.waterfall = new StaticGameObject(this, 400, 240, 'Level01 Waterfall')
-    this.waterfall.animations.add('down', [0, 1, 2, 3], 10, true)              // Wasserfall Animationen
-    this.waterfall.animations.add('transition', [4, 5, 6, 7], 10, false)
-    this.waterfall.animations.add('up', [8, 9, 10, 11], 10, true)
-    this.waterfall.animations.play('down')
-    this.waterfall.body.setSize(100, 240, 50, 0)
-    this.damagePlayerList.push(this.waterfall)
+    /* BRÜCKE */
+    this.bridge = new StaticGameObject(this, 420, 120, 'Level01 Bridge')        // Brücke wird ab Grafik hinzugefügt
+    this.bridge.body.setSize(10, 150, -10, 0)                                   // Hitbox wird angepasst (vergrössert)
+    this.bridge.down = false                                                    // Boolean: Brücke unten? (für später)
+    this.collidePlayerList.push(this.bridge)                                    // Brücke soll mit Spieler kollidieren
 
-    this.bridge = new StaticGameObject(this, 420, 120, 'Level01 Bridge')
-    this.bridge.body.setSize(10, 150, -10, 0)
-    this.bridge.down = false
-    this.collidePlayerList.push(this.bridge)
+    /* WASSERSPRITZEN */
+    this.splash = this.add.sprite(405, 70, 'Level01 Splash')                    // Spritzen des Wasser wird hinzugefügt
+    this.splash.animations.add('default', [0, 1, 2, 3], 10, true)               // Animation der Sprite
+    this.splash.visible = false                                                 // soll zu Beginn nicht angezeigt werden
 
-    this.splash = this.add.sprite(405, 70, 'Level01 Splash')
-    this.splash.animations.add('default', [0, 1, 2, 3], 10, true)
-    this.splash.visible = false
-
+    /* KNOPF UM BRÜCKE ZU BEWEGEN */
     this.button = new Button(this, 350, 120, 'General Button', 0, this.bridgeSwitch)
 
-    this.player = new Player(this, 100, 300, 'Player 01', 250, -800)
-    this.camera.follow(this.player)                                        // Kamera soll Spieler folgen
-    this.player.checkWorldBounds = true
-    this.player.events.onOutOfBounds.add(() => {
-      if (this.player.y > 0) this.damagePlayer()
+    /* SPIELER */
+    this.player = new Player(this, 100, 300, 'Player 01', 250, -800)            // Sprite des Spielers
+    this.camera.follow(this.player)                                             // Kamera soll Spieler folgen
+    this.player.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
+    this.player.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
+      if (this.player.y > 0) this.damagePlayer()                                //   Karte ist, soll er sterben.
     })
 
-    var water = this.add.sprite(0, 450, 'Level01 Water')
-    water.anchor.setTo(0, 1)
-    water.animations.add('default', [0, 1, 2, 3, 4, 5], 5, true)
-    water.animations.play('default')
+    /* WASSER AM UNTEREN BILDRAND */
+    var water = this.add.sprite(0, 450, 'Level01 Water')                        // Wasser als Variable da sie später nicht
+    water.anchor.setTo(0, 1)                                                    //   mehr angesprochen wird, Fixpunkt unten
+    water.animations.add('default', [0, 1, 2, 3, 4, 5], 5, true)                //   links, Animation der Sprite hinzugefügt
+    water.animations.play('default')                                            // Animation wird abgespielt
   }
+
+  /* AUF- & HERUNTERKLAPPEN DER BRÜCKE */
   bridgeSwitch() {
-    if (this.bridge.down) {
-      this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true)
-      this.splash.animations.stop()
-      this.splash.visible = false
-      this.waterfall.animations.play('down')
-      this.waterfall.body.setSize(150, 240, 25, 0)
-      this.bridge.body.setSize(10, 150, -10, 0)
-      this.bridge.down = false
-    } else {
-      this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true)
-      this.time.events.add(500, () => {
-        this.splash.animations.play('default')
-        this.splash.visible = true
+    if (this.bridge.down) {                                                     // Wenn Brücke unten ist, soll sie nach oben
+      this.add.tween(this.bridge).to({angle: 0}, 500, Phaser.Easing.Cubic.Out, true) // Übergang von 90° zu 0° gekippt
+      this.splash.animations.stop()                                             // Animation vom Wasserspritzen soll gestopt
+      this.splash.visible = false                                               //   werden und Sprite nicht sichtbar sein
+      this.waterfall.animations.play('down')                                    // Andere Wasserfall-Animation
+      this.waterfall.body.setSize(150, 240, 25, 0)                              // Hitbox des Wasserfalls wird verändert
+      this.bridge.body.setSize(10, 150, -10, 0)                                 // Hitbox der Brücke wird angepasst
+      this.bridge.down = false                                                  // Brücke ist nun oben
+    } else {                                                                    // Falls sie oben ist, soll sie nach unten
+      this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true) // Winkel von 0° zu 90°
+      this.time.events.add(500, () => {                                         // Nachdem sie gekippt wurde, soll das Spritzen
+        this.splash.animations.play('default')                                  //   des Wasser erscheinen und die Animation
+        this.splash.visible = true                                              //   gespielt werden
       })
-      this.bridge.down = true
-      this.waterfall.animations.play('transition')
-      this.waterfall.animations.currentAnim.onComplete.add(() => {
-        this.waterfall.animations.play('up')
-      })
-      this.waterfall.body.setSize(150, 100, 25, 0)
-      this.bridge.body.setSize(150, 150, 0, 20)
+      this.waterfall.animations.play('transition')                              // Übergangsanimation des Wasserfalls
+      this.waterfall.animations.currentAnim.onComplete.add(() => {              // Nachdem die Übergangsanimation abgespielt
+        this.waterfall.animations.play('up')                                    //   wurde soll die finale Animation gespielt
+      })                                                                        //   werden
+      this.waterfall.body.setSize(150, 100, 25, 0)                              // Hitbox des Wassfalls
+      this.bridge.body.setSize(150, 150, 0, 20)                                 // Hitbox der brücke angepasst
+      this.bridge.down = true                                                   // Brücke ist nun unten
     }
   }
 }
