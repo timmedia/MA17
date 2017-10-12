@@ -100,7 +100,7 @@ class Level01 extends GameState {
 
     /* BRÜCKE */
     this.bridge = new StaticGameObject(this, 420, 120, 'Level01 Bridge')        // Brücke wird ab Grafik hinzugefügt
-    this.bridge.body.setSize(10, 150, -10, 0)                                   // Hitbox wird angepasst (vergrössert)
+    this.bridge.body.setSize(20, 150, 0, 0)                                     // Hitbox wird angepasst (vergrössert)
     this.bridge.down = false                                                    // Boolean: Brücke unten? (für später)
     this.collidePlayerList.push(this.bridge)                                    // Brücke soll mit Spieler kollidieren
 
@@ -114,7 +114,7 @@ class Level01 extends GameState {
 
     /* SPIELER */
     this.player = new Player(this, 100, 300, 'Player 01', 250, -800)            // Sprite des Spielers
-    this.camera.follow(this.player)                                             // Kamera soll Spieler folgen
+    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)      // Kamera soll Spieler folgen
     this.player.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
     this.player.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
       if (this.player.y > 0) this.damagePlayer()                                //   Karte ist, soll er sterben.
@@ -134,8 +134,8 @@ class Level01 extends GameState {
       this.splash.animations.stop()                                             // Animation vom Wasserspritzen soll gestopt
       this.splash.visible = false                                               //   werden und Sprite nicht sichtbar sein
       this.waterfall.animations.play('down')                                    // Andere Wasserfall-Animation
-      this.waterfall.body.setSize(150, 240, 25, 0)                              // Hitbox des Wasserfalls wird verändert
-      this.bridge.body.setSize(10, 150, -10, 0)                                 // Hitbox der Brücke wird angepasst
+      this.waterfall.body.setSize(100, 240, 50, 0)                             // Hitbox des Wasserfalls wird verändert
+      this.bridge.body.setSize(20, 150, 0, 0)                                 // Hitbox der Brücke wird angepasst
       this.bridge.down = false                                                  // Brücke ist nun oben
     } else {                                                                    // Falls sie oben ist, soll sie nach unten
       this.add.tween(this.bridge).to({angle: 90}, 500, Phaser.Easing.Cubic.Out, true) // Winkel von 0° zu 90°
@@ -147,9 +147,12 @@ class Level01 extends GameState {
       this.waterfall.animations.currentAnim.onComplete.add(() => {              // Nachdem die Übergangsanimation abgespielt
         this.waterfall.animations.play('up')                                    //   wurde soll die finale Animation gespielt
       })                                                                        //   werden
-      this.waterfall.body.setSize(150, 100, 25, 0)                              // Hitbox des Wassfalls
-      this.bridge.body.setSize(150, 150, 0, 20)                                 // Hitbox der brücke angepasst
+      this.waterfall.body.setSize(100, 100, 50, 0)                              // Hitbox des Wassfalls
+      this.bridge.body.setSize(150, 20, 0, 150)                                // Hitbox der brücke angepasst
       this.bridge.down = true                                                   // Brücke ist nun unten
     }
+  }
+  render() {
+    game.debug.body(this.bridge)
   }
 }

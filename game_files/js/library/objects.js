@@ -1,9 +1,9 @@
-var LoadMapData;
-var LevelFade;
-var SetupParallax;
-var UpdateParallax;
-
-var globalDebug = true
+var LoadMapData
+var LevelFade
+var SetupParallax
+var UpdateParallax
+var this3
+var globalDebug = false
 
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) {
@@ -27,6 +27,7 @@ class StaticGameObject extends DynamicGameObject {
   constructor(context, x, y, key, angle, frame) {
     super(context, x, y, key, angle, null, null, frame)
     this.body.moves = false
+    this.body.immovable = true
   }
 }
 
@@ -38,44 +39,77 @@ class Player extends DynamicGameObject {
     this.animations.add('jump', [0], 10, true)                           // Animation: springen
     this.anchor.setTo(0.5, 0.5)                                            // Festpunkt soll horizontal mittig sein (wegen der Spieglung bei Richtungswechsel)
     this.body.setSize(25, 72, 17, 0)                                     // Hitbox wird verkleinert
-    //this.body.maxVelocity.x = walkSpeed || 300                                 // Laufgeschwindigkeit ab Argument, falls nicht vorhanden = 0
     this.jumpSpeed = jumpSpeed || 0                                      // Sprunggeschwindigkeit ab Argument, falls nicht vorhanden = 0
+    this.walkSpeed = walkSpeed || 50
+    this.body.maxVelocity.x = this.walkSpeed * 2
     context.collideLayerList.push(this)
-    this.mu = 50
-    this.baseAcceleration = {x: 0.0001, y: 0}
+
+    // Variablen für Laufmechanismus
+    this.mu = 35
+    this.wind = 0
+
+    this.keyState = {
+      right: false,
+      left:  false
+    }
+
+    controls.right.onDown.add(this.pressRight, this)
+    controls.left.onDown.add(this.pressLeft, this)
+    controls.right.onUp.add(this.releaseRight, this)
+    controls.left.onUp.add(this.releaseLeft, this)
+  }
+  pressRight() {
+    this.keyState['right'] = true
+    this.body.acceleration.x += 2000
+    if (this.body.acceleration.x > 2000) {
+      this.body.acceleration.x = 2000
+    }
+  }
+  pressLeft() {
+    this.keyState['left'] = true
+    this.body.acceleration.x -= 2000
+    if (this.body.acceleration.x < -2000) {
+      this.body.acceleration.x = -2000
+    }
+  }
+  releaseRight() {
+    this.keyState['right'] = false
+  }
+  releaseLeft() {
+    this.keyState['left'] = false
   }
   update() {
-    const rightDown = controls.right.isDown || controls.j_right
-    const leftDown = controls.left.isDown || controls.j_left
-    const upDown = controls.up1.isDown || controls.up2.isDown || controls.j_up
-    const gravitySwitched = (this.jumpSpeed < 0) ? false : true
+    const gravitySwitched = !(this.jumpSpeed < 0)
     const grounded = gravitySwitched
       ? this.body.blocked.up || this.body.touching.up
       : this.body.blocked.down || this.body.touching.down
 
-    if (controls.right.isDown) {
-      this.body.acceleration.x = (controls.right.duration === 0)
-        ? 7000
-        : this.body.acceleration.x / 2
-      this.animations.play('walk')
-      this.scale.x = gravitySwitched ? -1 : 1
+    /* BEWEGUNGS-LOGIK */
+    if (this.keyState['right']) {
+      if (this.body.velocity.x > this.walkSpeed) {
+        this.body.acceleration.x = 0
+      } else if (Math.abs(this.body.velocity.x) < 0.5 * this.walkSpeed && controls.right.duration > 300) {
+        this.body.velocity.x = this.walkSpeed
+      }
+    } else if (this.keyState['left']) {
+      if (this.body.velocity.x < -this.walkSpeed) {
+        this.body.acceleration.x = 0
+      } else if (Math.abs(this.body.velocity.x) < 0.5 * this.walkSpeed && controls.left.duration > 300) {
+        this.body.velocity.x = -this.walkSpeed
+      }
+    } else if (!this.keyState['right'] && !this.keyState['left']) {
+      if (this.body.velocity.x != 0) {
+        if (this.wind === 0) {
+          this.body.acceleration.x = -this.mu * this.body.velocity.x
+        } else {
+          this.body.acceleration.x = this.wind
+        }
+      } else {
+        this.body.acceleration.x = this.wind
+      }
     }
-    if (controls.left.isDown) {
-      this.body.acceleration.x = (controls.left.duration === 0)
-        ? - 7000
-        : this.body.acceleration.x / 2
-      this.animations.play('walk')
-      this.scale.x = gravitySwitched ? 1 : -1
-    }
-    if (!controls.right.isDown && !controls.left.isDown) {
-      this.body.acceleration.x = - this.body.velocity.x * this.mu
-      //this.body.acceleration.x += 1000
-      if (grounded) this.animations.play('idle')
-    }
-    if (grounded) {
-      if (upDown) this.body.velocity.y = this.jumpSpeed
-    } else {
-      this.animations.play('jump')
+    if ((controls.up1.isDown || controls.up2.isDown) && grounded) {
+      this.body.velocity.y = this.jumpSpeed
     }
   }
 }

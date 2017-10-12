@@ -1,3 +1,18 @@
+class Menu extends Phaser.State {
+  create() {
+    let background = this.add.sprite(0, 0, 'Menu Background')
+    this.lights = this.add.sprite(174, 308, 'Menu Lights')
+    this.michael = this.add.sprite(310, 318, 'Menu Michael')
+    this.michael.animations.add('idle', [0, 1, 2, 3], 2, true)
+    this.michael.animations.play('idle')
+    let vignette = this.add.sprite(0, 0, 'Menu Vignette')
+
+    this.buttonPlay = this.add.button(108, 93, 'Menu Play')
+  }
+  update() {
+  }
+}
+
 Game.main_menu = function(){};
 
 Game.main_menu.prototype = {

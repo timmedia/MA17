@@ -21,10 +21,11 @@ class Level02 extends GameState {
     this.water.animations.play('down')
     this.water.direction = 'down'
     this.water.body.setSize(35, 150, 44, 173)
+    this.damagePlayerList.push(this.water) 
 
     this.button1 = new Button(this, 80, 380, 'General Button', 90, this.switchGravity)
     this.button2 = new Button(this, 720, 100, 'General Button', -90, this.switchGravity)
-    this.player = new Player(this, 200, 300, 'Player 01', 300, -600)
+    this.player = new Player(this, 200, 300, 'Player 01', 250, -600)
   }
   switchWater() {
     if (this.water.direction === 'down') {

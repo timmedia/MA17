@@ -10,7 +10,7 @@ class Level04 extends GameState {
       null,
       null
     )
-    this.player = new Player(this, 20, 1800, 'Player 01', 200, -600)
+    this.player = new Player(this, 20, 1800, 'Player 01', 10, -600)
     this.camera.follow(this.player)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {

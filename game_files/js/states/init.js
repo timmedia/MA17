@@ -11,9 +11,10 @@ function init() {
 
 class Game extends Phaser.Game {
   constructor() {
-    super(800, 480, Phaser.Canvas, null, null, null, false)
+    super(800, 480, Phaser.CANVAS, null, null, null, false)
     this.state.add('Startup', Startup)
     this.state.add('Preload', Preload)
+    this.state.add('Menu', Menu)
     this.state.add('Level01', Level01)
     this.state.add('Level02', Level02)
     this.state.add('Level03', Level03)
