@@ -13,7 +13,7 @@ class Level02 extends GameState {
 
     this.key = new Key(this, 390, 400, 'General Key', 0, true, this.collectKey)
 
-    this.water = new StaticGameObject(this, 344, 440, 'Level02 Waterfall')
+    this.water = new StaticGameObject(this, 344, 460, 'Level02 Waterfall')
     this.water.animations.add('down', [0, 1, 2, 3], 10, true)
     this.water.animations.add('go_up', [4, 5, 6, 7], 10, false)
     this.water.animations.add('go_down', [12, 13, 14, 15], 10, false)
@@ -21,10 +21,10 @@ class Level02 extends GameState {
     this.water.animations.play('down')
     this.water.direction = 'down'
     this.water.body.setSize(35, 150, 44, 173)
-    this.damagePlayerList.push(this.water) 
+    this.damagePlayerList.push(this.water)
 
-    this.button1 = new Button(this, 80, 380, 'General Button', 90, this.switchGravity)
-    this.button2 = new Button(this, 720, 100, 'General Button', -90, this.switchGravity)
+    this.button1 = new Button(this, 80, 400, 'General Button', 90, this.switchGravity)
+    this.button2 = new Button(this, 720, 120, 'General Button', -90, this.switchGravity)
     this.player = new Player(this, 200, 300, 'Player 01', 250, -600)
   }
   switchWater() {

@@ -15,6 +15,7 @@ class Game extends Phaser.Game {
     this.state.add('Startup', Startup)
     this.state.add('Preload', Preload)
     this.state.add('Menu', Menu)
+    this.state.add('Tutorial', Tutorial)
     this.state.add('Level01', Level01)
     this.state.add('Level02', Level02)
     this.state.add('Level03', Level03)

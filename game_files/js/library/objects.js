@@ -36,7 +36,11 @@ class Player extends DynamicGameObject {
     super(context, x, y, key, null, null, bounce)
     this.animations.add('idle', [10, 11, 12, 13], 5, true)                  // Animation: stehen
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true)         // Animation: laufen
-    this.animations.add('jump', [0], 10, true)                           // Animation: springen
+    this.animations.add('jump_start', [14], 7, false)                           // Animation: springen
+    this.animations.add('jump_up', [15], 10, true)
+    this.animations.add('jump_top', [16], 5, false)
+    this.animations.add('jump_down', [17], 10, true)
+    this.animations.add('jump_end', [18], 5, false)
     this.anchor.setTo(0.5, 0.5)                                            // Festpunkt soll horizontal mittig sein (wegen der Spieglung bei Richtungswechsel)
     this.body.setSize(25, 72, 17, 0)                                     // Hitbox wird verkleinert
     this.jumpSpeed = jumpSpeed || 0                                      // Sprunggeschwindigkeit ab Argument, falls nicht vorhanden = 0
@@ -48,68 +52,91 @@ class Player extends DynamicGameObject {
     this.mu = 35
     this.wind = 0
 
-    this.keyState = {
-      right: false,
-      left:  false
-    }
-
     controls.right.onDown.add(this.pressRight, this)
     controls.left.onDown.add(this.pressLeft, this)
-    controls.right.onUp.add(this.releaseRight, this)
-    controls.left.onUp.add(this.releaseLeft, this)
   }
   pressRight() {
-    this.keyState['right'] = true
     this.body.acceleration.x += 2000
     if (this.body.acceleration.x > 2000) {
       this.body.acceleration.x = 2000
     }
+    this.scale.x = (this.jumpSpeed < 0)? 1 : -1
   }
   pressLeft() {
-    this.keyState['left'] = true
     this.body.acceleration.x -= 2000
     if (this.body.acceleration.x < -2000) {
       this.body.acceleration.x = -2000
     }
-  }
-  releaseRight() {
-    this.keyState['right'] = false
-  }
-  releaseLeft() {
-    this.keyState['left'] = false
+    this.scale.x = (this.jumpSpeed < 0)? -1 : 1
   }
   update() {
-    const gravitySwitched = !(this.jumpSpeed < 0)
+    const gravitySwitched = this.jumpSpeed > 0
     const grounded = gravitySwitched
       ? this.body.blocked.up || this.body.touching.up
       : this.body.blocked.down || this.body.touching.down
 
     /* BEWEGUNGS-LOGIK */
-    if (this.keyState['right']) {
+    if (controls.right.isDown) {
       if (this.body.velocity.x > this.walkSpeed) {
         this.body.acceleration.x = 0
       } else if (Math.abs(this.body.velocity.x) < 0.5 * this.walkSpeed && controls.right.duration > 300) {
         this.body.velocity.x = this.walkSpeed
       }
-    } else if (this.keyState['left']) {
+    } else if (controls.left.isDown) {
       if (this.body.velocity.x < -this.walkSpeed) {
         this.body.acceleration.x = 0
       } else if (Math.abs(this.body.velocity.x) < 0.5 * this.walkSpeed && controls.left.duration > 300) {
         this.body.velocity.x = -this.walkSpeed
       }
-    } else if (!this.keyState['right'] && !this.keyState['left']) {
+    } else if (!controls.right.isDown && !controls.left.isDown) {
       if (this.body.velocity.x != 0) {
         if (this.wind === 0) {
           this.body.acceleration.x = -this.mu * this.body.velocity.x
         } else {
-          this.body.acceleration.x = this.wind
+          if (this.wind / this.body.velocity.x < 0) {
+            this.body.acceleration.x = -this.mu * this.body.velocity.x + this.wind
+          } else {
+            this.body.acceleration.x = this.wind
+          }
         }
       } else {
         this.body.acceleration.x = this.wind
       }
     }
-    if ((controls.up1.isDown || controls.up2.isDown) && grounded) {
-      this.body.velocity.y = this.jumpSpeed
+
+    var delta_x = Math.round(this.body.position.x - this.body.prev.x)
+    var delta_y = Math.round(this.body.position.y - this.body.prev.y)
+
+    if (grounded) {
+      if (controls.up1.isDown || controls.up2.isDown) {
+        if (Math.round(this.body.velocity.x) != 0) {
+          this.animations.play('jump_up')
+          this.body.velocity.y = this.jumpSpeed
+        } else {
+          this.animations.play('jump_start')
+          this.animations.currentAnim.onComplete.add(() => {
+            this.animations.play('jump_up')
+            this.body.velocity.y = this.jumpSpeed
+          })
+        }
+      } else if (controls.right.isDown ||controls.left.isDown) {
+        this.animations.play('walk')
+      } else {
+        if (delta_x === 0) {
+          this.animations.currentAnim.onComplete.add(() => {this.animations.play('idle')}) // after currentAnim
+        } else {
+          this.animations.play('idle') // whitout delay
+        }
+      }
+      if (delta_y > 0) {
+        this.animations.play('jump_end')
+      }
+    } else {
+      if (delta_y === 0) {
+        this.animations.play('jump_top')
+      } else if (delta_y > 0) {
+        this.animations.currentAnim.onComplete.add(() => {this.animations.play('jump_down')})
+      }
     }
   }
 }
@@ -128,6 +155,7 @@ class Button extends StaticGameObject {
     this.callback = callback
     this.animations.add('u', [0], 1, false)
     this.animations.add('d', [1], 0.5, false)
+    this.animations.play('u')
     this.up = true
     this.update = () => {
       context.physics.arcade.overlap(this, context.player, this.callback, this.processCallback, context)

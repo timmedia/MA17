@@ -47,10 +47,10 @@ class Preload extends Phaser.State {
     loadImg('Level01 Bridge', '01/bridge.gif')
     loadSpr('Level01 Water', '01/water.png', 1210, 25)
     loadSpr('Level01 Splash', '01/splash.gif', 177, 50)
-    loadSpr('Level01 Waterfall', '01/waterfall.png', 200, 240)
+    loadSpr('Level01 Waterfall', '01/waterfall.gif', 200, 240)
 
     loadImg('Level02 Background', '02/background.gif')
-    loadImg('Level02 Midground', '02/midground.png')
+    loadImg('Level02 Midground', '02/midground.gif')
     loadSpr('Level02 Waterfall', '02/waterfall.png', 122, 310)
 
     loadImg('Level03 Background', '03/background.gif')
@@ -87,7 +87,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Menu');
+    this.state.start('Level01');
   }
 }
 

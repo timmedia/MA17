@@ -10,8 +10,9 @@ class Level04 extends GameState {
       null,
       null
     )
-    this.player = new Player(this, 20, 1800, 'Player 01', 10, -600)
-    this.camera.follow(this.player)
+    this.player = new Player(this, 20, 1800, 'Player 01', 250, -600)
+    this.player.mu = 3
+    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
       if (this.player.y > 0) this.damagePlayer()

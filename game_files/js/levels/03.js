@@ -5,7 +5,7 @@ class Level03 extends GameState {
       800, 2000,
       1300,
       50,
-      'main_menu',
+      'Level05',
       'Level03 Foreground',
       'Level03 Midground',
       'Level03 Background'
@@ -14,7 +14,7 @@ class Level03 extends GameState {
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
-      (this.player.y > 0) ? this.damagePlayer() : this.nextLevel()
+      (this.player.y > 0) ? this.damagePlayer() : this.goToNextLevel()
     })
     this.water = new DynamicGameObject(this, 120, 2100, 'Level03 Waves')
     this.water.animations.add('flowing', [0, 1, 2, 3, 4], 5, true)

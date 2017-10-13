@@ -1,22 +1,30 @@
 class Tutorial extends GameState {
   build() {
-    this.setup('map_tutorial', 800, 480, 2000, 50, 'main_menu', 'tutorial_foreground', 'tutorial_midground', 'tutorial_background')
+    this.setup(
+      'Tutorial Map',
+      800, 480,
+      2000,
+      50,
+      'Menu',
+      'Tutorial Foreground',
+      'Tutorial Midground',
+      'Tutorial Background'
+    )
 
-    this.michael = this.add.sprite(155, 440, 'tutorial_michael')
+    this.michael = this.add.sprite(155, 460, 'Tutorial Michael')
     this.michael.anchor.setTo(0.5, 1)
 
-    this.speechbubble = this.add.sprite(257, 300, 'tutorial_speechbubbles')
+    this.speechbubble = this.add.sprite(257, 320, 'Tutorial Speechbubbles')
     this.speechbubble.anchor.setTo(0.5, 0.5)
     this.speechbubble.frame = 0
     this.speechbubble.scale.setTo(0, 0)
     this.time.events.add(1500, this.openBubble, this, 0)
 
-    this.button = new Button(this, 790, 380, '1_1_button', -90, this.buttonPress)
-    this.player = new Player(this, 300, 300, 'player_1', 300, -800)
+    this.button = new Button(this, 790, 390, 'General Button', -90, this.buttonPress)
+    this.player = new Player(this, 300, 300, 'Player 01', 300, -800)
 
-    this.key = new Key(this, 600, 155, '2_1_key', 0, false, this.collectKey)
+    this.key = new Key(this, 600, 155, 'General Key', 0, false, this.collectKey)
     this.key.visible = false
-    self = this
   }
   loop() {
     this.michaelCheck()
