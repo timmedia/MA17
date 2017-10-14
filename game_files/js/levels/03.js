@@ -10,8 +10,7 @@ class Level03 extends GameState {
       'Level03 Midground',
       'Level03 Background'
     )
-    this.player = new Player(this, 225, 1850, 'Player 01', 300, -600)
-    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+    this.player = new Player(this, 225, 1850, 'Player 01', 300, -600, true)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
       (this.player.y > 0) ? this.damagePlayer() : this.goToNextLevel()

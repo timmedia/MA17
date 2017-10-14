@@ -114,12 +114,7 @@ class Level01 extends GameState {
     this.button = new Button(this, 350, 150, 'General Button', 0, this.bridgeSwitch)
 
     /* SPIELER */
-    this.player = new Player(this, 100, 300, 'Player 01', 250, -800)            // Sprite des Spielers
-    this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)      // Kamera soll Spieler folgen
-    this.player.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
-    this.player.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
-      if (this.player.y > 0) this.damagePlayer()                                //   Karte ist, soll er sterben.
-    })
+    this.player = new Player(this, 100, 300, 'Player 01', 250, -800, true, true)            // Sprite des Spielers
 
     /* WASSER AM UNTEREN BILDRAND */
     var water = this.add.sprite(0, 480, 'Level01 Water')                        // Wasser als Variable da sie später nicht

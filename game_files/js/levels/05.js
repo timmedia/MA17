@@ -15,12 +15,14 @@ class Level05 extends GameState {
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
-      (this.player.y > 0) ? this.damagePlayer() : this.nextLevel()
+      if (this.player.y > 0) this.damagePlayer()
     })
     setTimeout(() => {this.startWind()}, 1500)
   }
   loop() {
-    self = this
+    if (this.player.x > 4785) {
+      this.goToNextLevel()
+    }
   }
   startWind() {
     this.player.wind = -100

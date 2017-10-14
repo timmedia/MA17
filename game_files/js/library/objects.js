@@ -32,7 +32,7 @@ class StaticGameObject extends DynamicGameObject {
 }
 
 class Player extends DynamicGameObject {
-  constructor(context, x, y, key, walkSpeed, jumpSpeed, bounce) {
+  constructor(context, x, y, key, walkSpeed, jumpSpeed, cameraFollow, killOnExit, enableShoot, bounce) {
     super(context, x, y, key, null, null, bounce)
     this.animations.add('idle', [10, 11, 12, 13], 5, true)                  // Animation: stehen
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true)         // Animation: laufen
@@ -48,12 +48,29 @@ class Player extends DynamicGameObject {
     this.body.maxVelocity.x = this.walkSpeed * 2
     context.collideLayerList.push(this)
 
+    if (cameraFollow) {
+      context.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+    }
+
+    if (killOnExit) {
+      this.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
+      this.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
+        if (this.y > 0) context.damagePlayer()                                //   Karte ist, soll er sterben.
+      })
+    }
+
+    if (enableShoot) {
+      this.enableShoot = true
+      this.setupShoot(context)
+    }
+
     // Variablen für Laufmechanismus
     this.mu = 35
     this.wind = 0
 
     controls.right.onDown.add(this.pressRight, this)
     controls.left.onDown.add(this.pressLeft, this)
+    if (enableShoot) controls.shift.onDown.add(this.shoot, this)
   }
   pressRight() {
     this.body.acceleration.x += 2000
@@ -137,6 +154,22 @@ class Player extends DynamicGameObject {
       } else if (delta_y > 0) {
         this.animations.currentAnim.onComplete.add(() => {this.animations.play('jump_down')})
       }
+    }
+  }
+  // https://www.codecaptain.io/blog/game-development/shooting-bullets-using-phaser-groups/518
+  setupShoot(context) {
+    this.bullets = context.game.add.group()
+    this.bullets.enableBody = true
+    this.bullets.createMultiple(20, 'Debug Ball')
+    this.bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', (bullet) => {bullet.kill()})
+    this.bullets.setAll('checkWorldBounds', true)
+    this.bullets.setAll('body.gravity.y', -context.physics.arcade.gravity.y)
+  }
+  shoot() {
+    var bullet = this.bullets.getFirstExists(false)
+    if (bullet) {
+      bullet.reset(this.position.x, this.position.y)
+      bullet.body.velocity.x = this.body.velocity.x + this.scale.x * 500
     }
   }
 }
