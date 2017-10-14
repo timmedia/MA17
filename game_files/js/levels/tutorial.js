@@ -5,7 +5,7 @@ class Tutorial extends GameState {
       800, 480,
       2000,
       50,
-      'Menu',
+      'Level01',
       'Tutorial Foreground',
       'Tutorial Midground',
       'Tutorial Background'

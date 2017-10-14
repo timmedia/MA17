@@ -17,7 +17,7 @@ class GameState extends Phaser.State {
     this.setupParallax()
     this.levelFade()
   }
-  update(dt) {
+  update() {
     this.checkCollisions()
     this.loop()
   }
@@ -53,7 +53,6 @@ class GameState extends Phaser.State {
     var boxesLayer = map.objects['Object Layer Boxes']
 
     if (doorLayer) {
-      this.doors = this.game.add.group()
       doorLayer.forEach(door => {
         var locked = door.properties && door.properties.locked
         this.door = new Door(this, door.x, door.y, 'General Door', 0, locked, this.goToNextLevel)

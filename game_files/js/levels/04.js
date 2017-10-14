@@ -5,10 +5,10 @@ class Level04 extends GameState {
       4500, 2000,
       1300,
       50,
-      'main_menu',
-      null,
-      null,
-      null
+      'Menu',
+      'Level04 empty10x10',
+      'Level04 empty10x10',
+      'Level04 Background'
     )
     this.player = new Player(this, 20, 1800, 'Player 01', 250, -600)
     this.player.mu = 3

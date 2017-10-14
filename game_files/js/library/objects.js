@@ -3,7 +3,7 @@ var LevelFade
 var SetupParallax
 var UpdateParallax
 var this3
-var globalDebug = false
+var globalDebug = true
 
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) {

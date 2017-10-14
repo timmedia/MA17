@@ -59,10 +59,16 @@ class Preload extends Phaser.State {
     loadImg('Level03 Water', '03/water.png')
     loadSpr('Level03 Waves', '03/waves.png', 560, 74)
 
+    loadImg('Level04 Background', '04/background.png')
     loadImg('Level04 Cloud1', '04/cloud1.gif')
     loadImg('Level04 Cloud2', '04/cloud2.gif')
     loadImg('Level04 Cloud3', '04/cloud3.gif')
     loadImg('Level04 Cloud4', '04/cloud4.gif')
+
+    loadImg('Level05 Background', '05/background.png')
+    loadImg('Level05 Midground', '05/midground.png')
+
+    loadImg('Level06 Background', '06/background.png')
 
     loadMap('Tutorial Map', 'tutorial.json')
     loadMap('Level01 Map', '01.json')
@@ -70,6 +76,7 @@ class Preload extends Phaser.State {
     loadMap('Level03 Map', '03.json')
     loadMap('Level04 Map', '04.json')
     loadMap('Level05 Map', '05.json')
+    loadMap('Level06 Map', '06.json')
 
     loadImg('Debug tile10x10', 'debug/tile10x10.gif')
     loadImg('Debug empty10x10', 'debug/empty10x10.gif')
@@ -83,11 +90,11 @@ class Preload extends Phaser.State {
       lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
       lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
       lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE),
-      shft:   this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
+      shift:  this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
     }
   }
   create() {
-    this.state.start('Level01');
+    this.state.start('Level06');
   }
 }
 

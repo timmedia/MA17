@@ -6,10 +6,10 @@ class Level05 extends GameState {
       4800, 480,
       1300,
       50,
-      'main_menu',
-      null,
-      null,
-      null
+      'Menu',
+      'Debug empty10x10',
+      'Level05 Midground',
+      'Level05 Background'
     )
     this.player = new Player(this, 50, 300, 'Player 01', 280, -600)
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05)
