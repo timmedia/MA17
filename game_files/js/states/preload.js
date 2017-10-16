@@ -82,6 +82,7 @@ class Preload extends Phaser.State {
     loadImg('Debug empty10x10', 'debug/empty10x10.gif')
     loadImg('Debug Enemy', 'debug/enemy.gif')
     loadImg('Debug Ball', 'debug/ball.gif')
+    loadImg('Debug Arrow', 'debug/arrow.gif')
 
     controls = {
       right:  this.input.keyboard.addKey(Phaser.Keyboard.D),

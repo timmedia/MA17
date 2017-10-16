@@ -26,7 +26,7 @@ class GameState extends Phaser.State {
     this.physics.arcade.collide(this.layer, this.collideLayerList)
     this.physics.arcade.collide(this.collideLayerList, this.collideLayerList)
     this.physics.arcade.collide(this.player, this.collidePlayerList)
-    this.physics.arcade.collide(this.player, this.damagePlayerList, this.damagePlayer)
+    this.physics.arcade.overlap(this.player, this.damagePlayerList, this.damagePlayer)
   }
   damagePlayer() {
     game.state.restart()

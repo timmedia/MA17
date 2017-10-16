@@ -45,6 +45,8 @@ class Player extends DynamicGameObject {
     this.body.setSize(25, 72, 17, 0)                                     // Hitbox wird verkleinert
     this.jumpSpeed = jumpSpeed || 0                                      // Sprunggeschwindigkeit ab Argument, falls nicht vorhanden = 0
     this.walkSpeed = walkSpeed || 50
+    this.hp = 10 // Health points
+    this.damagePlayer = context.damagePlayer
     this.body.maxVelocity.x = this.walkSpeed * 2
     context.collideLayerList.push(this)
 
@@ -87,6 +89,10 @@ class Player extends DynamicGameObject {
     this.scale.x = (this.jumpSpeed < 0)? -1 : 1
   }
   update() {
+    if (this.hp < 0) {
+      this.damagePlayer()
+      return
+    }
     const gravitySwitched = this.jumpSpeed > 0
     const grounded = gravitySwitched
       ? this.body.blocked.up || this.body.touching.up
