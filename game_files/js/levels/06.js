@@ -7,7 +7,7 @@ class Level06 extends GameState {
       50,
       'Menu',
       'Debug empty10x10',
-      'Debug empty10x10',
+      'Level06 Midground',
       'Level06 Background'
     )
     this.player = new Player(this, 525, 350, 'Player 01', 300, -650, true, false, true)
@@ -27,8 +27,9 @@ class Level06 extends GameState {
     for (let i in coords) {
       this.enemies.add(new Enemy(this, coords[i][0], coords[i][1], 'Debug Enemy'))
     }
-    this.enemies.setAll('isAlive', true)
     this.enemies.forEach((child) => { child.start() })
+
+    this.text = this.add.bitmapText(200, 100, 'Small Black', 'The quick, brown! fox jumps? over; the: lazy dog01234567890987654321'.toUpperCase())
 
   }
   loop() {
@@ -37,11 +38,11 @@ class Level06 extends GameState {
       this.enemies,
       this.player.bullets,
       (enemy, bullet) => {
-        return enemy.isAlive
+        return enemy.alive
       },
       (enemy, bullet) => {
         bullet.kill()
-        enemy.isAlive = false
+        enemy.alive = false
         this.add.tween(enemy).to({tint: 0, alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
         setTimeout(() => {enemy.kill()}, 800)
       }
@@ -50,6 +51,7 @@ class Level06 extends GameState {
   render() {
     game.debug.body(this.wire.children[0])
     game.debug.body(this.wire.children[1])
+    game.debug.text(this.player.hp, 100, 460)
   }
 }
 
@@ -83,10 +85,8 @@ class Enemy extends StaticGameObject {
     }
     this.update = () => {
       context.physics.arcade.overlap(this.bullets, context.player, (bullet, player) => {
-        if (bullet.body.wasTouching.none) context.player.hp -= 2
-      }
-
-    )
+        if (bullet.body.wasTouching.none) context.player.damage.call(context, context.player, 1.5)
+      })
     }
   }
   shoot(context, duration) {

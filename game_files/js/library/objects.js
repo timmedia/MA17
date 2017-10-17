@@ -45,8 +45,8 @@ class Player extends DynamicGameObject {
     this.body.setSize(25, 72, 17, 0)                                     // Hitbox wird verkleinert
     this.jumpSpeed = jumpSpeed || 0                                      // Sprunggeschwindigkeit ab Argument, falls nicht vorhanden = 0
     this.walkSpeed = walkSpeed || 50
-    this.hp = 10 // Health points
-    this.damagePlayer = context.damagePlayer
+    this.hp = 9 // Health points
+    this.killPlayer = context.killPlayer
     this.body.maxVelocity.x = this.walkSpeed * 2
     context.collideLayerList.push(this)
 
@@ -57,7 +57,7 @@ class Player extends DynamicGameObject {
     if (killOnExit) {
       this.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
       this.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
-        if (this.y > 0) context.damagePlayer()                                //   Karte ist, soll er sterben.
+        if (this.y > 0) context.killPlayer()                                //   Karte ist, soll er sterben.
       })
     }
 
@@ -90,7 +90,7 @@ class Player extends DynamicGameObject {
   }
   update() {
     if (this.hp < 0) {
-      this.damagePlayer()
+      this.killPlayer()
       return
     }
     const gravitySwitched = this.jumpSpeed > 0
@@ -162,6 +162,16 @@ class Player extends DynamicGameObject {
       }
     }
   }
+  damage(player, hp) {
+    console.log('damage')
+    player.hp -= parseInt(hp) || 5
+    if (player.hp < 0) {
+      this.killPlayer()
+    } else {
+      player.tint = 0xFF0000
+      this.add.tween(player).to({tint: 0xFFFFFF}, 250, Phaser.Easing.Cubic.Out, true)
+    }
+  }
   // https://www.codecaptain.io/blog/game-development/shooting-bullets-using-phaser-groups/518
   setupShoot(context) {
     this.bullets = context.game.add.group()
@@ -169,7 +179,7 @@ class Player extends DynamicGameObject {
     this.bullets.createMultiple(20, 'Debug Ball')
     this.bullets.callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', (bullet) => {bullet.kill()})
     this.bullets.setAll('checkWorldBounds', true)
-    this.bullets.setAll('body.gravity.y', -context.physics.arcade.gravity.y)
+    this.bullets.setAll('body.allowGravity', false)
   }
   shoot() {
     var bullet = this.bullets.getFirstExists(false)

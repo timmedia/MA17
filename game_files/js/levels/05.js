@@ -11,28 +11,50 @@ class Level05 extends GameState {
       'Level05 Midground',
       'Level05 Background'
     )
-    this.player = new Player(this, 50, 300, 'Player 01', 280, -600)
+
+    // Hinzufügen des Spieler-Objekts
+    this.player = new Player(this, 200, 300, 'Player 01', 280, -600)
+    // Kamera soll Spieler folgen, jedoch längsämer als üblich
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05)
+    // Fall Spieler das sichtbare in die untere Richtung (y>0) verlässt, soll neu gestartet werden
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
-      if (this.player.y > 0) this.damagePlayer()
+      if (this.player.y > 0) this.killPlayer()
     })
+
+    // Wasser, wird später nicht mehr benötigt
+    let water = this.add.sprite(0, 480, 'Level05 Water')
+    water.anchor.setTo(0, 1)
+    water.alpha = 0.7
+
+    this.char2 = this.add.sprite(1920, 385, 'Level05 Char2')
+    this.char2.animations.add('idle', [0, 1], 5, true)
+    this.char2.animations.play('idle')
+
+    // Nach 1.5s soll der Wind starten
     setTimeout(() => {this.startWind()}, 1500)
   }
   loop() {
-    if (this.player.x > 4785) {
+    // Beim Erreichen der letzten Platform ist das Level fertig
+    if (this.player.x > 4750) {
       this.goToNextLevel()
     }
   }
   startWind() {
+    // Wind wird gestartet
     this.player.wind = -100
+    // this.recur für später, damit die Schleife unterbrochen werden kann
     this.recur = null
+    // Zufallswind
     this.randomWind()
   }
   randomWind() {
-    let x = Math.random()                                                       // liefert Zahl zw. 0 & 1
+    // Zufallswind (liefert Zahl zwischen 0 und 1)
+    let x = Math.random()
     let y = Math.random()
-    this.player.body.velocity.x -= 100 * x                                      // Windstoss (Veränderung Geschwindigkeit)
-    this.recur = setTimeout(() => {this.randomWind()}, 1200 * y)                // Interval für nächsten Windstoss
+    // Windstoss, Geschwindigkeit des Spielers um einen Wert verändert
+    this.player.body.velocity.x -= 100 * x
+    // nächste Wiederholung (0 - 1.2s Pause)
+    this.recur = setTimeout(() => {this.randomWind()}, 1200 * y)
   }
 }

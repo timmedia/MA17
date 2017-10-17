@@ -24,6 +24,6 @@ class Level03 extends GameState {
     this.water.body.setSize(560, 100, 0, 50)
   }
   loop() {
-    this.physics.arcade.overlap(this.player, this.water, this.damagePlayer, null, this)
+    this.physics.arcade.overlap(this.player, this.water, this.player.damage, null, this)
   }
 }

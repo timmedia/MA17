@@ -5,7 +5,7 @@ class GameState extends Phaser.State {
     this.collidePlayerList = []
     this.collideLayerList = []
     this.damagePlayerList = []
-    this.loadMapData(map)
+    if (map) this.loadMapData(map)
     this.maxTime = maxTime
     this.nextLevel = nextLevel
     this.world.setBounds(0, 0, boundX, boundY)
@@ -26,9 +26,9 @@ class GameState extends Phaser.State {
     this.physics.arcade.collide(this.layer, this.collideLayerList)
     this.physics.arcade.collide(this.collideLayerList, this.collideLayerList)
     this.physics.arcade.collide(this.player, this.collidePlayerList)
-    this.physics.arcade.overlap(this.player, this.damagePlayerList, this.damagePlayer)
+    this.physics.arcade.overlap(this.player, this.damagePlayerList, this.player.damage, null, this)
   }
-  damagePlayer() {
+  killPlayer() {
     game.state.restart()
   }
   goToNextLevel() {
