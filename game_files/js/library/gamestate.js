@@ -1,11 +1,13 @@
 var globalDebug = globalDebug || false
 
+// Vorlage für jedes Level
 class GameState extends Phaser.State {
+  // Argumente
   setup(map, boundX, boundY, gravity, maxTime, nextLevel, fg, mg, bg) {
-    this.collidePlayerList = []
-    this.collideLayerList = []
-    this.damagePlayerList = []
-    if (map) this.loadMapData(map)
+    this.collidePlayerList = []    // Liste mit allen Objekten, welche mit Spieler kollidieren sollen
+    this.collideLayerList = []     // Liste mit Objekten, weche mit Tilemap kollidieren sollen
+    this.damagePlayerList = []     // Liste mit Objekten, welche Spieler schaden sollen
+    if (map) this.loadMapData(map) // Falls eine Karte (JSON) angegeben wurde, soll diese geladen werrden
     this.maxTime = maxTime
     this.nextLevel = nextLevel
     this.world.setBounds(0, 0, boundX, boundY)
@@ -15,11 +17,13 @@ class GameState extends Phaser.State {
   create() {
     this.build()
     this.setupParallax()
+    this.setupHearts()
     this.levelFade()
   }
   update() {
     this.checkCollisions()
     this.loop()
+    this.showPlayerHealth()
   }
   loop() {  }
   checkCollisions() {
@@ -87,5 +91,26 @@ class GameState extends Phaser.State {
     }
     if (this.parallax[1]) this.parallax[1].sendToBack()
     if (this.parallax[2]) this.parallax[2].sendToBack()
+  }
+  setupHearts() {
+    this.healthBar = this.add.group()
+    this.healthBar.create(0, 0, 'General Hearts')
+    this.healthBar.create(32, 0, 'General Hearts')
+    this.healthBar.create(64, 0, 'General Hearts')
+    this.healthBar.create(96, 0, 'General Hearts')
+    this.healthBar.create(128, 0, 'General Hearts')
+    this.healthBar.fixedToCamera = true
+    this.healthBar.cameraOffset.setTo(20, 20)
+    this.previousHealth = 9
+  }
+  showPlayerHealth() {
+    if (this.player.hp != this.previousHealth) {
+      var hp = this.player.hp + 1
+      this.healthBar.children[0].frame = (hp > 0)? (hp > 1)? 0 : 1 : 2
+      this.healthBar.children[1].frame = (hp > 2)? (hp > 3)? 0 : 1 : 2
+      this.healthBar.children[2].frame = (hp > 4)? (hp > 5)? 0 : 1 : 2
+      this.healthBar.children[3].frame = (hp > 6)? (hp > 7)? 0 : 1 : 2
+      this.healthBar.children[4].frame = (hp > 8)? (hp > 9)? 0 : 1 : 2
+    }
   }
 }

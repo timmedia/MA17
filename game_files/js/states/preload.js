@@ -44,6 +44,7 @@ class Preload extends Phaser.State {
     loadSpr('General Button', 'general/button.gif', 16, 16)
     loadSpr('General Door', 'general/door.gif', 75, 106)
     loadSpr('General Key', 'general/key.png', 24, 39)
+    loadSpr('General Hearts', 'general/hearts.gif', 27, 27)
 
     loadFont('Small White', 'small/white.gif', 'small/font.xml')
     loadFont('Small Black', 'small/black.gif', 'small/font.xml')
@@ -52,7 +53,7 @@ class Preload extends Phaser.State {
     loadImg('Tutorial Foreground', 'tutorial/foreground.png')
     loadImg('Tutorial Midground', 'tutorial/midground.gif')
     loadImg('Tutorial Michael', 'tutorial/michael.gif')
-    loadSpr('Tutorial Speechbubbles', 'tutorial/speechbubbles.png', 134, 82)
+    loadSpr('Tutorial Speechbubbles', 'tutorial/speechbubbles.png', 148, 72)
 
     loadImg('Level01 Background', '01/background.gif')
     loadImg('Level01 Foreground', '01/foreground.gif')
@@ -87,11 +88,15 @@ class Preload extends Phaser.State {
     loadImg('Level05 Background', '05/background.png')
     loadImg('Level05 Midground', '05/midground.png')
     loadImg('Level05 Water', '05/water.png')
-    loadSpr('Level05 Char1', '05/char1.gif', 29, 100)
-    loadSpr('Level05 Char2', '05/char2.gif', 40, 64)
+    loadSpr('Level05 Speechbubbles', '05/speechbubbles.png', 147, 57)
+    loadSpr('Level05 Char1', '05/char1.gif', 36, 64)
+    loadSpr('Level05 Char2', '05/char2.png', 36, 47)
+    loadSpr('Level05 Char3', '05/char3.png', 29, 100)
+    loadSpr('Level05 Char4', '05/char4.png', 42, 55)
 
     loadImg('Level06 Background', '06/background.png')
     loadImg('Level06 Midground', '06/midground.png')
+    loadImg('Level07 Door', '06/door.png')
 
     loadImg('Level07 Background', '07/background.png')
     loadImg('Level07 Buildings', '07/buildings.png')
@@ -131,7 +136,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level07');
+    this.state.start('Level05');
   }
 }
 

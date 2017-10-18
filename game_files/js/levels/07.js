@@ -65,12 +65,12 @@ class Level07 extends GameState {
 
     // kleine Wolek im Vordergrund als Gruppe
     this.smallclouds = this.add.group()
-    this.smallclouds.add(this.add.sprite(100, 490, 'Level07 Smallcloud1'))
-    this.smallclouds.add(this.add.sprite(800, 480, 'Level07 Smallcloud2'))
-    this.smallclouds.add(this.add.sprite(1600, 500, 'Level07 Smallcloud3'))
-    this.smallclouds.add(this.add.sprite(2450, 490, 'Level07 Smallcloud1'))
-    this.smallclouds.add(this.add.sprite(3250, 495, 'Level07 Smallcloud2'))
-    this.smallclouds.add(this.add.sprite(4000, 480, 'Level07 Smallcloud3'))
+    this.smallclouds.create(100, 490, 'Level07 Smallcloud1')
+    this.smallclouds.create(800, 480, 'Level07 Smallcloud2')
+    this.smallclouds.create(1600, 500, 'Level07 Smallcloud3')
+    this.smallclouds.create(2450, 490, 'Level07 Smallcloud1')
+    this.smallclouds.create(3250, 495, 'Level07 Smallcloud2')
+    this.smallclouds.create(4000, 480, 'Level07 Smallcloud3')
     this.smallclouds.setAll('anchor.y', 1)
   }
   loop() {
@@ -96,7 +96,10 @@ class Level07 extends GameState {
         // Spieler kann noch 100ms darauf stehen bleiben
         setTimeout(() => { platform.body.enable = false }, 100)
         // Nach der Animation wird Platform aus Gruppe gelöscht
-        platform.animations.currentAnim.onComplete.add(platform.kill)
+        platform.animations.currentAnim.onComplete.add(() => {
+          platform.alpha = 0
+          platform.kill()
+        })
       }
     )
   }

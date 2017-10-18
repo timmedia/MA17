@@ -3,7 +3,7 @@ var LevelFade
 var SetupParallax
 var UpdateParallax
 var this3
-var globalDebug = true
+var globalDebug = false
 
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) {
@@ -142,7 +142,7 @@ class Player extends DynamicGameObject {
             this.body.velocity.y = this.jumpSpeed
           })
         }
-      } else if (controls.right.isDown ||controls.left.isDown) {
+      } else if (controls.right.isDown || controls.left.isDown) {
         this.animations.play('walk')
       } else {
         if (delta_x === 0) {
@@ -163,7 +163,6 @@ class Player extends DynamicGameObject {
     }
   }
   damage(player, hp) {
-    console.log('damage')
     player.hp -= parseInt(hp) || 5
     if (player.hp < 0) {
       this.killPlayer()
@@ -264,6 +263,8 @@ class Door extends StaticGameObject {
 class Key extends StaticGameObject {
   constructor(context, x, y, key, angle, visible, callback) {
     super(context, x, y, key, angle)
+    this.animations.add('shining', [0, 1, 2, 3], 5, true)
+    this.animations.play('shining')
     this.visible = visible
     this.callback = callback
     this.update = () => {

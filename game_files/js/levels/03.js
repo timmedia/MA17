@@ -13,7 +13,12 @@ class Level03 extends GameState {
     this.player = new Player(this, 225, 1850, 'Player 01', 300, -600, true)
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
-      (this.player.y > 0) ? this.damagePlayer() : this.goToNextLevel()
+      if (this.player.y > 0) {
+        this.damagePlayer()
+      } else {
+        this.player.body.allowGravity = false // Spieler fällt nicht wieder nach unten
+        this.goToNextLevel()
+      }
     })
     this.water = new DynamicGameObject(this, 120, 2100, 'Level03 Waves')
     this.water.animations.add('flowing', [0, 1, 2, 3, 4], 5, true)
