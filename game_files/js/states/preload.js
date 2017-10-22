@@ -21,9 +21,12 @@ class Preload extends Phaser.State {
       this.load.bitmapFont(name, 'assets/font/' + pathImage, 'assets/font/' + pathData)
     }
 
-    var loadCutscene = (name, frames) => {
+    var loadSequence = (name, frames) => {
       for (let i = 1; i <= frames; i++) {
-        loadImg('Cutscene ' + name + ' ' + i.toString(), 'cutscenes/' + name + '/' + i.toString() + '.png')
+        loadImg(
+          'Sequence ' + name + ' ' + i.toString(),
+          'sequences/' + name.toLowerCase() + '/' + i.toString() + '.png'
+        )
       }
     }
 
@@ -53,7 +56,7 @@ class Preload extends Phaser.State {
     loadImg('Tutorial Foreground', 'tutorial/foreground.png')
     loadImg('Tutorial Midground', 'tutorial/midground.gif')
     loadImg('Tutorial Michael', 'tutorial/michael.gif')
-    loadSpr('Tutorial Speechbubbles', 'tutorial/speechbubbles.png', 148, 72)
+    loadSpr('Tutorial Speechbubbles', 'tutorial/speechbubbles.gif', 148, 72)
 
     loadImg('Level01 Background', '01/background.gif')
     loadImg('Level01 Foreground', '01/foreground.gif')
@@ -107,6 +110,15 @@ class Preload extends Phaser.State {
     loadImg('Level07 Smallcloud3', '07/smallcloud3.png')
     loadSpr('Level07 Platform', '07/platform.png', 38, 39)
 
+    loadImg('Level08 Background', '08/background.png')
+    loadImg('Level08 Midground', '08/midground.png')
+    loadImg('Level08 Foreground', '08/foreground.png')
+    loadSpr('Level08 Speechbubbles', '08/speechbubbles.png', 153, 57)
+    loadSpr('Level08 17', '08/17.gif', 54, 72)
+
+    loadImg('Cutscene02 Background', 'cutscenes/02/background.png')
+    loadImg('Cutscene02 Title', 'cutscenes/02/title.png')
+
     loadMap('Tutorial Map', 'tutorial.json')
     loadMap('Level01 Map', '01.json')
     loadMap('Level02 Map', '02.json')
@@ -114,6 +126,7 @@ class Preload extends Phaser.State {
     loadMap('Level04 Map', '04.json')
     loadMap('Level05 Map', '05.json')
     loadMap('Level06 Map', '06.json')
+    loadMap('Level08 Map', '08.json')
 
     loadImg('Debug tile10x10', 'debug/tile10x10.gif')
     loadImg('Debug empty10x10', 'debug/empty10x10.gif')
@@ -121,7 +134,7 @@ class Preload extends Phaser.State {
     loadImg('Debug Ball', 'debug/ball.gif')
     loadImg('Debug Arrow', 'debug/arrow.gif')
 
-    // loadCutscene('urielle', 9)
+    loadSequence('Urielle', 9)
 
     controls = {
       right:  this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -136,7 +149,7 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level05');
+    this.state.start('Level09');
   }
 }
 
