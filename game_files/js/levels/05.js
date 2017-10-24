@@ -74,7 +74,7 @@ class Level05 extends GameState {
     setTimeout(() => {this.startWind()}, 250)
 
     // Hinzufügen des Spieler-Objekts
-    this.player = new Player(this, 200, 300, 'Player 01', 280, -600)
+    this.player = new Player(this, 200, 255, 'Player 01', 280, -600)
     // Kamera soll Spieler folgen, jedoch längsämer als üblich
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05)
     // Fall Spieler das sichtbare in die untere Richtung (y>0) verlässt, soll neu gestartet werden

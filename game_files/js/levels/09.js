@@ -18,7 +18,7 @@ class Level09 extends GameState {
     this.player.body.collideWorldBounds = true
 
     // Gegner, soll auch mit Weltrand kollidieren
-    this.enemy = new DynamicGameObject(this, 2720, 450, 'Level08 17')
+    this.enemy = new DynamicGameObject(this, 2720, 445, 'Level08 17')
     this.enemy.checkWorldBounds = true
     this.enemy.body.collideWorldBounds = true
 
@@ -49,7 +49,7 @@ class Level09 extends GameState {
     this.enemy.hp = 20      // Anzahl (halbe) Herzen
 
     // health-Anzeige des Gegners
-    this.enemy.addChild(this.add.sprite(0, -80, 'General Healthbar'))
+    this.enemy.addChild(this.add.sprite(5, -80, 'General Healthbar'))
 
     // Feuerkugeln des Gegeners, gleiche Funktionsweise wie beim Spieler
     this.enemy.bullets = this.game.add.group()
@@ -89,11 +89,32 @@ class Level09 extends GameState {
     // Funktion um Gegner zu schaden
     this.enemy.damage = () => {
       this.enemy.hp -= 1             // ein halbes Herz wird abgezogen
+      if (this.enemy.hp < 0) {
+        this.enemy.death()
+        return
+      }
       this.enemy.delay -= 45         // Verzögerung wird reduziert
       this.enemy.tint = 0xFF0000     // rote Tönung
+      this.enemy.children[0].width = 40 / 20 * this.enemy.hp + 1
       this.add.tween(this.enemy).to( // Tönung geht während 250ms wieder weg
         {tint: 0xFFFFFF}, 250, Phaser.Easing.Cubic.Out, true
       )
+    }
+
+    this.enemy.death = () => {
+      this.enemy.children[0].width = 0
+      this.player.body.moves = false
+      this.add.tween(this.enemy).to(
+        {tint: 0x000000}, 5000, Phaser.Easing.Cubic.Out, true
+      )
+      setTimeout(() => {
+        this.camera.shake()
+        this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+        this.world.setBounds(0, 0, 5000, 480)
+        this.player.body.moves = true
+        this.player.body.velocity.y = -50
+        this.enemy.kill()
+      }, 5000)
     }
 
     // Gegner soll auch (verzögert) schiessen
