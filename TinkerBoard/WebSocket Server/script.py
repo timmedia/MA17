@@ -11,10 +11,10 @@ from random import randint
 mode = 'loading'
 previousMode = mode
 
-# Server erstellen, Port als Argument
+# Server erstellen, Port als Argument (lokal erreichbar über ws://localhost:9001)
 server = WebsocketServer(9001)
 
-# Spiel verbindet mit Server
+# Spiel verbindet mit Server, Funktion an Modul übergeben
 def newConnection(client, server):
     print('Connection %d established' % client['id'])
 server.set_fn_new_client(newConnection)
@@ -32,14 +32,17 @@ server.set_fn_message_received(readMessage)
 
 # Modus setzen
 def setMode(newMode):
-    # Behebung von Fehler wo Variablen innerhalb der Server-Funktionen
-    # nicht erkannt wurden (https://stackoverflow.com/q/10851906)
+    # 'global': Behebung von Fehler wo Variablen innerhalb der Server-Funktionen
+    # nicht erkannt wurden (Lösung von: https://stackoverflow.com/q/10851906)
     global mode, previousMode
+    # vorherigen Modus speichern
     previousMode = mode
     mode = newMode.lower().strip()
 
 # Farbe einer LED setzen
 def setColour(led, r, g, b):
+    # Intensität ist 100-x da die LEDs eine gemeinsame Anode haben und dementprechend
+    # der Pin 0V haben muss damit die LED zu 100% leuchtet
     led[0].ChangeDutyCycle(100 - r)
     led[1].ChangeDutyCycle(100 - g)
     led[2].ChangeDutyCycle(100 - b)
@@ -47,9 +50,9 @@ def setColour(led, r, g, b):
 # alle Farben aller LEDs setzen
 def setColoursAllLeds(r, g, b):
     for led in leds:
-        led[0].ChangeDutyCycle(100 - r)
-        led[1].ChangeDutyCycle(100 - g)
-        led[2].ChangeDutyCycle(100 - b)
+        led[0].ChangeDutyCycle(100 - r) # rot
+        led[1].ChangeDutyCycle(100 - g) # grün
+        led[2].ChangeDutyCycle(100 - b) # blau
 
 # einzelne Farbe aller LEDs setzen
 def setColourAllLeds(colourIndex, intensity):
@@ -65,7 +68,7 @@ def setColourRipple(colourIndex, phase, intensity):
 # Pin Nummerierung setzen
 GPIO.setmode(GPIO.BOARD)
 
-# Fehler nicht anzeigen
+# Fehler in Konsole nicht anzeigen
 GPIO.setwarnings(False)
 
 # jede Zeile ist eine LED, mit jeweils Pinnummern von Rot, Grün und Blau
@@ -104,22 +107,27 @@ while not stopped:
     # Phase (für Trig. Funktionen) nach Zeit, nicht abhängig von Durchlaufszeit einer Iteration
     phase = 20 * clock()
     if mode == 'loading':
+        # Warten auf Spiel: Welleneffekt mit rot und blau
         setColourRipple(0, phase, 100)
         setColourAllLeds(1, 0)
         setColourRipple(2, phase + 1, 100)
         delay = 0.05
     elif mode == 'menu':
+        # Menu wird angezeigt, Welleneffekt mit allen Farben, grün zu max. 50% Helligkeit
         setColourRipple(0, phase, 100)
         setColourRipple(1, phase + 0.2, 50)
         setColourRipple(2, phase + 1, 100)
         delay = 0.05
     elif mode == 'off':
+        # Alle LEDs ausgeschaltet, Delay erhöht da kein Welleneffekt
         setColoursAllLeds(0, 0, 0)
         delay = 0.5
     elif mode == 'white':
+        # Alle LEDs angeschaltet, Delay erhöht da kein Welleneffekt
         setColoursAllLeds(100, 100, 100)
         delay = 0.5
     elif mode == 'green':
+        # Ha
         setColourAllLeds(1, 100)
         setColourRipple(0, phase, 50)
         setColour(2, phase, 50)
