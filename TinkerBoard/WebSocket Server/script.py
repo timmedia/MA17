@@ -119,59 +119,70 @@ while not stopped:
         setColourRipple(2, phase + 1, 100)
         delay = 0.05
     elif mode == 'off':
-        # Alle LEDs ausgeschaltet, Delay erhöht da kein Welleneffekt
+        # Alle LEDs ausgeschaltet, Delay wird erhöht da kein Welleneffekt
         setColoursAllLeds(0, 0, 0)
         delay = 0.5
     elif mode == 'white':
-        # Alle LEDs angeschaltet, Delay erhöht da kein Welleneffekt
+        # Alle LEDs angeschaltet, Delay wird erhöht da kein Welleneffekt
         setColoursAllLeds(100, 100, 100)
         delay = 0.5
     elif mode == 'green':
-        # Ha
-        setColourAllLeds(1, 100)
+        # Grüner Farbakzent: rot Welleneffekt, 50% Helligkeit; grün 100%, blau 'Sins'-Kurve
         setColourRipple(0, phase, 50)
+        setColourAllLeds(1, 100)
         setColour(2, phase, 50)
         delay = 0.05
     elif mode == 'red_white':
+        # Rot-Weisser Farbakzent: rot immer 100%, blau & grün gleichzeitiger Welleneffekt
         setColourAllLeds(0, 100)
         setColourRipple(1, phase, 100)
         setColourRipple(2, phase, 100)
         delay = 0.05
     elif mode == 'blue_white':
+        # Blau-Weisser Farbakzent: Blau immer 100%, rot & grün gleichzeitiger Welleneffekt
         setColourAllLeds(2, 100)
         setColourRipple(0, phase, 100)
         setColourRipple(1, phase, 100)
         delay = 0.05
     elif mode == 'yellow_white':
+        # Gelb-Weisser Farbakzent: rot & grün immer 100%, blau Welleneffekt
         setColourAllLeds(0, 100)
         setColourAllLeds(1, 100)
         setColourRipple(2, phase, 100)
         delay = 0.05
     elif mode == 'pink':
+        # Pinker Farbakzent: grün 0%, rot 100%, blau Welleneffekt
         setColourAllLeds(0, 100)
         setColourAllLeds(1, 0)
         setColourRipple(2, phase, 100)
         delay = 0.05
     elif mode == 'purple':
+        # Lila Farbakzent: grün 0%, blau 100%; rot Welleneffekt
         setColourAllLeds(2, 100)
         setColourAllLeds(1, 0)
         setColourRipple(0, phase, 100)
         delay = 0.05
     elif mode == 'red_blue':
+        # Rot-Blau abwechselnd: grün 0%, rot & blau abwechselnder Welleneffekt
         setColourAllLeds(1, 0)
         setColourRipple(0, phase, 100)
         setColourRipple(2, phase + 0.8, 100)
         delay = 0.05
     elif mode == 'damage':
+        # Spieler nimmt schaden, kurz 100% rot, langsam zu 0%, dann vorheriger Modus weiter
         for k in range(10):
             setColoursAllLeds(100 - k * 10, 0, 0)
             sleep(0.05)
             mode = previousMode
     else:
+        # (theoretisch nicht nötig) Mode nicht erkannt, vorheriger wird verwendet
         mode = previousMode
 
+    # Vorheriger Modus wird mit aktuellem ersetzt
     previousMode = mode
+    # Timout, Stabilität
     sleep(delay)
 
+# Reset aller Pins, GPIO-Teil beendet
 GPIO.cleanup()
 
