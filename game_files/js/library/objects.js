@@ -10,6 +10,7 @@ links anstatt oben links ist und dass es dem Level direkt hinzugefügt wird.
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) { // eigene Argumente
     super(context.game, x, y, key, angle, frame)  // Übernahme vom parent-Objekt
+    this.angle = angle                            // Winkel setzen
     this.anchor.setTo(0, 1)                       // Ankerpunk unten links
     context.game.add.existing(this)               // Hinzufügen in das Level
   }
@@ -63,23 +64,31 @@ class Player extends DynamicGameObject {
     bounce        // (nicht verwendet) Aufprall
   ) {
     super(context, x, y, key, null, null, bounce)   // Parent-Objekt
+
     // Animationen: (name, Array frames ab spritesheet, Bilder/s., Wiederholen?)
     this.animations.add('idle', [10, 11, 12, 13], 5, true)
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true)
-    this.animations.add('jump_start', [14], 7, false) // Beginn Sprung
-    this.animations.add('jump_up', [15], 10, true)    // Bewegung nach oben
-    this.animations.add('jump_top', [16], 5, false)   // oben angekommen
-    this.animations.add('jump_down', [17], 10, true)  // Fall nach unten
-    this.animations.add('jump_end', [18], 5, false)   // unten Angekommen
+    this.animations.add('jump_start', [14], 7, false)     // Beginn Sprung
+    this.animations.add('jump_up', [15], 10, true)        // Bewegung nach oben
+    this.animations.add('jump_top', [16], 5, false)       // oben angekommen
+    this.animations.add('jump_down', [17], 10, true)      // Fall nach unten
+    this.animations.add('jump_end', [18], 5, false)       // unten Angekommen
+    this.animations.add('shoot', [19, 20, 21, 10], 8, false) // Schiessen
+
     // Festpunkt mittig (damit Spieglung bei Richtungswechsel klappt)
     this.anchor.setTo(0.5, 0.5)
     this.body.setSize(25, 72, 17, 0)  // Hitbox (Kollisionsgrösse) verkleinert
+
     this.jumpSpeed = jumpSpeed || 0   // Sprungkraft, bei keiner Angabe: = 0
     this.walkSpeed = walkSpeed || 50  // Laufgeschwindigkeit, keine Angabe: = 50
+
     this.hp = 9                       // Health points (Anz. Herzen, 0-9)
+
     this.killPlayer = context.killPlayer // Funktion vom Level lokal übernommen
     // Phys. max. Geschwindigkeit (Phaser), zu hohe Geschwindigkeiten vermeiden
+
     this.body.maxVelocity.x = this.walkSpeed * 2
+
     context.collideLayerList.push(this) // Spieler soll mit Welt kollidieren
 
     if (cameraFollow) {
@@ -89,7 +98,7 @@ class Player extends DynamicGameObject {
 
     if (killOnExit) {
       // Spieler soll beim Verlassen der Karte (unten) sterben
-      this.checkWorldBounds = true      // Kollision mit Weltrand wird überprüft
+      this.checkWorldBounds = true // Kollision mit Weltrand wird überprüft
       this.events.onOutOfBounds.add(() => {
         // Spieler ist nun ausserhalb der Karte
         if (this.y > 0) context.killPlayer() // Spieler ist unterhalb der Karte
@@ -238,20 +247,21 @@ class Player extends DynamicGameObject {
   }
   // Funktion um Spiler eine gewisse Amzahl Herzen zu schaden
   damage(player, hp) {
-    player.hp -= parseInt(hp) || 5 // HP reduziert: keine Angabe: 2.5 Herzen
+    player.hp -= hp || 5 // HP reduziert: keine Angabe: 2.5 Herzen
     player.tint = 0xFF0000         // rote Tönung
     this.add.tween(player).to(     // Tönung geht während 250ms wieder weg
       {tint: 0xFFFFFF}, 250, Phaser.Easing.Cubic.Out, true
     )
+    this.camera.shake(0.01, 200, null, Phaser.Camera.SHAKE_HORIZONTAL, false)
   }
   // Schiess-Fuktion, Idee von https://www.codecaptain.io/blog/game-development/
   // shooting-bullets-using-phaser-groups/518
   setupShoot(context) {
     // Es werden 20 Schussobjekte generiert, somit müssen während dem Spielen
     // keine Grafiken mehr hinzugefügt werden
-    this.bullets = context.game.add.group()       // Phaser-Objektgruppe
-    this.bullets.enableBody = true                // Physik soll aktiviert sein
-    this.bullets.createMultiple(20, 'Debug Ball') // Grafik der Schüsse
+    this.bullets = context.game.add.group() // Phaser-Objektgruppe
+    this.bullets.enableBody = true          // Physik soll aktiviert sein
+    this.bullets.createMultiple(20, 'General Fireball') // Grafik der Schüsse
     // Es soll überprüft werden, ob sie den sichtbaren Bereich verlassen
     this.bullets.setAll('checkWorldBounds', true)
     // Alle Schussobjekte sollen beim Verlassen des sichtbaren Bereichts deakti-
@@ -267,13 +277,18 @@ class Player extends DynamicGameObject {
   shoot() {
     // Kugel aus Objektgruppe
     var bullet = this.bullets.getFirstExists(false)
-    if (bullet) {
+    // Animation, hiernach soll Kugel (200ms verzögert) erscheinen
+    this.animations.play('shoot')
+    setTimeout(() => {
       // Falls Kugel vorhaden (sind 20 schon auf dem Feld gibt es keine mehr)
-      bullet.reset(this.position.x, this.position.y) // Position ab Spieler
-      // Geschwindigkeit ist die des Spielers + 500 in Laufrichtung
-      // this.scale.x sagt aus, in welche Richtung der Spieler sich bewegt
-      bullet.body.velocity.x = this.body.velocity.x + this.scale.x * 500
-    }
+      if (bullet) {
+        // Position von Kugel leicht von Spielerkoordinaten versetzt
+        bullet.reset(this.position.x + 10, this.position.y - 20)
+        // Geschwindigkeit ist die des Spielers + 500 in Laufrichtung
+        // this.scale.x sagt aus, in welche Richtung der Spieler sich bewegt
+        bullet.body.velocity.x = this.body.velocity.x + this.scale.x * 500
+      }
+    }, 200)
   }
 }
 

@@ -44,6 +44,8 @@ class Preload extends Phaser.State {
 
     loadImg('Blackscreen', 'general/black.gif')
     loadImg('General Box', 'general/box.gif')
+    loadImg('General Fireball', 'general/fireball.gif')
+    loadImg('General Healthbar', 'general/healthbar.gif')
     loadSpr('General Button', 'general/button.gif', 16, 16)
     loadSpr('General Door', 'general/door.gif', 75, 106)
     loadSpr('General Key', 'general/key.png', 24, 39)
@@ -127,6 +129,7 @@ class Preload extends Phaser.State {
     loadMap('Level05 Map', '05.json')
     loadMap('Level06 Map', '06.json')
     loadMap('Level08 Map', '08.json')
+    loadMap('Level09 Map', '09.json')
 
     loadImg('Debug tile10x10', 'debug/tile10x10.gif')
     loadImg('Debug empty10x10', 'debug/empty10x10.gif')
