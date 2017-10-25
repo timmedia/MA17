@@ -60,6 +60,7 @@
       button.className = 'mdl-button mdl-js-button mdl-js-ripple-effect game-button'
       button.innerHTML = button.name
       button.addEventListener('click', () => {
+        iframe.focus()
         iframe.contentWindow.game.state.start(button.name)
       })
       container.appendChild(button)

@@ -6,7 +6,7 @@ body {
   background: #dc700e !important;
 }
 
-.main-content-premise > h1 {
+.main-content > h1 {
   color: white;
   text-align: center;
   padding-top: 15%;
@@ -18,7 +18,7 @@ body {
   text-shadow: 5px 5px 0px hsl(0, 0%, 13%);
 }
 
-.main-content-premise > p {
+.main-content > p {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: white;
@@ -41,12 +41,12 @@ body {
   }
 }
 
-.main-content-premise-text {
+.main-content-text {
   max-width: 40em;
   padding: 10px;
   background-color: rgba(33, 33, 33, 0.9);
   border: 5px solid rgba(33, 33, 33, 0.95);
-  border-radius: 5px;
+  border-radius: 0px;
 }
 
 .mdl-tabs__tab-bar {
@@ -71,7 +71,12 @@ body {
 }
 
 .mdl-mini-footer {
-  background-color: #3b3a38;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: rgba(33, 33, 33, 0.9);
+  border: 5px solid rgba(33, 33, 33, 0.95);
+  border-radius: 0px;
+  border-bottom-width: 0px;
 }
 
 /* Zelle zentrieren (https://stackoverflow.com/q/31463632) */

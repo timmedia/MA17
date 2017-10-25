@@ -10,7 +10,7 @@ class Level04 extends GameState {
       'Debug empty10x10',
       'Level04 Background'
     )
-    this.player = new Player(this, 100, 1750, 'Player 01', 250, -600, false, true)
+    this.player = new Player(this, 100, 1745, 'Player 01', 250, -600, false, true)
     this.player.topReached = false
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0, 0.1)
     this.player.mu = 1.5

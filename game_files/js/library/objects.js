@@ -10,7 +10,6 @@ links anstatt oben links ist und dass es dem Level direkt hinzugefügt wird.
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) { // eigene Argumente
     super(context.game, x, y, key, angle, frame)  // Übernahme vom parent-Objekt
-    this.angle = angle                            // Winkel setzen
     this.anchor.setTo(0, 1)                       // Ankerpunk unten links
     context.game.add.existing(this)               // Hinzufügen in das Level
   }

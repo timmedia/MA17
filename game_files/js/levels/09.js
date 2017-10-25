@@ -104,6 +104,7 @@ class Level09 extends GameState {
     this.enemy.death = () => {
       this.enemy.children[0].width = 0
       this.player.body.moves = false
+      this.enemy.body.moves = false
       this.add.tween(this.enemy).to(
         {tint: 0x000000}, 5000, Phaser.Easing.Cubic.Out, true
       )

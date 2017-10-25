@@ -118,6 +118,8 @@ class Preload extends Phaser.State {
     loadSpr('Level08 Speechbubbles', '08/speechbubbles.png', 153, 57)
     loadSpr('Level08 17', '08/17.gif', 54, 72)
 
+    loadImg('Cutscene01 Title', 'cutscenes/01/title.png')
+
     loadImg('Cutscene02 Background', 'cutscenes/02/background.png')
     loadImg('Cutscene02 Title', 'cutscenes/02/title.png')
 
