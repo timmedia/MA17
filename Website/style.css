@@ -1,5 +1,6 @@
 body {
   background-color: #121a2d;
+  min-height: 100vh;
 }
 
 .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active::after {
@@ -27,12 +28,12 @@ body {
 }
 
 @media screen and (max-width: 40em) {
-  .main-content-premise > h1 {
+  .main-content > h1 {
     font-size: 3rem;
   }
-  .main-content-premise > p {
-    font-size: 1.2rem;
-    line-height: 1.4rem;
+  .main-content > p {
+    font-size: 1.3rem;
+    line-height: 1.7rem;
   }
   @media screen and (max-width: 30em) {
     .tab-docs:before {
@@ -141,7 +142,9 @@ body {
 }
 
 .footer-box {
+  margin-top: 50px;
   margin-bottom: -10px;
+  vertical-align: bottom;
 }
 
 .material-icons.md-18 { font-size: 18px; }
