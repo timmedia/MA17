@@ -35,7 +35,7 @@ class Tutorial extends GameState {
     this.key = new Key(this, 585, 210, 'General Key', 0, false, this.collectKey)
   }
 
-  Spiel-Schleife
+  // Spiel-Schleife
   loop() {
     // Spieler-Aktionen überprüfen
     this.michaelCheck()
