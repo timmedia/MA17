@@ -1,6 +1,5 @@
 var globalDebug = false
 
-
 /*
 Das 'BasicGameObject'-Objekt erbt alle Eigenschaften eines Phase-Sprite-Objekts
 (Phaser.Sprite, parent Objekt) und ist die Vorlage (fast) aller Grafiken. Es
@@ -184,7 +183,8 @@ class Player extends DynamicGameObject {
           if (this.wind / this.body.velocity.x < 0) {
             // Wind ist in entgegengesetzte Richtung von Spieler
             // Beschleunigung wird reduziert, Windbeschleunigung jedoch addiert
-            this.body.acceleration.x = -this.mu * this.body.velocity.x + this.wind
+            this.body.acceleration.x =
+              - this.mu * this.body.velocity.x + this.wind
           } else { // Wind in gleiche Richtung als Bewegung von Spieler
             this.body.acceleration.x = this.wind // Beschleunigung = Windstärke
           }

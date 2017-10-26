@@ -17,6 +17,7 @@ class GameState extends Phaser.State {
     // Grafiken für Parallaxing als Array
     this.parallaxImg = [fg || null, mg  || null, bg || null]
   }
+  
   // Funktion, wird von Phaser beim Start des Levels aufgerufen
   create() {
     this.build()         // pseudo-create() innerhalb Level-Code
@@ -24,14 +25,17 @@ class GameState extends Phaser.State {
     this.setupHearts()   // HP-System (Herzanzeige)
     this.levelFade()     // Übergang
   }
+
   // Loop, wird für jeden Physik-Durchgang aufgerufen
   update() {
     this.checkCollisions()  // Kollisionen ab Listen überprüfen
     this.loop()             // loop(): Im Code des Levels bestimmt
     this.showPlayerHealth() // Herzanzeige aktualisieren
   }
-  // Leere Loop-Funktion, falls dass das Level keine hat (Fehler vermeiden)
+
+  // Leere Loop-Funktion, falls das Level keine hat (Fehler vermeiden)
   loop() {  }
+
   // Kollisionen ab Listen überprüfen
   checkCollisions() {
     this.physics.arcade.collide(this.layer, this.collideLayerList)
@@ -42,10 +46,12 @@ class GameState extends Phaser.State {
       this.player, this.damagePlayerList, this.player.damage, null, this
     )
   }
+
   // Level neu starten
   killPlayer() {
     game.state.restart()
   }
+
   // Zum nächsten Level gehen
   goToNextLevel() {
     this.camera.fade() // Bildschirm wird schwarz
@@ -53,6 +59,7 @@ class GameState extends Phaser.State {
       game.state.start(this.nextLevel) // nach 0.5s nächstes Level
     })
   }
+
   // Übergang: Fade von schwarz zu Level
   levelFade() {
     var fade = this.add.sprite(0, 0, 'Blackscreen') // schwarz ab Grafik
@@ -62,6 +69,7 @@ class GameState extends Phaser.State {
     )
     this.time.events.add(1000, fade.kill, this) // wird nach 1s wieder gelöscht
   }
+
   // Daten ab JSON Karte laden
   loadMapData(map) {
     var map = this.add.tilemap(map) // Tilemap hinzufügen
@@ -73,7 +81,7 @@ class GameState extends Phaser.State {
     // Türe und Kisten (falls vorhanden)
     var doorLayer = map.objects['Object Layer Door']
     var boxesLayer = map.objects['Object Layer Boxes']
-    // Überall wo in der JSON-Datei eine Box plaziert wurde, soll ein Box-Objekt hin
+    // Überall wo in der JSON eine Box plaziert ist, soll ein Box-Objekt hin
     // Lösung von: https://gist.github.com/jdfight/9646833f9bbdcb1104db
     if (doorLayer) { // Falls eine Tür-Ebene vorhanden ist
       doorLayer.forEach(door => { // Türe setzen
@@ -102,6 +110,7 @@ class GameState extends Phaser.State {
       this.collidePlayerList.push(this.boxes) // Kisten kollidieren mit Spieler
     }
   }
+
   // Parallaxing aufsetzen
   setupParallax() {
     // Array mit allen Grafiken
@@ -125,6 +134,7 @@ class GameState extends Phaser.State {
     if (this.parallax[1]) this.parallax[1].sendToBack()
     if (this.parallax[2]) this.parallax[2].sendToBack()
   }
+
   // Herzanzeige
   setupHearts() {
     this.healthBar = this.add.group()               // Alle Herzen als Gruppe
@@ -137,6 +147,7 @@ class GameState extends Phaser.State {
     this.healthBar.cameraOffset.setTo(20, 20) // Abstand: 20 von links, 20 oben
     this.previousHealth = 9 // Spieler startet mit 9 Herzen
   }
+
   // Herzanzeige aktualisieren
   showPlayerHealth() {
     if (this.player.hp != this.previousHealth) { // Gibt es Änderungen?
