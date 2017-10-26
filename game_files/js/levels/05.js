@@ -1,15 +1,14 @@
-var self
+/* Klasse Level 05 */
 class Level05 extends GameState {
   build() {
     this.setup(
-      'Level05 Map',
-      4800, 480,
-      1300,
-      50,
-      'Level06',
-      'Debug empty10x10',
-      'Level05 Midground',
-      'Level05 Background'
+      'Level05 Map',       // Karte
+      4800, 480,           // Kartengrösse (x, y)
+      1300,                // Gravitation
+      'Level06',           // nächstes Level
+      'Debug empty10x10',  // Leere Grafik vorne, 3 Ebenen nötig für Parallaxing
+      'Level05 Midground', // Mittelgrund-Bild
+      'Level05 Background' // Hintergrund-Bild
     )
 
     // Wasser, wird später nicht mehr angesprochen (let anstatt this.)
@@ -77,7 +76,8 @@ class Level05 extends GameState {
     this.player = new Player(this, 200, 255, 'Player 01', 280, -600)
     // Kamera soll Spieler folgen, jedoch längsämer als üblich
     this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05)
-    // Fall Spieler das sichtbare in die untere Richtung (y>0) verlässt, soll neu gestartet werden
+    // Fall Spieler das sichtbare in die untere Richtung (y>0) verlässt, soll
+    // neu gestartet werden
     this.player.checkWorldBounds = true
     this.player.events.onOutOfBounds.add(() => {
       if (this.player.position.y < 480 || this.player.position.x > 4800) {
@@ -87,6 +87,8 @@ class Level05 extends GameState {
       }
     })
   }
+
+  // Update-Schleife
   loop() {
     // Überprüfung ob Spieler mit eines der Charaktere kollidiert
     this.physics.arcade.overlap(
@@ -98,21 +100,25 @@ class Level05 extends GameState {
       this
     )
   }
+
+  // Funktion um Wind zu starten
   startWind() {
     // Wind wird gestartet
     this.player.wind = -100
-    // this.recur für später, damit die Schleife unterbrochen werden kann
-    this.recur = null
     // Zufallswind
     this.randomWind()
   }
+
+  // Geschwindigkeit des Spielers nach Zufall ändern
   randomWind() {
     // Zufallswind (liefert Zahl zwischen 0 und 1)
     let x = Math.random()
     let y = Math.random()
     // Windstoss, Geschwindigkeit des Spielers um einen Wert verändert
     this.player.body.velocity.x -= 100 * x
-    // nächste Wiederholung (0 - 1.2s Pause)
-    this.recur = setTimeout(() => {this.randomWind()}, 1200 * y)
+    // nächste Wiederholung (0 - 1.2s Pause), hört auf wenn Level endet
+    this.time.events.add(1200 * y, () => {
+      this.randomWind()
+    })
   }
 }

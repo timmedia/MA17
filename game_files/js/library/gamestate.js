@@ -5,13 +5,12 @@ var globalDebug = globalDebug || false
 der ganze boilerplate Code nur einmal geschrieben werden muss
 */
 class GameState extends Phaser.State {
-  setup(map, boundX, boundY, gravity, maxTime, nextLevel, fg, mg, bg) { // Argumente
+  setup(map, boundX, boundY, gravity, nextLevel, fg, mg, bg) { // Argumente
     this.collidePlayerList = [] // alle Objekte, welche mit Spieler kollidieren
     this.collideLayerList = []  // alle Objekte, weche mit Tilemap kollidieren
     this.damagePlayerList = []  // alle Objekte, welche Spieler schaden sollen
     // Falls eine Karte (JSON) angegeben wurde, soll diese geladen werden
     if (map) this.loadMapData(map)
-    this.maxTime = maxTime
     this.nextLevel = nextLevel                 // das nächste Level
     this.world.setBounds(0, 0, boundX, boundY) // Grösse der Karte
     this.physics.arcade.gravity.y = gravity    // Schwerkraft
@@ -49,8 +48,9 @@ class GameState extends Phaser.State {
   }
   // Zum nächsten Level gehen
   goToNextLevel() {
-    this.time.events.add(500,() => { // 0.5s warten
-      game.state.start(this.nextLevel)
+    this.camera.fade() // Bildschirm wird schwarz
+    this.time.events.add(500,() => {
+      game.state.start(this.nextLevel) // nach 0.5s nächstes Level
     })
   }
   // Übergang: Fade von schwarz zu Level

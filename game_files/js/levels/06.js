@@ -1,14 +1,14 @@
+/* Klasse Level 05 */
 class Level06 extends GameState {
   build() {
     this.setup(
-      'Level06 Map',
-      6420, 480,
-      1300,
-      50,
-      'Level07',
-      'Debug empty10x10',
-      'Level06 Midground',
-      'Level06 Background'
+      'Level06 Map',       // Karte
+      6420, 480,           // Kartengrösse
+      1300,                // Gravitation
+      'Level07',           // nächstes Level
+      'Debug empty10x10',  // Vordergrund-Bild
+      'Level06 Midground', // Mittelgrund-Bild
+      'Level06 Background' // Hintergrund-Bild
     )
 
     // Grafik für geöffnete (!) Tür am Ende des Levels
@@ -19,9 +19,10 @@ class Level06 extends GameState {
       // Soll nur erscheinen falls nicht scho erschienen
       if (this.door.alpha === 0) {
         // Übergang von durchsichtig zu sichtbar während 1s
-        this.add.tween(this.door).to({alpha: 1}, 1000, Phaser.Easing.Cubic.Out, true)
+        this.add.tween(this.door)
+          .to({alpha: 1}, 1000, Phaser.Easing.Cubic.Out, true)
       } else if (this.door.alpha === 1) {
-        // Türe wurde schon geöffnet, nächstes Level darf gestartet werden (siehe loop())
+        // Türe wurde schon geöffnet, nächstes Level darf gestartet werden
         return true
       }
       // Türe noch nicht offen
@@ -29,9 +30,12 @@ class Level06 extends GameState {
     }
 
     // Spielcharakter
-    this.player = new Player(this, 525, 350, 'Player 01', 300, -650, true, false, true)
+    this.player = new Player(
+      this, 525, 350, 'Player 01', 300, -650, true, false, true
+    )
 
-    // Stacheldrähte in Gruppe, nur Hitbox für Kollision, Grafik ist schon im Mittelgrund vorhanden
+    // Stacheldrähte in Gruppe, nur Hitbox für Kollision, Grafik ist schon im
+    // Mittelgrund vorhanden
     this.wire = this.game.add.group()
     let wire1 = new StaticGameObject(this, 1070, 400)
     wire1.body.setSize(270, 70, 0, 0) // Grösse der Hitbox
@@ -45,14 +49,26 @@ class Level06 extends GameState {
 
     // Gegner, in Gruppe
     this.enemies = this.game.add.group()
-    // Koordinaten der Gegener, an jeder Koordinate soll ein Gegner erstellt werden
-    let coords = [[2155, 150], [2420, 300], [2585, 200], [2780, 260], [3540, 160], [5125, 230], [5960, 440]]
+    // Koordinaten der Gegener, an jeder Koordinate wird ein Gegner erstellt
+    let coords = [
+      [2155, 150],
+      [2420, 300],
+      [2585, 200],
+      [2780, 260],
+      [3540, 160],
+      [5125, 230],
+      [5960, 440]
+    ]
+
+    // Gegner an allen Koordinaten erstellen
     for (let i in coords) {
       this.enemies.add(new Enemy(this, coords[i][0], coords[i][1], 'Debug Enemy'))
     }
     // Gegener wird aktiviert (siehe 'class Enemy' unten)
     this.enemies.forEach((child) => { child.start() })
   }
+
+  // Update-Schleife
   loop() {
     // Überprüfen ob Schüsses des Spielers einen Gegner treffen
     this.physics.arcade.overlap(
@@ -68,7 +84,9 @@ class Level06 extends GameState {
         enemy.alive = false // Gegner deaktiviert (kann nicht mehr schiessen)
         // Gegner schwarz und transparent (während 800ms), wird danach gelöscht
         this.add.tween(enemy).to({tint: 0, alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
-        setTimeout(() => {enemy.kill()}, 800)
+        this.time.events.add(800, () => {
+          enemy.kill()
+        })
       }
     )
     // Falls Spieler die Türe berührt erscheint die Grafik der geöffneten Türe

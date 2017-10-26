@@ -1,17 +1,17 @@
+/* Klasse Level 09 */
 class Level09 extends GameState {
   build() {
     // Initialisierung der Ebene
     this.setup(
-      'Level09 Map',
-      null,
-      480,
-      1300,
-      50,
-      'Menu',
-      'Level08 Foreground',
-      'Level08 Midground',
-      'Level08 Background'
+      'Level09 Map',        // Karte
+      null, 480,            // Weltgrösse (x) wird später bestimmt
+      1300,                 // Gravitation
+      'Menu',               // nächstes Level
+      'Level08 Foreground', // Vordergrund-Bild
+      'Level08 Midground',  // Mittelgrund-Bild
+      'Level08 Background'  // Hintergrund-Bild
     )
+
     // Spieler, soll mit Weltrand kollidieren
     this.player = new Player(this, 2400, 405, 'Player 01', 250, -600, null, null, true)
     this.player.checkWorldBounds = true
@@ -44,11 +44,11 @@ class Level09 extends GameState {
     this.enemy.animations.add('shoot right', [38, 39, 40], 8, false)
     this.enemy.animations.add('shoot left', [41, 42, 43], 8, false)
 
-    this.enemy.delay = 900  // Verzögerung des Gegners [ms]
-    this.enemy.dir = 'left' // Richtung, für Animationen spätoLowerCase
-    this.enemy.hp = 20      // Anzahl (halbe) Herzen
+    this.enemy.delay = 1000 // Anfangsverzögerung des Gegners [ms]
+    this.enemy.dir = 'left' // Richtung, für Animationen später
+    this.enemy.hp = 15      // Anzahl (halbe) Herzen
 
-    // health-Anzeige des Gegners
+    // Health-Anzeige des Gegners
     this.enemy.addChild(this.add.sprite(5, -80, 'General Healthbar'))
 
     // Feuerkugeln des Gegeners, gleiche Funktionsweise wie beim Spieler
@@ -66,12 +66,13 @@ class Level09 extends GameState {
 
     // Funktion um zu Schiessen, ähnlich wie beim Spieler
     this.enemy.shoot = () => {
-      setTimeout(() => {
+      if (this.enemy.hp < 0) return // Soll nicht schiessen falls 0 Herzen übrig
+      this.time.events.add(this.enemy.delay, () => {
         // Kugel aus Objektgruppe
         var bullet = this.enemy.bullets.getFirstExists(false)
         // Animation, hiernach soll Kugel (200ms verzögert) erscheinen
         this.enemy.animations.play('shoot ' + this.enemy.dir)
-        setTimeout(() => {
+        this.time.events.add(200, () => {
           // Falls Kugel vorhaden (max 20 vorhanden)
           if (bullet) {
             // Position von Kugel leicht von Spielerkoordinaten versetzt
@@ -82,53 +83,68 @@ class Level09 extends GameState {
               ? this.enemy.body.velocity.x - 500
               : this.enemy.body.velocity.x + 500
           }
-        }, 200)
-      }, this.enemy.delay)
+        })
+      })
     }
+
+    // Gegner soll ab und zu (1-2s Abstand) selber Schiessen
+    this.enemy.randomShoot = () => {
+      this.enemy.shoot()
+      let delay = Math.random() * 4500 + 500
+      this.time.events.add(delay, this.enemy.randomShoot)
+    }
+    this.enemy.randomShoot()
 
     // Funktion um Gegner zu schaden
     this.enemy.damage = () => {
       this.enemy.hp -= 1             // ein halbes Herz wird abgezogen
       if (this.enemy.hp < 0) {
+        // Kein Leben mehr, Gegnet stirbt
         this.enemy.death()
         return
       }
-      this.enemy.delay -= 45         // Verzögerung wird reduziert
+      this.enemy.delay -= 60         // Verzögerung wird reduziert
       this.enemy.tint = 0xFF0000     // rote Tönung
-      this.enemy.children[0].width = 40 / 20 * this.enemy.hp + 1
-      this.add.tween(this.enemy).to( // Tönung geht während 250ms wieder weg
+      // Breite der Health-Anzeige (40px ist volle Breite, +1 da sonst bei 0
+      // Herzen Division durch 0 wäre)
+      this.enemy.children[0].width = 40 / 20 * (this.enemy.hp + 1)
+      // Tönung geht während 250ms wieder weg
+      this.add.tween(this.enemy).to(
         {tint: 0xFFFFFF}, 250, Phaser.Easing.Cubic.Out, true
       )
     }
 
+    // Gegner stirbt
     this.enemy.death = () => {
-      this.enemy.children[0].width = 0
-      this.player.body.moves = false
-      this.enemy.body.moves = false
+      this.enemy.children[0].width = 0 // Health-Anzeige verschwindet
+      this.player.body.moves = false   // Spieler kann sich nicht bewegen
+      this.enemy.body.moves = false    // Gegner kann sich nicht bewegen
+      // Farbeffekt, Tönung geht zu schwarz (5s)
       this.add.tween(this.enemy).to(
         {tint: 0x000000}, 5000, Phaser.Easing.Cubic.Out, true
       )
-      setTimeout(() => {
-        this.camera.shake()
+      // Nach Farbeffekt stirbt Gegner endgültig
+      this.time.events.add(5000, () => {
+        this.camera.shake() // Kamera zittert
+        // Kamera kann sich wieder mit Spieler bewegen
         this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-        this.world.setBounds(0, 0, 5000, 480)
-        this.player.body.moves = true
-        this.player.body.velocity.y = -50
-        this.enemy.kill()
-      }, 5000)
+        this.world.setBounds(0, 0, 5000, 480) // Welt vergrössert
+        this.player.body.moves = true         // Spieler bewegbar
+        this.player.body.velocity.y = -50     // mini Sprung -> Animation reset
+        this.enemy.kill()                     // Gegner wird gelöscht
+      })
     }
 
     // Gegner soll auch (verzögert) schiessen
-    controls.shift.onDown.add(() => {
-      this.enemy.shoot.call(this.enemy)
-    }, this.enemy.delay)
+    controls.shift.onDown.add(this.enemy.shoot, this.enemy.delay)
 
     // Grösse der Welt & Positionierung der Kamera
     this.world.setBounds(0, 0, 3020, 480)
     this.camera.setPosition(2620, 0)
   }
+
+  // Spiel-Schleife
   loop() {
-    self = this
     // Gegner Kollision mit Level (geht nicht über collideLayerList da er sonst
     // auch mit dem Spieler kollidiern würde)
     this.physics.arcade.collide(this.layer, this.enemy)
@@ -155,14 +171,16 @@ class Level09 extends GameState {
     // Passende Animation für den Gegner anzeigen
     this.renderEnemy()
   }
+
   // Gegener: Bewegungen des Spielers verzögert kopieren
   delayEnemyVelocity(vx, vy) {
-    setTimeout(() => {
+    this.time.events.add(this.enemy.delay, () => {
       // Geschwindigkeiten übernehmen, an y-Achse gespiegelt
       this.enemy.body.velocity.x = -vx
       this.enemy.body.velocity.y = vy
-    }, this.enemy.delay)
+    })
   }
+
   // Animation für Gegner berechnen
   renderEnemy() {
     var dir = this.enemy.dir // Abkürzung aktuelle Richtung
@@ -172,8 +190,8 @@ class Level09 extends GameState {
     var vy = this.enemy.body.velocity.y // Aktuelle Geschwindigkeit (y-Richtung)
     // Unterschied Abstand im Vergleich zum vorherigen durchlaufen
     // (this.enemy.position.x und this.enemy.body.x sind leicht verschoben)
-    var dx = Math.round(this.enemy.body.prev.x - this.enemy.body.x)
-    var dy = Math.round(this.enemy.body.prev.y - this.enemy.body.y)
+    var dx = ~~(this.enemy.body.prev.x - this.enemy.body.x)
+    var dy = ~~(this.enemy.body.prev.y - this.enemy.body.y)
 
     // Richtungsänderung, keine Geschwindigkeit = keine Änderung
     if (vx > 0) {

@@ -246,11 +246,12 @@ class Player extends DynamicGameObject {
   }
   // Funktion um Spiler eine gewisse Amzahl Herzen zu schaden
   damage(player, hp) {
-    player.hp -= hp || 5 // HP reduziert: keine Angabe: 2.5 Herzen
+    player.hp -= parseFloat(hp) || 5 // HP reduziert: keine Angabe: 2.5 Herzen
     player.tint = 0xFF0000         // rote Tönung
     this.add.tween(player).to(     // Tönung geht während 250ms wieder weg
       {tint: 0xFFFFFF}, 250, Phaser.Easing.Cubic.Out, true
     )
+    // Kamera zittert horizontal 200ms lang
     this.camera.shake(0.01, 200, null, Phaser.Camera.SHAKE_HORIZONTAL, false)
   }
   // Schiess-Fuktion, Idee von https://www.codecaptain.io/blog/game-development/
@@ -310,6 +311,7 @@ class Button extends StaticGameObject {
   constructor(context, x, y, key, angle, callback) { // Argumente
     super(context, x, y, key, angle)                 // Parent-Objekt
     this.body.setSize(24, 24, -4, -4)                // Physikalische Grösse
+    this.angle = angle                               // Behebung Phaser-Fehler
     this.callback = callback                         // Callback abgespeichert
     this.animations.add('u', [0], 1, false)          // Grafik falls Knopf oben
     this.animations.add('d', [1], 0.5, false)        // Grafik für Knopf unten

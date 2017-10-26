@@ -1,18 +1,24 @@
+/* Klasse Level 07 */
 class Level07 extends GameState {
   build() {
     // Initialisierung der Ebene
-    this.setup(null, 4200, 480, 1300, 50, 'Menu')
+    this.setup(
+      null,      // Keine Karte
+      4200, 480, // Weltgrösse (x, y)
+      1300,      // Gravitation
+      'Level08'  // nächstes Level
+    )
 
     // Hintergrund, bewegt sich mit Kamera
     this.background = this.add.sprite(0, 0, 'Level07 Background')
     this.background.fixedToCamera = true
 
-    // Grosse Wolken im Wintergrund, alle in einer Gruppe
+    // Grosse Wolken im Hintergrund, alle in einer Gruppe
     this.bigclouds = this.add.group()
-    this.bigclouds.add(this.add.sprite(-50, 480, 'Level07 Bigcloud1'))
-    this.bigclouds.add(this.add.sprite(700, 480, 'Level07 Bigcloud2'))
-    this.bigclouds.add(this.add.sprite(1500, 480, 'Level07 Bigcloud1'))
-    this.bigclouds.setAll('anchor.y', 1)
+    this.bigclouds.create(-50, 480, 'Level07 Bigcloud1')
+    this.bigclouds.create(700, 480, 'Level07 Bigcloud2')
+    this.bigclouds.create(1500, 480, 'Level07 Bigcloud1')
+    this.bigclouds.setAll('anchor.y', 1) // Ankerpunkt unten
 
     // Grafik der Gebäude soll davor zu sehen sein
     this.buildings = this.add.sprite(0, 0, 'Level07 Buildings')
@@ -20,12 +26,14 @@ class Level07 extends GameState {
     // Spieler: Beim Verlassen des Spielfeldes im unteren Rand soll das Level neu
     // beginnen, beim Verlasse rechts wurde das Level beendet
     this.player = new Player(this, 525, 0, 'Player 01', 250, -600, true)
-    this.player.checkWorldBounds = true                                         // Kollision mit Weltrand soll überprüft
-    this.player.events.onOutOfBounds.add(() => {                                //   werden, wenn Spieler ausserhalb der
+    // Spieler soll beim Verlassen der Welt ganz rechts zu nächsten Level gehen
+    // und sterben wenn er herunterfällt
+    this.player.checkWorldBounds = true
+    this.player.events.onOutOfBounds.add(() => {
       if (this.player.position.x > 4190) {
         this.goToNextLevel()
       } else if (this.player.position.y > 0) {
-        this.killPlayer()                                //   Karte ist, soll er sterben.
+        this.killPlayer()
       }
     })
 
@@ -58,7 +66,7 @@ class Level07 extends GameState {
       [4010, 345, 2]
     ]
 
-    // Erstellen der Platformen
+    // Erstellen der Platformen an den Koordinaten
     for (let i in coords) {
       this.createPlatform(coords[i][0] + 400, coords[i][1], coords[i][2])
     }
@@ -71,14 +79,14 @@ class Level07 extends GameState {
     this.smallclouds.create(2450, 490, 'Level07 Smallcloud1')
     this.smallclouds.create(3250, 495, 'Level07 Smallcloud2')
     this.smallclouds.create(4000, 480, 'Level07 Smallcloud3')
-    this.smallclouds.setAll('anchor.y', 1)
+    this.smallclouds.setAll('anchor.y', 1) // Ankerpunkt unten
   }
   loop() {
     // Parallaxing, Grosse Wolken und Gebäude bewegen sich nach hinten, kleine
-    // Wolken vorne nach rechts
-    this.bigclouds.x = - this.world.x / 1.5
-    this.buildings.x = - this.world.x / 2 + 700
-    this.smallclouds.x = this.world.x / 6
+    // Wolken vorne nach rechts (anders als sonst, deshalb nicht ab Vorlage)
+    this.bigclouds.x = - this.world.x / 1.5     // Bewegung in Gegenrichtung
+    this.buildings.x = - this.world.x / 2 + 700 // Bewegung in Gegenrichtung
+    this.smallclouds.x = this.world.x / 6 // Bewegung in Spielerrichtung
 
     // Beim Berühren der einzelnen Blöcke gehen diese kaputt
     this.physics.arcade.collide(

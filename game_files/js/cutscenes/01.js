@@ -1,17 +1,34 @@
+  /* Klasse Cutscene 01 */
 class Cutscene01 extends Cutscene {
   create() {
     this.setup(
-      this,
-      'Menu',
-      9800
+      this,   // Kontext-Übergabe an parent-Objekt
+      'Menu', // nächstes Level
+      9800    // Totaldauer
     )
+
+    // Anzuzeigende texte
+    let txt1 = 'I KNOW YOU ARE JUST ONE OF MICHAELS CRUEL EXPERIMENTS'
+    let txt2 = 'BUT YOU STILL BELONG TO THE CHILDREN OF FIRE....'
+    let txt3 = 'AND NEED TO BE STOPPED'
+
+    // Bildsequenz erzeugen
     // (context, x, y, delay, duration, velocityX, velocityY, sprite/text)
-    this.generateSequence(this, 0, [3000, 3000, 300, 100, 100, 100, 100, 100, 4000], 'Urielle')
-    this.createText(this, 400, 470, 0, 3000, 'I KNOW YOU ARE JUST ONE OF MICHAELS CRUEL EXPERIMENTS', 24)
-    this.createText(this, 400, 470, 3000, 3000, 'BUT YOU STILL BELONG TO THE CHILDREN OF FIRE....', 24)
-    this.createText(this, 400, 470, 6300, 4500, 'AND NEED TO BE STOPPED', 64)
-    var title = this.createImage(this, 1000, 240, 0, 11000, 0.1, 0, 'Cutscene01 Title')
-    setTimeout(() => { title.body.velocity.x = -600 }, 6000)
-    setTimeout(() => { title.body.velocity.x = 0 }, 6750)
+    this.generateSequence(
+      this, 0, [3000, 3000, 300, 100, 100, 100, 100, 100, 4000], 'Urielle'
+    )
+
+    // Text-Objekte erzeugen
+    this.createText(this, 400, 470, 0, 3000, txt1, 24)
+    this.createText(this, 400, 470, 3000, 3000, txt2, 24)
+    this.createText(this, 400, 470, 6300, 4500, txt3, 64)
+
+    // Name kommt von der Seite (nach 6s kommt Bild hineingeflogen, nach 750ms
+    // bleibt es dann stehen)
+    var title = this.createImage(
+      this, 1000, 240, 0, 11000, 0.1, 0, 'Cutscene01 Title'
+    )
+    this.time.events.add(6000, () => { title.body.velocity.x = -600 })
+    this.time.events.add(6750, () => { title.body.velocity.x = 0 })
   }
 }

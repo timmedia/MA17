@@ -1,14 +1,15 @@
 function init() {
-  // Kontextmenu (Rechtsklick, btw. langer Druck auf Mobilgeräten) wird deaktiviert
-  // Lösung von: http://stackoverflow.com/q/3413683/
+  // Kontextmenu deaktivieren (Lösung von: http://stackoverflow.com/q/3413683/)
   window.oncontextmenu = function (event) {
      event.preventDefault()
      event.stopPropagation()
      return false
   }
+  // Spiel als neues Spiel-Objekt
   window.game = new Game()
 }
 
+// Spiel-Objekt
 class Game extends Phaser.Game {
   constructor() {
     super(800, 480, Phaser.CANVAS, null, null, null, false)
