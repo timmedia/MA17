@@ -60,7 +60,7 @@ class Tutorial extends GameState {
   closeBubble() {
     // Sprechblase während 200ms auf Grösse 0 skaliert
     this.add.tween(this.speechbubble.scale)
-      .to({x: 0, y: 0}, 200, Phaser.Easing.Quadratic.InOut, true
+      .to({x: 0, y: 0}, 200, Phaser.Easing.Quadratic.InOut, true)
   }
 
   // Status überprüfen
