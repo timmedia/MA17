@@ -3,6 +3,7 @@
 import json
 import threading
 import ASUS.GPIO as GPIO
+from subprocess import call
 from websocket_server import WebsocketServer
 from time import sleep, clock
 from math import cos, sin, pi
@@ -112,6 +113,10 @@ serverLoop.start()
 # Endlosschleife, Länge der Pause
 stopped = False
 delay = 0.05
+
+# Server ist parat, Spiel soll starten
+# Idee von https://unix.stackexchange.com/q/188182
+call('firefox /home/linaro/MA17/game_files/game.html?mode=arcade')
 
 while not stopped:
     # Phase (für Trig. Funktionen) nach Zeit, nicht abhängig von Durchlaufszeit einer Iteration

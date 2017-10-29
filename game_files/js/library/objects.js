@@ -91,7 +91,13 @@ class Player extends DynamicGameObject {
 
     if (cameraFollow) {
       // Kamera soll Spieler folgen
-      context.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+      if (game.isArcade || game.isMobile) {
+        // ohne verzögerung folgen
+        context.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+      } else {
+        // Mit Verzögerung folgen, braucht mehr performace
+        context.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+      }
     }
 
     if (killOnExit) {
@@ -278,7 +284,7 @@ class Player extends DynamicGameObject {
     )
     this.bullets.setAll('body.allowGravity', false) // Schwerkraft deaktiviert
   }
-  
+
   // Schuss-Funktion
   shoot() {
     // Kugel aus Objektgruppe
