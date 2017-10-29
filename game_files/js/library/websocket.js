@@ -5,7 +5,7 @@ class WebSocketConnection {
   }
   update(newStatus) {
     if (newStatus.info.changeCounter !== this.previousChangeCounter) {
-      this.server.send(newStatus)
+      this.server.send(JSON.stringify(newStatus.info))
       this.previousChangeCounter = newStatus.info.changeCounter
     }
   }

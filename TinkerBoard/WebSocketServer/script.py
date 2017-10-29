@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Module
+import json
 import threading
 import ASUS.GPIO as GPIO
 from websocket_server import WebsocketServer
@@ -11,7 +12,10 @@ from random import randint
 mode = 'loading'
 previousMode = mode
 
-# Server erstellen, Port als Argument (lokal erreichbar über ws://localhost:9001)
+# Beibehalten der Anzahl Tode (Bestimmung ob einer hinzugekommen ist)
+previousDeathCount = 0
+
+# Server erstellen, Port als Argument (lokal erreichbar via ws://localhost:9001)
 server = WebsocketServer(9001)
 
 # Spiel verbindet mit Server, Funktion an Modul übergeben
@@ -24,12 +28,6 @@ def lostConnection(client, server):
     print('Connection %d lost' % client['id'])
 server.set_fn_client_left(lostConnection)
 
-# Nachricht von Spiel zum Server
-def readMessage(client, server, message):
-    setMode(message)
-    print('Mode: ' + str(message))
-server.set_fn_message_received(readMessage)
-
 # Modus setzen
 def setMode(newMode):
     # 'global': Behebung von Fehler wo Variablen innerhalb der Server-Funktionen
@@ -38,6 +36,20 @@ def setMode(newMode):
     # vorherigen Modus speichern
     previousMode = mode
     mode = newMode.lower().strip()
+
+# Nachricht von Spiel zum Server
+def readMessage(client, server, message):
+    # JSON (String) in Python lesen: https://stackoverflow.com/q/7771011
+    info = json.loads(message)
+    if info['deathCount'] == previousDeathCount:
+        setMode(info['mode'])
+    else:
+        global mode, previousMode
+        previousDeathCount = info['deathCount']
+        previousMode = info['mode']
+        mode = 'damage'
+    print('Mode: ' + str(message))
+server.set_fn_message_received(readMessage)
 
 # Farbe einer LED setzen
 def setColour(led, r, g, b):
@@ -93,11 +105,9 @@ for triple in pins:
         led.append(colour)
     leds.append(led)
 
-print('before')
 # Server starten
 serverLoop = threading.Thread(target=server.run_forever)
 serverLoop.start()
-print('after')
 
 # Endlosschleife, Länge der Pause
 stopped = False
@@ -185,4 +195,3 @@ while not stopped:
 
 # Reset aller Pins, GPIO-Teil beendet
 GPIO.cleanup()
-
