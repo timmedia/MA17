@@ -3,10 +3,12 @@ class Level07 extends GameState {
   build() {
     // Initialisierung der Ebene
     this.setup(
-      null,      // Keine Karte
-      4200, 480, // Weltgrösse (x, y)
-      1300,      // Gravitation
-      'Level08'  // nächstes Level
+      null,             // Keine Karte
+      4200, 480,        // Weltgrösse (x, y)
+      1300,             // Gravitation
+      'Level08',        // nächstes Level
+      null, null, null, // Keine Hinter-, Mittle und Vordergrund-Bilder
+      'yellow_white'    // Farbakzent
     )
 
     // Hintergrund, bewegt sich mit Kamera

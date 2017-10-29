@@ -8,7 +8,8 @@ class Level03 extends GameState {
       'Level05',            // nächstes Level
       'Level03 Foreground', // Vordergrund-Bild
       'Level03 Midground',  // Mittelgrund-Bild
-      'Level03 Background'  // Hintergrund-Bild
+      'Level03 Background', // Hintergrund-Bild
+      'pink'                // Akzentfarbe
     )
 
     // Spieler wird hinzugefügt, Kamera soll ihn folgen (letztes Argument true)

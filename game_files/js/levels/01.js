@@ -8,7 +8,8 @@ class Level01 extends GameState {
       'Level02',            // nächstes Level
       'Level01 Foreground', // Vordergrund-Bild
       'Level01 Midground',  // Mittelgrund-Bild
-      'Level01 Background'  // Hintergrund-Bild
+      'Level01 Background', // Hintergrund-Bild
+      'blue_white'          // Akzentfarbe
     )
 
     // Hinzufügen Wasserfall mit Animationen

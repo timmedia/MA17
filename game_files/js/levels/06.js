@@ -1,4 +1,4 @@
-/* Klasse Level 05 */
+/* Klasse Level 06 */
 class Level06 extends GameState {
   build() {
     this.setup(
@@ -8,7 +8,8 @@ class Level06 extends GameState {
       'Level07',           // nächstes Level
       'Debug empty10x10',  // Vordergrund-Bild
       'Level06 Midground', // Mittelgrund-Bild
-      'Level06 Background' // Hintergrund-Bild
+      'Level06 Background',// Hintergrund-Bild
+      'green'              // Akzentfarbe
     )
 
     // Grafik für geöffnete (!) Tür am Ende des Levels

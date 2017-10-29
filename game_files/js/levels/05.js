@@ -8,7 +8,8 @@ class Level05 extends GameState {
       'Level06',           // nächstes Level
       'Debug empty10x10',  // Leere Grafik vorne, 3 Ebenen nötig für Parallaxing
       'Level05 Midground', // Mittelgrund-Bild
-      'Level05 Background' // Hintergrund-Bild
+      'Level05 Background',// Hintergrund-Bild
+      'blue_white'         // Akzentfarbe
     )
 
     // Wasser, wird später nicht mehr angesprochen (let anstatt this.)
@@ -70,7 +71,7 @@ class Level05 extends GameState {
     }
 
     // Nach 250ms soll der Wind starten
-    setTimeout(() => {this.startWind()}, 250)
+    this.time.events.add(250, this.startWind, this)
 
     // Hinzufügen des Spieler-Objekts
     this.player = new Player(this, 200, 255, 'Player 01', 280, -600)

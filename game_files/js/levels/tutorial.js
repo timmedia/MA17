@@ -8,7 +8,8 @@ class Tutorial extends GameState {
       'Level01',             // nächstes Level
       'Tutorial Foreground', // Vordergrund-Bild
       'Tutorial Midground',  // Mittelgrund-Bild
-      'Tutorial Background'  // Hintergrund-Bild
+      'Tutorial Background', // Hintergrund-Bild
+      'blue_white'           // Farbmodus (Arcade)
     )
 
     // Michael, Ankerpunk unten mittig

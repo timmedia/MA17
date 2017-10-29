@@ -8,7 +8,8 @@ class Level04 extends GameState {
       'Level05',           // nächstes Level
       'Debug empty10x10',  // Leeres Vordergrund-Bild damit Parallaxing läuft
       'Debug empty10x10',  // Leeres Mittelgrund, gleicher Grund
-      'Level04 Background' // Hintergrund-Bild, mit Parallaxing
+      'Level04 Background',// Hintergrund-Bild, mit Parallaxing
+      'pink'               // Akzentfarbe
     )
 
     // Spieler, Kamera soll nur auf y-Achse folgen

@@ -8,7 +8,8 @@ class Level02 extends GameState {
       'Level03',           // nächstes Level
       null,                // kein Vordergrund-Bild
       'Level02 Midground', // Mittelgrund-Bild
-      'Level02 Background' // Hintergrund-Bild
+      'Level02 Background',// Hintergrund-Bild
+      'blue_white'
     )
 
     // Schlüssel um Türe zu öffnen (this.collectKey ist Callback-Funktion)

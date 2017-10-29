@@ -18,7 +18,7 @@ class GameState extends Phaser.State {
     this.parallaxImg = [fg || null, mg  || null, bg || null]
 
     // Status, z.B. für Arcade Farbanzeige
-    // game.status['mode'] = mode || 'loading'
+    game.status.setMode(mode)
 
     // Gerät-spezfische Update-Funktion
     this.updateSpecial = function () {

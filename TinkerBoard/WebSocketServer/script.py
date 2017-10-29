@@ -39,12 +39,12 @@ def setMode(newMode):
 
 # Nachricht von Spiel zum Server
 def readMessage(client, server, message):
+    global mode, previousMode, previousDeathCount
     # JSON (String) in Python lesen: https://stackoverflow.com/q/7771011
     info = json.loads(message)
     if info['deathCount'] == previousDeathCount:
         setMode(info['mode'])
     else:
-        global mode, previousMode, previousDeathCount
         previousDeathCount = info['deathCount']
         previousMode = info['mode']
         mode = 'damage'

@@ -9,7 +9,8 @@ class Level08 extends GameState {
       'Cutscene02',         // nächstes Level
       'Level08 Foreground', // Vordergrund-Bild
       'Level08 Midground',  // Mittelgrund-Bild
-      'Level08 Background'  // Hintergrund-Bild
+      'Level08 Background', // Hintergrund-Bild
+      'reb_blue'            // Akzentfarbe
     )
 
     // Spielerobjekt
