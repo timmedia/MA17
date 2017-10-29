@@ -5,7 +5,7 @@ var globalDebug = globalDebug || false
 der ganze boilerplate Code nur einmal geschrieben werden muss
 */
 class GameState extends Phaser.State {
-  setup(map, boundX, boundY, gravity, nextLevel, fg, mg, bg) { // Argumente
+  setup(map, boundX, boundY, gravity, nextLevel, fg, mg, bg, mode) { // Arg.
     this.collidePlayerList = [] // alle Objekte, welche mit Spieler kollidieren
     this.collideLayerList = []  // alle Objekte, weche mit Tilemap kollidieren
     this.damagePlayerList = []  // alle Objekte, welche Spieler schaden sollen
@@ -16,21 +16,43 @@ class GameState extends Phaser.State {
     this.physics.arcade.gravity.y = gravity    // Schwerkraft
     // Grafiken für Parallaxing als Array
     this.parallaxImg = [fg || null, mg  || null, bg || null]
+
+    // Status, z.B. für Arcade Farbanzeige
+    // game.status['mode'] = mode || 'loading'
+
+    // Gerät-spezfische Update-Funktion
+    this.updateSpecial = function () {
+      if (game.isArcade) {
+        // Spiel ist auf Arcade
+        return function () {
+          game.server.update(game.status)
+        }
+      } else if (game.isMobile) {
+        // Spiel auf mobilem Gerät
+        return function () {
+          // ... Code for when mobile
+        }
+      } else {
+        return function () {}
+      }
+    } ()
   }
-  
+
+  // Loop, wird für jeden Physik-Durchgang aufgerufen
+  // je nach Gerät-Typ wird eine andere Funktion zurückgegeben
+  update() {
+    this.checkCollisions()  // Kollisionen ab Listen überprüfen
+    this.loop()             // loop(): Im Code des Levels bestimmt
+    this.showPlayerHealth() // Herzanzeige aktualisieren
+    this.updateSpecial()
+  }
+
   // Funktion, wird von Phaser beim Start des Levels aufgerufen
   create() {
     this.build()         // pseudo-create() innerhalb Level-Code
     this.setupParallax() // Parallaxing wird initialisiert
     this.setupHearts()   // HP-System (Herzanzeige)
     this.levelFade()     // Übergang
-  }
-
-  // Loop, wird für jeden Physik-Durchgang aufgerufen
-  update() {
-    this.checkCollisions()  // Kollisionen ab Listen überprüfen
-    this.loop()             // loop(): Im Code des Levels bestimmt
-    this.showPlayerHealth() // Herzanzeige aktualisieren
   }
 
   // Leere Loop-Funktion, falls das Level keine hat (Fehler vermeiden)
@@ -47,8 +69,9 @@ class GameState extends Phaser.State {
     )
   }
 
-  // Level neu starten
+  // Level neu starten, Anzahl Tode erhöht sich
   killPlayer() {
+    game.status.increaseDeathCount()
     game.state.restart()
   }
 

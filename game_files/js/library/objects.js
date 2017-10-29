@@ -1,4 +1,4 @@
-var globalDebug = false
+var globalDebug = globalDebug || false
 
 /*
 Das 'BasicGameObject'-Objekt erbt alle Eigenschaften eines Phase-Sprite-Objekts
@@ -83,8 +83,8 @@ class Player extends DynamicGameObject {
     this.hp = 9                       // Health points (Anz. Herzen, 0-9)
 
     this.killPlayer = context.killPlayer // Funktion vom Level lokal übernommen
-    // Phys. max. Geschwindigkeit (Phaser), zu hohe Geschwindigkeiten vermeiden
 
+    // Phys. max. Geschwindigkeit (Phaser), zu hohe Geschwindigkeiten vermeiden
     this.body.maxVelocity.x = this.walkSpeed * 2
 
     context.collideLayerList.push(this) // Spieler soll mit Welt kollidieren
@@ -121,6 +121,7 @@ class Player extends DynamicGameObject {
     // den und falls betätig 'this-shoot' aufgerufen werden
     if (enableShoot) controls.shift.onDown.add(this.shoot, this)
   }
+
   // Spieler soll sich nach rechts bewegen
   pressRight() {
     this.body.acceleration.x += 2000       // Beschleunigung +2000 Pixel/s^2
@@ -131,6 +132,7 @@ class Player extends DynamicGameObject {
     // Sprungkraft > 0 heisst Schwerkraft nach oben, Spieler ist um 180° gedreht
     this.scale.x = (this.jumpSpeed < 0)? 1 : -1
   }
+
   // Spieler soll sich nach links bewegen
   pressLeft() {
     this.body.acceleration.x -= 2000        // Beschleunigung -2000 Pixel/s^2
@@ -140,6 +142,7 @@ class Player extends DynamicGameObject {
     // Richtung der Schwerkraft, gleich wie bei pressRight()
     this.scale.x = (this.jumpSpeed < 0)? -1 : 1
   }
+
   // Update-Funktion, wird in jedem Physik-Durchgang durchlaufen
   update() {
     if (this.hp < 0) {  // Hat der Spieler noch Herzen?
@@ -244,6 +247,7 @@ class Player extends DynamicGameObject {
       }
     }
   }
+
   // Funktion um Spiler eine gewisse Amzahl Herzen zu schaden
   damage(player, hp) {
     player.hp -= parseFloat(hp) || 5 // HP reduziert: keine Angabe: 2.5 Herzen
@@ -254,6 +258,7 @@ class Player extends DynamicGameObject {
     // Kamera zittert horizontal 200ms lang
     this.camera.shake(0.01, 200, null, Phaser.Camera.SHAKE_HORIZONTAL, false)
   }
+
   // Schiess-Fuktion, Idee von https://www.codecaptain.io/blog/game-development/
   // shooting-bullets-using-phaser-groups/518
   setupShoot(context) {
@@ -273,6 +278,7 @@ class Player extends DynamicGameObject {
     )
     this.bullets.setAll('body.allowGravity', false) // Schwerkraft deaktiviert
   }
+  
   // Schuss-Funktion
   shoot() {
     // Kugel aus Objektgruppe

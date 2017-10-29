@@ -4,6 +4,26 @@ der Code wurde grossteils von der Dokumentation übernommen und modifiziert
 https://firebase.google.com/docs/database/web/read-and-write
 */
 
+class Leaderboard extends Phaser.State {
+  create() {
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDip3wz7_-m13S1-i-sOLOS6PBlanqSrj4",
+      authDomain: "mission-reset.firebaseapp.com",
+      projectId: "mission-reset"
+    }
+    firebase.initializeApp(config)
+    this.database = firebase.firestore()
+    this.path = this.database.doc('scoring/highscores')
+    this.path.get().then(entry => {
+      let data = entry.data()
+    })
+  }
+  update() {
+    self = this
+  }
+}
+
 // Anzeigetext anfangs leer
 var board = ['', ''];
 

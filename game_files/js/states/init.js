@@ -1,21 +1,26 @@
+// Initialisierungsfunktion, aktivert nach dem Laden der HTML-Seite
 function init() {
   // Kontextmenu deaktivieren (Lösung von: http://stackoverflow.com/q/3413683/)
-  window.oncontextmenu = function (event) {
+  window.oncontextmenu = (event) => {
      event.preventDefault()
      event.stopPropagation()
      return false
   }
-  // Spiel als neues Spiel-Objekt
+  // Spiel als neues Spiel-Objekt (ab eigener Vorlage unten)
   window.game = new Game()
 }
 
-// Spiel-Objekt
+// Spiel-Objekt, child von Phaser-Spiel-Objekt
 class Game extends Phaser.Game {
   constructor() {
+    // Grösse (x, y), Anzeigeart, parent-Objekt, default state, transparent
     super(800, 480, Phaser.CANVAS, null, null, null, false)
+
+    // Alle States hinzufügen
     this.state.add('Startup', Startup)
     this.state.add('Preload', Preload)
     this.state.add('Menu', Menu)
+    this.state.add('Leaderboard', Leaderboard)
     this.state.add('Tutorial', Tutorial)
     this.state.add('Level01', Level01)
     this.state.add('Level02', Level02)
@@ -28,6 +33,8 @@ class Game extends Phaser.Game {
     this.state.add('Level09', Level09)
     this.state.add('Cutscene01', Cutscene01)
     this.state.add('Cutscene02', Cutscene02)
+
+    // Startup-State starten
     this.state.start('Startup')
   }
 }

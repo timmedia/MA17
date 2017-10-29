@@ -174,13 +174,10 @@ class Preload extends Phaser.State {
       up1:    this.input.keyboard.addKey(Phaser.Keyboard.W),
       up2:    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
       tut:    this.input.keyboard.addKey(Phaser.Keyboard.ZERO),
-      lvl1:   this.input.keyboard.addKey(Phaser.Keyboard.ONE),
-      lvl2:   this.input.keyboard.addKey(Phaser.Keyboard.TWO),
-      lvl3:   this.input.keyboard.addKey(Phaser.Keyboard.THREE),
       shift:  this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
     }
   }
   create() {
-    this.state.start('Level01'); // erster State starten
+    this.state.start('Level01'); // ersten State starten
   }
 }

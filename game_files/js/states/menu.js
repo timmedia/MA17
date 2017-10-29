@@ -1,6 +1,10 @@
 /* Klasse Menu */
 class Menu extends Phaser.State {
   create() {
+
+    // Modus des Spieles
+    game.status['mode'] = 'menu'
+
     this.add.sprite(0, 0, 'Menu Background')                // Hintergrund-Bild
     this.lights = this.add.sprite(174, 308, 'Menu Lights')  // Lampen
 
@@ -91,6 +95,11 @@ class Menu extends Phaser.State {
   // Selektierte Option starten
   startSelected() {
     if (this.buttonPlay.selected) { // Spiel-Knopf ist selektiert
+
+      // Scoring System
+      game.status['deathCount'] = 0     // Anzahl Tode des Spielers -> Punktzahl
+      game.timeStarted = this.time.time // Startzeit
+
       this.startGame()              // Spiel starten
     } else {                        // Highscore-Knopf ist selektiert
       this.startLead()              // Highscore-Anzeige starten
