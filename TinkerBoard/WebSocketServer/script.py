@@ -44,7 +44,7 @@ def readMessage(client, server, message):
     if info['deathCount'] == previousDeathCount:
         setMode(info['mode'])
     else:
-        global mode, previousMode
+        global mode, previousMode, previousDeathCount
         previousDeathCount = info['deathCount']
         previousMode = info['mode']
         mode = 'damage'
