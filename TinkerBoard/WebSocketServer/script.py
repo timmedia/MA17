@@ -3,7 +3,7 @@
 import json
 import threading
 import ASUS.GPIO as GPIO
-from subprocess import call
+from subprocess import Popen
 from websocket_server import WebsocketServer
 from time import sleep, clock
 from math import cos, sin, pi
@@ -115,8 +115,8 @@ stopped = False
 delay = 0.05
 
 # Server ist parat, Spiel soll starten
-# Idee von https://unix.stackexchange.com/q/188182
-call('firefox /home/linaro/MA17/game_files/game.html?mode=arcade')
+# Idee: https://unix.stackexchange.com/q/188182 & https://stackoverflow.com/q/1196074
+Popen(['firefox', 'file:///home/linaro/MA17/game_files/game.html?mode=arcade'])
 
 while not stopped:
     # Phase (für Trig. Funktionen) nach Zeit, nicht abhängig von Durchlaufszeit einer Iteration
