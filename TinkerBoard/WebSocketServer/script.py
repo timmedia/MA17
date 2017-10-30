@@ -30,7 +30,7 @@ server.set_fn_new_client(newConnection)
 # Verbindung unterbrochen
 def lostConnection(client, server):
     global stopped
-    stopped = True
+    stopped = True # while-Schleife unterbrechen
     print('Connection %d lost' % client['id'])
 server.set_fn_client_left(lostConnection)
 
@@ -205,4 +205,5 @@ while not stopped:
 # Reset aller Pins, GPIO-Teil beendet
 GPIO.cleanup()
 
+# Tinker Board herunterfahren
 Popen(['sudo', 'shutdown', '-t', '0'])
