@@ -17,6 +17,9 @@ class GameState extends Phaser.State {
     // Grafiken für Parallaxing als Array
     this.parallaxImg = [fg || null, mg  || null, bg || null]
 
+    // Backspace: Zurück zum Menu
+    controls.backspace.onDown.add(() => game.state.start('Menu'), this)
+
     // Status, z.B. für Arcade Farbanzeige
     game.status.setMode(mode)
 

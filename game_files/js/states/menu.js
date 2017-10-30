@@ -46,6 +46,9 @@ class Menu extends Phaser.State {
     controls.up1.onDown.add(this.startSelected, this)
     controls.up2.onDown.add(this.startSelected, this)
 
+    // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
+    controls.esc.onDown.add(() => game.server.end(), this)
+
     // Flickern der Lichter
     this.lights.flicker = () => {
       let x = Math.random() > 0.93 // Häufigkeit (~7%)
@@ -69,23 +72,23 @@ class Menu extends Phaser.State {
     // arguments sind die von Phaser durchgegebenen Argumente, [2] ist hier
     // das Argument von '.events.onInputOver.add' (true: play; false: leaderb.)
     if (arguments[2] || arg === 'play') { // Spiel-Knopf ist ausgewählt
-      this.buttonPlay.alpha = 1           // Spiel-Knopf keine Semitransparenz
-      this.buttonPlay.selected = true     // Spiel-Knopf ist selektiert
-      this.buttonLead.alpha = 0.5         // Semitransparenz beim Leaderb.-Knopf
-      this.buttonLead.selected = false    // Leaderboard-Knopf nicht ausgewählt
+      this.buttonP.alpha = 1              // Spiel-Knopf keine Semitransparenz
+      this.buttonP.selected = true        // Spiel-Knopf ist selektiert
+      this.buttonL.alpha = 0.5            // Semitransparenz beim Leaderb.-Knopf
+      this.buttonL.selected = false       // Leaderboard-Knopf nicht ausgewählt
       this.arrow.position.setTo(72, 94)   // Position des Pfeiles anpassen
     } else {                              // Leaderboard-Knopf wird ausgewählt
-      this.buttonPlay.alpha = 0.5         // Spiel-Knopf Semitransparenz
-      this.buttonPlay.selected = false    // Spiel-Knopf nicht selektiert
-      this.buttonLead.alpha = 1           // Leaderb.-Knopf keie Transparenz
-      this.buttonLead.selected = true     // Leaderb.-Knopf ist aktiv
+      this.buttonP.alpha = 0.5            // Spiel-Knopf Semitransparenz
+      this.buttonP.selected = false       // Spiel-Knopf nicht selektiert
+      this.buttonL.alpha = 1              // Leaderb.-Knopf keie Transparenz
+      this.buttonL.selected = true        // Leaderb.-Knopf ist aktiv
       this.arrow.position.setTo(72, 170)  // Pfeil-Position anpassen
     }
   }
 
   // Menu-Option auswählen
   switchSelected() {
-    if (this.buttonPlay.selected) { // Highscore-Knopf wählen
+    if (this.buttonP.selected) { // Highscore-Knopf wählen
       this.selectButton('lead')
     } else {                        // Spiel-Knopf wählen
       this.selectButton('play')
@@ -94,7 +97,7 @@ class Menu extends Phaser.State {
 
   // Selektierte Option starten
   startSelected() {
-    if (this.buttonPlay.selected) { // Spiel-Knopf ist selektiert
+    if (this.buttonP.selected) { // Spiel-Knopf ist selektiert
 
       // Scoring System
       game.status['deathCount'] = 0     // Anzahl Tode des Spielers -> Punktzahl
@@ -114,7 +117,7 @@ class Menu extends Phaser.State {
 
   // Highscore-Anzeige starten
   startLead() {
-    this.camer.fade() // verdunkeln
+    this.camera.fade() // verdunkeln
     console.log('Leaderboard started')
   }
 }

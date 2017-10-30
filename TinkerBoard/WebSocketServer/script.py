@@ -16,6 +16,9 @@ previousMode = mode
 # Beibehalten der Anzahl Tode (Bestimmung ob einer hinzugekommen ist)
 previousDeathCount = 0
 
+# Variable um Endlosschleife zu beenden
+stopped = False
+
 # Server erstellen, Port als Argument (lokal erreichbar via ws://localhost:9001)
 server = WebsocketServer(9001)
 
@@ -26,6 +29,8 @@ server.set_fn_new_client(newConnection)
 
 # Verbindung unterbrochen
 def lostConnection(client, server):
+    global stopped
+    stopped = True
     print('Connection %d lost' % client['id'])
 server.set_fn_client_left(lostConnection)
 
@@ -110,8 +115,7 @@ for triple in pins:
 serverLoop = threading.Thread(target=server.run_forever)
 serverLoop.start()
 
-# Endlosschleife, Länge der Pause
-stopped = False
+# Länge der Pause (while-Schleife)
 delay = 0.05
 
 # Server ist parat, Spiel soll starten
@@ -200,3 +204,5 @@ while not stopped:
 
 # Reset aller Pins, GPIO-Teil beendet
 GPIO.cleanup()
+
+Popen(['sudo', 'shutdown', '-t', '0'])

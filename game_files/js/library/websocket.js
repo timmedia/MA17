@@ -9,4 +9,7 @@ class WebSocketConnection {
       this.previousChangeCounter = newStatus.info.changeCounter
     }
   }
+  end() {
+    this.server.close()
+  }
 }

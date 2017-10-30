@@ -169,12 +169,14 @@ class Preload extends Phaser.State {
     // Steuerung, kann erst initialisiert werden wenn Spiel gestartet
     // (deshalb in einer Phaser-Funktion)
     controls = {
-      right:  this.input.keyboard.addKey(Phaser.Keyboard.D),
-      left:   this.input.keyboard.addKey(Phaser.Keyboard.A),
-      up1:    this.input.keyboard.addKey(Phaser.Keyboard.W),
-      up2:    this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
-      tut:    this.input.keyboard.addKey(Phaser.Keyboard.ZERO),
-      shift:  this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
+      right:     this.input.keyboard.addKey(Phaser.Keyboard.D),
+      left:      this.input.keyboard.addKey(Phaser.Keyboard.A),
+      up1:       this.input.keyboard.addKey(Phaser.Keyboard.W),
+      up2:       this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
+      tut:       this.input.keyboard.addKey(Phaser.Keyboard.ZERO),
+      shift:     this.input.keyboard.addKey(Phaser.Keyboard.SHIFT),
+      esc:       this.input.keyboard.addKey(Phaser.Keyboard.ESC),
+      backspace: this.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE)
     }
   }
   create() {
