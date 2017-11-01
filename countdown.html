@@ -1,0 +1,124 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Reset</title>
+  <!-- Material Design Lite Components -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="http://code.getmdl.io/1.3.0/material.indigo-orange.min.css">
+  <link rel="stylesheet" href="Website/style.css">
+  <style>
+    .countdownTable {
+      width: 100%;
+      text-align: center;
+    }
+    th {
+      color: white;
+      height: 1em;
+      min-width: 25%;
+      text-shadow: 5px 5px 0px hsl(0, 0%, 13%);
+      font-family: 'Anton', sans-serif;
+      font-size: 7rem;
+      letter-spacing: 0.2rem;
+    }
+    td {
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 2em;
+      text-shadow: 2px 2px 0px hsl(0, 0%, 13%);
+    }
+    .mdl-layout {
+      flex: 1 0 auto;
+    }
+  </style>
+  <script defer src="http://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body onload="init()">
+  <!-- Hey! Cool dass du in den Quellcode schaust. Interessierst Du dich für Projekte wie dieses?
+       Dann komm doch bei unserer Präsentation vorbei! Dort wird auch etwas mehr über die Funktions-
+       weise des Spieles geredet, welches mit JavaScript programmiert wurde. -->
+  <div class="header-container">
+    <div class="header-image"></div>
+    <div class="header-image header-image-overlay"></div>
+  </div>
+  <div class="mdl-layout mdl-js-layout">
+    <main class="mdl-layout__content">
+      <div class="mdl-grid center-items">
+        <div class="main-content mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+          <h1>Eröffnung in</h1>
+          <table class="countdownTable mdl-cell--hide-phone">
+            <tr>
+              <th class="dayCell">0</td>
+              <th class="hourCell">0</td>
+              <th class="minuteCell">0</td>
+              <th class="secondCell">0</td>
+            </tr>
+            <tr>
+              <td>Tagen</td>
+              <td>Stunden</td>
+              <td>Minuten</td>
+              <td>Sekunden</td>
+            </tr>
+          </table>
+          <table class="countdownTable mdl-cell--hide-desktop mdl-cell--hide-tablet">
+            <tr>
+              <th class="dayCell">0</td>
+              <td>Tagen</td>
+            </tr>
+            <tr>
+              <th class="hourCell">0</td>
+              <td>Stunden</td>
+            </tr>
+            <tr>
+              <th class="minuteCell">0</td>
+              <td>Minutes</td>
+            </tr>
+            <tr>
+              <th class="secondCell">0</td>
+              <td>Sekunden</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </main>
+    <footer class="mdl-mini-footer">
+      <div class="mdl-mini-footer__left-section">
+        <ul class="mdl-mini-footer__link-list">
+          <li><b>Mission Reset</b> <a href="http://tim-media.com/">&copy; 2017 Tim-Media</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+  <script src="Website/script.js"></script>
+  <script>
+    // https://stackoverflow.com/q/222841
+    var dayCell = [].slice.call(document.getElementsByClassName('dayCell'))
+    var hourCell = [].slice.call(document.getElementsByClassName('hourCell'))
+    var minuteCell = [].slice.call(document.getElementsByClassName('minuteCell'))
+    var secondCell = [].slice.call(document.getElementsByClassName('secondCell'))
+    var opening = new Date(2017, 10, 16, 18)
+    function updateTime () {
+      var now = Date.now()
+      var total = ~~((opening - now) / 1000)
+      var days = ~~(total / 86400)
+      total -= days * 86400
+      var hours = ~~(total / 3600)
+      total -= hours * 3600
+      var minutes = ~~(total / 60)
+      total -= minutes * 60
+      dayCell.forEach(e => e.innerHTML = days)
+      hourCell.forEach(e => e.innerHTML = hours)
+      minuteCell.forEach(e => e.innerHTML = minutes)
+      secondCell.forEach(e => e.innerHTML = total)
+    }
+    function init () {
+      setInterval(updateTime, 1000)
+    }
+  </script>
+</body>
+</html>
