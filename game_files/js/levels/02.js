@@ -27,8 +27,12 @@ class Level02 extends GameState {
     this.damagePlayerList.push(this.water)    // schadet Spieler
 
     // Knöpfe um Richtung der Gravitation zu ändern
-    this.button1 = new Button(this, 80, 400, 'General Button', 90, this.switchGravity)
-    this.button2 = new Button(this, 720, 120, 'General Button', -90, this.switchGravity)
+    this.button1 = new Button(
+      this, 80, 400, 'General Button', 90, this.switchGravity
+    )
+    this.button2 = new Button(
+      this, 720, 120, 'General Button', -90, this.switchGravity
+    )
 
     // Spielerobjekt
     this.player = new Player(this, 200, 300, 'Player 01', 250, -600)

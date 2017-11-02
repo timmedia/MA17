@@ -26,9 +26,7 @@ class Cutscene01 extends Cutscene {
     // Name kommt von der Seite (nach 6s kommt Bild hineingeflogen, nach 750ms
     // bleibt es dann stehen)
     var title = this.createImage(
-      this, 1000, 240, 0, 11000, 0.1, 0, 'Cutscene01 Title'
+      this, 500, 240, 0, 11000, 'Cutscene01 Title', 700, 850
     )
-    this.time.events.add(6000, () => { title.body.velocity.x = -600 })
-    this.time.events.add(6750, () => { title.body.velocity.x = 0 })
   }
 }

@@ -49,22 +49,23 @@ class Menu extends Phaser.State {
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
     controls.esc.onDown.add(() => game.server.end(), this)
 
-    // Flickern der Lichter
+    // Flackern der Lichter
     this.lights.flicker = () => {
-      let x = Math.random() > 0.93 // Häufigkeit (~7%)
-      if (x) {                     // Soll flickers
+      var delay                    // Zeit bis zum nächsten Fläckern
+      if (this.lights.alpha === 1) { // Lampen sind an
         this.lights.alpha = 0.2    // Lampen Transparenz ändern (transparenter)
         this.vignette.alpha = 1    // Verdunkelung (nicht transparent, dunkel)
         this.logo.alpha = 0.4      // Logo dunkler
-      } else {                     // Soll nicht flickern
+        delay = Math.random() * 500 // Verzögerung 0-0.5s
+      } else {                     // Lampen sind aus
         this.lights.alpha = 1      // Lampen hell
-        this.vignette.alpha = 0.95 // Verdunkelung transparenter (heller)
+        this.vignette.alpha = 0.9  // Verdunkelung transparenter (heller)
         this.logo.alpha = 0.8      // Logo heller
+        delay = Math.random() * 2500 // Verzögerung 0-2.5s
       }
-      // nach 0.1s wieder ausführen
-      this.time.events.add(100, this.lights.flicker)
+      this.time.events.add(delay, this.lights.flicker) // nächste Iteration
     }
-    this.lights.flicker() // Flickern starten
+    this.lights.flicker() // Flackern starten
   }
 
   // Funktion um Menu-Option zu selektieren

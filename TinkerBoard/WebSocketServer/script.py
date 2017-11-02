@@ -6,7 +6,7 @@ import ASUS.GPIO as GPIO
 from subprocess import Popen
 from websocket_server import WebsocketServer
 from time import sleep, clock
-from math import cos, sin, pi
+from math import cos, sin
 from random import randint
 
 # Je nach Modus wird eine andere Farbe / ein anderer Effekt angezeigt

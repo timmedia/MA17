@@ -180,6 +180,6 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Level01'); // ersten State starten
+    this.state.start('Menu'); // ersten State starten
   }
 }

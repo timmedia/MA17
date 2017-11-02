@@ -123,7 +123,12 @@ class Enemy extends StaticGameObject {
     this.bullets.forEach((bullet) => {
       bullet.alreadyHit = false
       bullet.update = () => {
-        bullet.angle = Math.atan(bullet.body.velocity.y / bullet.body.velocity.x) / 3.14 * 180
+        // Winkel durch Arcus-Tangens von Geschwindigkeit in X- & Y-Richtung
+        if (bullet.alive) {
+          bullet.angle = Math.atan(
+            bullet.body.velocity.y / bullet.body.velocity.x
+          ) * 57 // 180 / 3.14 ist etwa 57
+        }
       }
     })
     // Funktion um Gegner zu aktivieren
@@ -145,10 +150,14 @@ class Enemy extends StaticGameObject {
     }
     // Überprüfen ob Pfeile Spieler treffen
     this.update = () => {
-      context.physics.arcade.overlap(this.bullets, context.player, (bullet, player) => {
-        // nur im ersten Berührungsmoment soll Pfeil Schaden ausüben
-        if (bullet.body.wasTouching.none) context.player.damage.call(context, context.player, 1.5)
-      })
+      context.physics.arcade.overlap(this.bullets, context.player,
+          (bullet, player) => {
+          // nur im ersten Berührungsmoment soll Pfeil Schaden ausüben
+          if (bullet.body.wasTouching.none) {
+            context.player.damage.call(context, context.player, 1.5)
+          }
+        }
+      )
     }
   }
   // Funktion um Schuss auf Spieler abzufeuern
@@ -164,7 +173,7 @@ class Enemy extends StaticGameObject {
       // Ursprungsposition des Pfeiles
       var selfY = this.position.y - this.body.height / 2
       var selfX
-      // Ursprungs-X-Position je nach dem ob Spieler links oder rechts vom Gegner ist
+      // Ursprungs-X-Pos. je nachdem ob Spieler links oder rechts vom Gegner ist
       if (this.position.x < context.player.x) {
         // Spieler ist links
         this.scale.x = 1
@@ -178,9 +187,10 @@ class Enemy extends StaticGameObject {
       }
       // Pfeil an Startposition gesetzt
       bullet.reset(selfX, selfY)
-      // Geschwindigkeiten, damit Pfeil während Zeit dt bei Spielerposition ankommt
+      // Gschwindigk., damit Pfeil während Zeit dt bei Spielerposition ankommt
       bullet.body.velocity.x = (context.player.position.x - selfX) / dt
-      bullet.body.velocity.y = (context.player.position.y - selfY - context.physics.arcade.gravity.y * dt * dt * 0.5) / dt
+      bullet.body.velocity.y = (context.player.position.y - selfY -
+        context.physics.arcade.gravity.y * dt * dt * 0.5) / dt
     }
   }
 }

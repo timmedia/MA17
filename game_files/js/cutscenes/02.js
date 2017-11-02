@@ -6,9 +6,9 @@ class Cutscene02 extends Cutscene {
       'Level09', // nächstes Level
       6000       // Totaldauer
     )
+
     // Bild anzeigen
-    // (context, x, y, delay, duration, velocityX, velocityY, sprite/text)
-    this.createImage(this, 0, 0, 0, 7000, 0, 0, 'Cutscene02 Background')
+    this.createImage(this, 0, 0, 0, 7000, 'Cutscene02 Background')
 
     // Text anzeigen
     this.createText(
@@ -17,9 +17,7 @@ class Cutscene02 extends Cutscene {
 
     // Name, kommt von der Seite, bleibt nach 600ms stehen
     var title = this.createImage(
-      this, -200, 200, 0, 7000, 500, 0, 'Cutscene02 Title'
+      this, 100, 200, 0, 7000, 'Cutscene02 Title', 700, -50
     )
-
-    this.time.events.add(600, () => { title.body.velocity.x = 0 })
   }
 }

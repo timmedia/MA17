@@ -83,6 +83,8 @@ class Level07 extends GameState {
     this.smallclouds.create(4000, 480, 'Level07 Smallcloud3')
     this.smallclouds.setAll('anchor.y', 1) // Ankerpunkt unten
   }
+
+  // Spiel-Schleife
   loop() {
     // Parallaxing, Grosse Wolken und Gebäude bewegen sich nach hinten, kleine
     // Wolken vorne nach rechts (anders als sonst, deshalb nicht ab Vorlage)
@@ -104,7 +106,7 @@ class Level07 extends GameState {
         // Zerstörungsanimation
         platform.animations.play('dissolve')
         // Spieler kann noch 100ms darauf stehen bleiben
-        setTimeout(() => { platform.body.enable = false }, 100)
+        this.time.events.add(100, () => { platform.body.enable = false })
         // Nach der Animation wird Platform aus Gruppe gelöscht
         platform.animations.currentAnim.onComplete.add(() => {
           platform.alpha = 0
@@ -113,6 +115,7 @@ class Level07 extends GameState {
       }
     )
   }
+
   // Funktion um Platform zu erstellen (x|y Koordinaten, Länge anzugeben)
   createPlatform(x, y, length) {
     // For-Schleife, jeder Block wird einzeln erstellt
