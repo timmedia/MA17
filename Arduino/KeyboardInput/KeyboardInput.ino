@@ -6,8 +6,8 @@
 #define buttonBackspace 5 // Backspace an Pin 5
 #define buttonA 6         // A an Pin 6
 #define buttonD 7         // D an Pin 7
-#define buttonSpace 10    // Leertaste an Pin 8 
-#define buttonShift 14     // Shift-Taste an Pin 9
+#define buttonSpace 8     // Leertaste an Pin 8 
+#define buttonShift 9     // Shift-Taste an Pin 9
 
 int characters[6] = {177, 178, 97, 100, 32, 129};               // Charaktere nach ASCII (a, d, Leertaste, shift)
 boolean isDown[6] = {false, false, false, false, false, false}; // Array mit Status aller Tasten
@@ -15,7 +15,6 @@ boolean wasDown[6];                                             // Array mit vor
 
 // Initialisierungs-Funktion, wird bei Arduino-start 1x durchlaufen
 void setup() {
-  Serial.begin(9600);
   Keyboard.begin();                 // Tastatur Emulierung wird gestartet
   pinMode(buttonEsc, INPUT_PULLUP); // Pins als Tasten-Input, interner Widerstand wird verwendet
   pinMode(buttonBackspace, INPUT_PULLUP);
@@ -27,12 +26,6 @@ void setup() {
 
 // Endlosschleife, wird nach setup() endlos ausgeführt
 void loop() {
-  Serial.print(isDown[0]);
-  Serial.print(isDown[1]);
-  Serial.print(isDown[2]);
-  Serial.print(isDown[3]);
-  Serial.print(isDown[4]);
-  Serial.println(isDown[5]);
   memcpy(wasDown, isDown, 6);        // Array von vorherigen Status wird kopiert & gespeichert
 
   // Status von Pins wird überprüft und gespeichert
