@@ -2,12 +2,12 @@
 #include <Keyboard.h>
 
 // Variablen, Werte werden vor dem Kompilieren im Code mit den Werten ersetzt
-#define buttonEsc 4       // Escape an Pin 4
-#define buttonBackspace 5 // Backspace an Pin 5
-#define buttonA 6         // A an Pin 6
-#define buttonD 7         // D an Pin 7
-#define buttonSpace 8     // Leertaste an Pin 8 
-#define buttonShift 9     // Shift-Taste an Pin 9
+#define buttonEsc 10       // Escape an Pin 4
+#define buttonBackspace 16 // Backspace an Pin 5
+#define buttonA 14         // A an Pin 6
+#define buttonD 15         // D an Pin 7
+#define buttonSpace A0     // Leertaste an Pin 8 
+#define buttonShift A1     // Shift-Taste an Pin 9
 
 int characters[6] = {177, 178, 97, 100, 32, 129};               // Charaktere nach ASCII (a, d, Leertaste, shift)
 boolean isDown[6] = {false, false, false, false, false, false}; // Array mit Status aller Tasten
