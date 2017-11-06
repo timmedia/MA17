@@ -5,7 +5,7 @@ class Level05 extends GameState {
       'Level05 Map',       // Karte
       4800, 480,           // Kartengrösse (x, y)
       1300,                // Gravitation
-      'Level06',           // nächstes Level
+      'Level04',           // nächstes Level
       'Debug empty10x10',  // Leere Grafik vorne, 3 Ebenen nötig für Parallaxing
       'Level05 Midground', // Mittelgrund-Bild
       'Level05 Background',// Hintergrund-Bild

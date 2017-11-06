@@ -5,7 +5,7 @@ class Level04 extends GameState {
       'Level04 Map',       // Karte
       4500, 2000,          // Kartengrösse (x, y)
       1300,                // Gravitation
-      'Level05',           // nächstes Level
+      'Cutscene04',        // nächstes Level
       'Debug empty10x10',  // Leeres Vordergrund-Bild damit Parallaxing läuft
       'Debug empty10x10',  // Leeres Mittelgrund, gleicher Grund
       'Level04 Background',// Hintergrund-Bild, mit Parallaxing

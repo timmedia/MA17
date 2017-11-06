@@ -5,7 +5,7 @@ class Level02 extends GameState {
       'Level02 Map',       // Karte
       800, 480,            // Grösse der Karte (x, y)
       1300,                // Gravitation
-      'Level03',           // nächstes Level
+      'Level08',           // nächstes Level
       null,                // kein Vordergrund-Bild
       'Level02 Midground', // Mittelgrund-Bild
       'Level02 Background',// Hintergrund-Bild

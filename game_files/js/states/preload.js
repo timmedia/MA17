@@ -52,6 +52,9 @@ class Preload extends Phaser.State {
     loadImg('Menu Arrow', 'menu/arrow.gif')
     loadSpr('Menu Michael', 'menu/michael.gif', 49, 132)
 
+    // Credits Dateien
+    loadImg('Credits Background', 'credits/background.png')
+
     // Generelle Dateien
     loadSpr('Player 01', 'player/01.gif', 54, 72)
     loadImg('Blackscreen', 'general/black.gif')
@@ -71,7 +74,7 @@ class Preload extends Phaser.State {
     loadImg('Tutorial Background', 'tutorial/background.gif')
     loadImg('Tutorial Foreground', 'tutorial/foreground.png')
     loadImg('Tutorial Midground', 'tutorial/midground.gif')
-    loadImg('Tutorial Michael', 'tutorial/michael.gif')
+    loadSpr('Tutorial Michael', 'tutorial/michael.gif', 59, 133)
     loadSpr('Tutorial Speechbubbles', 'tutorial/speechbubbles.gif', 148, 72)
 
     // Level01
@@ -121,7 +124,9 @@ class Preload extends Phaser.State {
     // Level06
     loadImg('Level06 Background', '06/background.png')
     loadImg('Level06 Midground', '06/midground.png')
-    loadImg('Level07 Door', '06/door.png')
+    loadImg('Level06 Door', '06/door.png')
+    loadImg('Level06 Arrow', '06/arrow.gif')
+    loadSpr('Level06 Guard', '06/guard.png', 69, 93)
 
     // Level07
     loadImg('Level07 Background', '07/background.png')
@@ -140,6 +145,35 @@ class Preload extends Phaser.State {
     loadSpr('Level08 Speechbubbles', '08/speechbubbles.png', 153, 57)
     loadSpr('Level08 17', '08/17.gif', 54, 72)
 
+    // Level10
+    loadImg('Level10 Background', '10/background.png')
+    loadImg('Level10 Midground', '10/midground.png')
+    loadImg('Level10 Door', '10/door.png')
+    loadSpr('Level10 Speechbubbles', '10/speechbubbles.png', 154, 72)
+
+    // Level11
+    loadImg('Level11 Background', '11/background.png')
+    loadSpr('Level11 Speechbubbles', '11/speechbubbles.png', 163, 55)
+
+    // Level12
+    loadImg('Level12 Background', '12/background.png')
+    loadImg('Level12 Arrow', '12/arrow.gif')
+    loadSpr('Level12 Tree', '12/tree.png', 800, 480)
+    loadSpr('Level12 Fire', '12/fire.png', 35, 56)
+    loadSpr('Level12 Urielle', '12/urielle.png', 125, 150)
+
+    // Level13
+    loadImg('Level13 Background', '13/background.gif')
+    loadImg('Level13 Midground', '13/midground.png')
+    loadImg('Level13 Foreground', '13/foreground.gif')
+    loadSpr('Level13 Speechbubbles', '13/speechbubbles.png', 186, 72)
+
+    // Level14
+    loadImg('Level14 Michael', '14/michael.png')
+
+    // Level15
+
+
     // Cutscene01
     loadImg('Cutscene01 Title', 'cutscenes/01/title.png')
     loadSequence('Urielle', 9)
@@ -147,6 +181,18 @@ class Preload extends Phaser.State {
     // Cutscene02
     loadImg('Cutscene02 Background', 'cutscenes/02/background.png')
     loadImg('Cutscene02 Title', 'cutscenes/02/title.png')
+
+    // Cutscene03
+    loadSequence('Fire', 4)
+    loadImg('Cutscene03 Michael1', 'cutscenes/03/michael1.png')
+    loadImg('Cutscene03 Michael2', 'cutscenes/03/michael2.png')
+
+    // Cutscene04
+    loadImg('Cutscene04 Background', 'cutscenes/04/background.png')
+    loadSpr('Cutscene04 Raphael', 'cutscenes/04/raphael.png', 87, 223)
+    loadSpr(
+      'Cutscene04 Speechbubbles', 'cutscenes/04/speechbubbles.png', 180, 68
+    )
 
     // Karten
     loadMap('Tutorial Map', 'tutorial.json')
@@ -158,6 +204,10 @@ class Preload extends Phaser.State {
     loadMap('Level06 Map', '06.json')
     loadMap('Level08 Map', '08.json')
     loadMap('Level09 Map', '09.json')
+    loadMap('Level10 Map', '10.json')
+    loadMap('Level11 Map', '11.json')
+    loadMap('Level12 Map', '12.json')
+    loadMap('Level13 Map', '13.json')
 
     // Debug-Grafiken
     loadImg('Debug tile10x10', 'debug/tile10x10.gif')
@@ -180,6 +230,6 @@ class Preload extends Phaser.State {
     }
   }
   create() {
-    this.state.start('Menu'); // ersten State starten
+    this.state.start(game.startLevel) // ersten State starten
   }
 }

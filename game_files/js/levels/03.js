@@ -5,7 +5,7 @@ class Level03 extends GameState {
       'Level03 Map',        // Karte
       800, 2000,            // Kartengrösse
       1300,                 // Gravitation
-      'Level05',            // nächstes Level
+      'Level10',            // nächstes Level
       'Level03 Foreground', // Vordergrund-Bild
       'Level03 Midground',  // Mittelgrund-Bild
       'Level03 Background', // Hintergrund-Bild

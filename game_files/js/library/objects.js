@@ -8,7 +8,8 @@ links anstatt oben links ist und dass es dem Level direkt hinzugefügt wird.
 */
 class BasicGameObject extends Phaser.Sprite {
   constructor(context, x, y, key, angle, frame) { // eigene Argumente
-    super(context.game, x, y, key, angle, frame)  // Übernahme vom parent-Objekt
+    super(context.game, x, y, key, frame)         // Übernahme vom parent-Objekt
+    this.angle = angle                            // Winkel setzen
     this.anchor.setTo(0, 1)                       // Ankerpunk unten links
     context.game.add.existing(this)               // Hinzufügen in das Level
   }
@@ -80,7 +81,7 @@ class Player extends DynamicGameObject {
     this.jumpSpeed = jumpSpeed || 0   // Sprungkraft, bei keiner Angabe: = 0
     this.walkSpeed = walkSpeed || 50  // Laufgeschwindigkeit, keine Angabe: = 50
 
-    this.hp = 9                       // Health points (Anz. Herzen, 0-9)
+    this.hp = 9 // Health points (Anz. Herzen, 0-9)
 
     this.killPlayer = context.killPlayer // Funktion vom Level lokal übernommen
 
@@ -185,10 +186,10 @@ class Player extends DynamicGameObject {
     } else if (!controls.right.isDown && !controls.left.isDown) {
       // Links und rechts nicht unten
       if (this.body.velocity.x != 0) {  // Ist Geschwindigkeit nicht 0?
-        if (this.wind === 0) {          // Falls Wind nicht aktiviert ist
-          // Beschleunigung soll reduziert werden
+        if (this.wind === 0) {
+          // Falls Wind nicht aktiv, soll Beschleunigung reduziert werden
           this.body.acceleration.x = -this.mu * this.body.velocity.x
-        } else {                                      // Wind ist aktiviert
+        } else { // Wind ist aktiviert
           if (this.wind / this.body.velocity.x < 0) {
             // Wind ist in entgegengesetzte Richtung von Spieler
             // Beschleunigung wird reduziert, Windbeschleunigung jedoch addiert
@@ -206,8 +207,8 @@ class Player extends DynamicGameObject {
     /* ANIMATION & SPRUNG */
 
     // Position im Vergleich zum vorherigen Durchgang
-    var delta_x = Math.round(this.body.position.x - this.body.prev.x)
-    var delta_y = Math.round(this.body.position.y - this.body.prev.y)
+    var delta_x = ~~(this.body.position.x - this.body.prev.x)
+    var delta_y = ~~(this.body.position.y - this.body.prev.y)
 
     if (grounded) {                                     // Spieler ist am Boden
       if (controls.up1.isDown || controls.up2.isDown) { // Sprungtaste betätigt
@@ -245,7 +246,13 @@ class Player extends DynamicGameObject {
       }
     } else {                             // Spieler ist nicht am Boden
       if (delta_y === 0) {               // Steht still in der Luft
-        this.animations.play('jump_top') // Höhepunkt-grafik
+        if (this.body.prev.y === this.body.position.y) {
+          // (Behebung Fehler bei dem Höhepunkt-Grafik angezeigt wurde als
+          // player.body.moves = false gesetzt wurde.)
+          this.animations.play('idle')
+        } else {
+          this.animations.play('jump_top') // Höhepunkt-grafik
+        }
       } else if (delta_y > 0) {          // bewegt sich vertikal
         this.animations.currentAnim.onComplete.add(() => {
           this.animations.play('jump_down') // Fall-Grafik nach jetziger Grafik
@@ -278,15 +285,17 @@ class Player extends DynamicGameObject {
     // Alle Schussobjekte sollen beim Verlassen des sichtbaren Bereichts deakti-
     // viert werden
     this.bullets.callAll(
-      'events.onOutOfBounds.add', 'events.onOutOfBounds', (bullet) => {
-        bullet.kill()
-      }
+      'events.onOutOfBounds.add', 'events.onOutOfBounds', obj => obj.kill()
+    )
+    // Schüsse sollen mit Karte kollidieren, bei Kollision gelöscht werden
+    this.bullets.forEach(obj => obj.update = () =>
+      context.physics.arcade.collide(obj, context.layer, obj.kill, null, obj)
     )
     this.bullets.setAll('body.allowGravity', false) // Schwerkraft deaktiviert
   }
 
   // Schuss-Funktion
-  shoot() {
+  shoot(context) {
     // Kugel aus Objektgruppe
     var bullet = this.bullets.getFirstExists(false)
     // Animation, hiernach soll Kugel (200ms verzögert) erscheinen
@@ -323,7 +332,6 @@ class Button extends StaticGameObject {
   constructor(context, x, y, key, angle, callback) { // Argumente
     super(context, x, y, key, angle)                 // Parent-Objekt
     this.body.setSize(24, 24, -4, -4)                // Physikalische Grösse
-    this.angle = angle                               // Behebung Phaser-Fehler
     this.callback = callback                         // Callback abgespeichert
     this.animations.add('u', [0], 1, false)          // Grafik falls Knopf oben
     this.animations.add('d', [1], 0.5, false)        // Grafik für Knopf unten

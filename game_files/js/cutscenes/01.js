@@ -2,9 +2,9 @@
 class Cutscene01 extends Cutscene {
   create() {
     this.setup(
-      this,   // Kontext-Übergabe an parent-Objekt
-      'Menu', // nächstes Level
-      9800    // Totaldauer
+      this,      // Kontext-Übergabe an parent-Objekt
+      'Level12', // nächstes Level
+      9800       // Totaldauer
     )
 
     // Anzuzeigende texte

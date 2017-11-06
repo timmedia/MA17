@@ -89,6 +89,9 @@ class Startup extends Phaser.State {
     if (game.options.debug && game.options.debug === 'true') {
       globalDebug = true
     }
+
+    // Start-Level ab Argument festlegen
+    game.startLevel = game.options.state || 'Menu'
   }
 
   // Ladebalken-Grafik laden

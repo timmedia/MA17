@@ -49,6 +49,10 @@ class Menu extends Phaser.State {
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
     controls.esc.onDown.add(() => game.server.end(), this)
 
+    // Falls vorher Leaderboard offen war, callback zu jeder beliebigen
+    // Eingabe wieder gelöscht
+    this.game.input.keyboard.onDownCallback = () => {}
+
     // Flackern der Lichter
     this.lights.flicker = () => {
       var delay                    // Zeit bis zum nächsten Fläckern
@@ -119,6 +123,6 @@ class Menu extends Phaser.State {
   // Highscore-Anzeige starten
   startLead() {
     this.camera.fade() // verdunkeln
-    console.log('Leaderboard started')
+    game.state.start('Leaderboard')
   }
 }

@@ -5,20 +5,23 @@ class Tutorial extends GameState {
       'Tutorial Map',        // Karte
       800, 480,              // Weltgrösse
       2000,                  // Gravitation
-      'Level01',             // nächstes Level
+      'Level13',             // nächstes Level
       'Tutorial Foreground', // Vordergrund-Bild
       'Tutorial Midground',  // Mittelgrund-Bild
       'Tutorial Background', // Hintergrund-Bild
       'blue_white'           // Farbmodus (Arcade)
     )
 
-    // Michael, Ankerpunk unten mittig
+    // Michael mit Animation (versetzt damit nicht gleiche Bewegun wie Spieler
+    // selbst), Ankerpunk unten mittig
     this.michael = this.add.sprite(155, 460, 'Tutorial Michael')
+    this.michael.animations.add('idle', [2, 3, 0, 1], 5, true)
+    this.michael.animations.play('idle')
     this.michael.anchor.setTo(0.5, 1)
 
-    // Sprechblasen, Ankerpunkt zentriert, erstes Frame angezeigt, Grösse 0
-    this.speechbubble = this.add.sprite(252, 300, 'Tutorial Speechbubbles')
-    this.speechbubble.anchor.setTo(0.5, 0.5)
+    // Sprechblasen, Ankerpunkt unten links, erstes Frame angezeigt, Grösse 0
+    this.speechbubble = this.add.sprite(178, 330, 'Tutorial Speechbubbles')
+    this.speechbubble.anchor.setTo(0, 1)
     this.speechbubble.scale.setTo(0, 0)
 
     // Erstes Sprechblasen-Bild soll nach 1.5s erscheinen

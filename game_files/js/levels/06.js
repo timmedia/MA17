@@ -5,7 +5,7 @@ class Level06 extends GameState {
       'Level06 Map',       // Karte
       6420, 480,           // Kartengrösse
       1300,                // Gravitation
-      'Level07',           // nächstes Level
+      'Level11',           // nächstes Level
       'Debug empty10x10',  // Vordergrund-Bild
       'Level06 Midground', // Mittelgrund-Bild
       'Level06 Background',// Hintergrund-Bild
@@ -13,7 +13,7 @@ class Level06 extends GameState {
     )
 
     // Grafik für geöffnete (!) Tür am Ende des Levels
-    this.door = new StaticGameObject(this, 6190, 440, 'Level07 Door')
+    this.door = new StaticGameObject(this, 6190, 440, 'Level06 Door')
     this.door.alpha = 0 // Standardgemöss verschlossen
     // Funktion um Türe zu öffnen, wird bei Kollision mit Spieler abgerufen
     this.door.reveal = () => {
@@ -63,7 +63,9 @@ class Level06 extends GameState {
 
     // Gegner an allen Koordinaten erstellen
     for (let i in coords) {
-      this.enemies.add(new Enemy(this, coords[i][0], coords[i][1], 'Debug Enemy'))
+      this.enemies.add(
+        new Enemy(this, coords[i][0], coords[i][1], 'Level06 Guard')
+      )
     }
     // Gegener wird aktiviert (siehe 'class Enemy' unten)
     this.enemies.forEach((child) => { child.start() })
@@ -102,16 +104,18 @@ class Level06 extends GameState {
 }
 
 // Klasse eines Gegeners, wird nur in diesem Level verwendet
-// Erbt Eigenschaft von 'StaticGameObject' (hat Physik, aber kann sich nciht bewegen)
+// Erbt Eigenschaft von 'StaticGameObject' (hat Physik, aber keine Bewegung)
 class Enemy extends StaticGameObject {
   constructor(context, x, y, key) {
     super(context, x, y, key)
-    // Ankerpunk horizontal in der Mitte damit Position beim Drehen (spiegeln) gelich bleibt
+    // Standardgemäss 2. Frame vom Spritesheet anzeigen
+    this.frame = 1
+    // Ankerpunk horizontal mittig damit Pos. beim Drehen (spiegeln) gleich ist
     this.anchor.setTo(0.5, 1)
     // Schüsse (Pfeile als Gruppe, 20x gleicher Pfeil)
     this.bullets = context.game.add.group()
     this.bullets.enableBody = true
-    this.bullets.createMultiple(20, 'Debug Arrow')
+    this.bullets.createMultiple(20, 'Level06 Arrow')
     // Beim verlassen des Spielfeldes unten wird der Pfeil gelöscht
     this.bullets.callAll(
       'events.onOutOfBounds.add',
@@ -146,8 +150,9 @@ class Enemy extends StaticGameObject {
           // Gegner tod, Schleife soll beendet werden
           clearInterval(this.loop)
         }
-      }, 750 + Math.random() * 150)
+      }, 900 + Math.random() * 200)
     }
+
     // Überprüfen ob Pfeile Spieler treffen
     this.update = () => {
       context.physics.arcade.overlap(this.bullets, context.player,
@@ -160,6 +165,7 @@ class Enemy extends StaticGameObject {
       )
     }
   }
+
   // Funktion um Schuss auf Spieler abzufeuern
   shoot(context, duration) {
     // ein deaktiviertes Pfeil-Element aus der Gruppe wird genommen
@@ -175,15 +181,15 @@ class Enemy extends StaticGameObject {
       var selfX
       // Ursprungs-X-Pos. je nachdem ob Spieler links oder rechts vom Gegner ist
       if (this.position.x < context.player.x) {
-        // Spieler ist links
-        this.scale.x = 1
+        // Spieler ist rechts
+        this.scale.x = -1   // Gegner dreht sich um
         bullet.scale.x = -1 // Pfeil in umgekehrte Richtung
-        selfX = this.position.x + this.body.width / 2
+        selfX = this.position.x + 20
       } else {
-        // Spieler genau unterhalb oder rechts
-        this.scale.x = -1  // Gegner freht sich um
+        // Spieler genau unterhalb oder links
+        this.scale.x = 1
         bullet.scale.x = 1
-        selfX = this.position.x - this.body.width / 2
+        selfX = this.position.x - 20
       }
       // Pfeil an Startposition gesetzt
       bullet.reset(selfX, selfY)
@@ -191,6 +197,16 @@ class Enemy extends StaticGameObject {
       bullet.body.velocity.x = (context.player.position.x - selfX) / dt
       bullet.body.velocity.y = (context.player.position.y - selfY -
         context.physics.arcade.gravity.y * dt * dt * 0.5) / dt
+
+      // Passendes Frame des Gegners (Schuss nach unten / gerade / oben)
+      let ratio = bullet.body.velocity.y / bullet.body.velocity.x
+      if (ratio > 0.5) {
+        this.frame = 2
+      } else if (ratio < -0.5) {
+        this.frame = 0
+      } else {
+        this.frame = 1
+      }
     }
   }
 }
