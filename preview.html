@@ -1,0 +1,85 @@
+<!doctype html>
+<html class="no-js" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Mode</title>
+  <!-- Material Design Lite Components -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="http://code.getmdl.io/1.3.0/material.indigo-orange.min.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+  <script defer src="http://code.getmdl.io/1.3.0/material.min.js"></script>
+  <style>
+    /* Zelle zentrieren (https://stackoverflow.com/q/31463632) */
+    .center-items {
+      justify-content: center;
+    }
+    /* responsive iFrame (https://benmarshall.me/responsive-iframes/)*/
+    .game-container {
+      position: relative;
+      height: 0;
+      overflow: hidden;
+      padding-bottom: 60%;
+      width: 100%;
+    }
+    iframe {
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .game-button {
+      width: calc(20% - 5px);
+      margin-left: 2px;
+      margin-right: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="mdl-grid center-items">
+    <div class="mdl-cell mdl-cell--8-col">
+      <h1>Vorschau des Spieles</h1>
+      <div class="game-container">
+        <iframe src="game_files/game.html" id="gameFrame" allowfullscreen></iframe>
+      </div>
+      <div class="buttonContainer" id="buttons">
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent game-button" onclick="iframe.mozRequestFullScreen(); iframe.focus()">
+          <i class="material-icons">fullscreen</i> Fullscreen
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+    var container = window.document.getElementById('buttons')
+    var iframe = window.document.getElementById('gameFrame')
+    var buttons = [
+      'Menu',
+      'Tutorial',
+      'Level01',
+      'Level02',
+      'Level03',
+      'Level04',
+      'Level05',
+      'Level06',
+      'Level07',
+      'Level08',
+      'Level09',
+      'Cutscene01',
+      'Cutscene02']
+    for (var name in buttons) {
+      let button = window.document.createElement('button')
+      button.name = buttons[name]
+      button.className = 'mdl-button mdl-js-button mdl-js-ripple-effect game-button'
+      button.innerHTML = button.name
+      button.addEventListener('click', () => {
+        iframe.focus()
+        iframe.contentWindow.game.state.start(button.name)
+      })
+      container.appendChild(button)
+    }
+    iframe.focus()
+  </script>
+</body>
+</html>
