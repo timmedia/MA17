@@ -33,7 +33,7 @@ class GameState extends Phaser.State {
       } else if (game.isMobile) {
         // Spiel auf mobilem Gerät
         return function () {
-          // ... Code for when mobile
+          // ... Code for when mobile, future-proofing
         }
       } else {
         return function () {}

@@ -22,6 +22,7 @@ class Game extends Phaser.Game {
     this.state.add('Menu', Menu)
     this.state.add('Credits', Credits)
     this.state.add('Leaderboard', Leaderboard)
+    this.state.add('EnterName', EnterName)
     this.state.add('Tutorial', Tutorial)
     this.state.add('Level01', Level01)
     this.state.add('Level02', Level02)
@@ -38,10 +39,14 @@ class Game extends Phaser.Game {
     this.state.add('Level13', Level13)
     this.state.add('Level14', Level14)
     this.state.add('Level15', Level15)
+    this.state.add('Level16', Level16)
+    this.state.add('Level17', Level17)
     this.state.add('Cutscene01', Cutscene01)
     this.state.add('Cutscene02', Cutscene02)
     this.state.add('Cutscene03', Cutscene03)
     this.state.add('Cutscene04', Cutscene04)
+    this.state.add('Cutscene05', Cutscene05)
+    this.state.add('Cutscene06', Cutscene06)
 
     // Startup-State starten
     this.state.start('Startup')

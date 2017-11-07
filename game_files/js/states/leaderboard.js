@@ -32,7 +32,7 @@ class Leaderboard extends Phaser.State {
     )
 
     // Titeltext rechts
-    this.add.bitmapText(110, 30, 'Small White', 'LEDAERBOARD', 96)
+    this.add.bitmapText(110, 30, 'Small White', 'LEADERBOARD', 96)
 
     // 'zurück'-Text
     this.add.bitmapText(

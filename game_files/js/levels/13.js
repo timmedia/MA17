@@ -56,10 +56,6 @@ class Level13 extends GameState {
     })
   }
 
-  render () {
-    game.debug.body(this.michael)
-  }
-
   // Funktion um Sprechblase zu öffnen
   openBubble(n) {
     this.bubble.frame = parseInt(n)

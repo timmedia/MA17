@@ -44,11 +44,5 @@ class Cutscene03 extends Cutscene {
     } else {
       this.createText(this, 400, 440, 6000, 6000, txt2 + 'the shift key.', 32)
     }
-
-
-
-
-
-
   }
 }

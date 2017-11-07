@@ -69,6 +69,7 @@ class Menu extends Phaser.State {
       }
       this.time.events.add(delay, this.lights.flicker) // nächste Iteration
     }
+
     this.lights.flicker() // Flackern starten
   }
 

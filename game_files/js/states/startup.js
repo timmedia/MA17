@@ -3,16 +3,41 @@ var globalDebug
 /* Klasse Startup */
 class Startup extends Phaser.State {
   init() {
-    this.input.maxPointers = 2 // maximale Touch-Eingaben
-
-    // Spiel soll beim Verlassen des Fensters nicht stoppen
-    this.stage.disableVisibilityChange = true
-
-    // Skalierung, ganzes Spiel soll angezeigt werden
+    // Skalierung, ganzes Spiel soll immer ins Fenster passen
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
 
     // Spiel horizontal zentrieren
     this.scale.pageAlignHorizontally = true
+
+    // Spiel wird pausiert wenn das HTML-Element den Fokus verliert (http://www.
+    // html5gamedevs.com/topic/3054-detect-when-the-game-change-visibility/)
+    this.game.onPause.add(() => {
+      if (this.game.state.callbackContext.player) {
+        // Spiel soll nur eine 'pausiert' Anzeige haben wenn ein Spieler-Objekt
+        // vorhanden ist. Dies heisst nämlich, dass man sich in einem Level,
+        // und nicht im Menu oder so befindet.
+        let cX = this.game.camera.x
+        let cY = this.game.camera.y
+        this.game.pausedOverlay = this.game.add.sprite(
+          cX, cY, 'Menu Vignette'
+        )
+        this.game.pausedText1 = this.game.add.bitmapText(
+          cX + 180, cY + 130, 'Small White', 'PAUSED', 128
+        )
+        this.game.pausedText2 = this.game.add.bitmapText(
+          cX + 187, cY + 240, 'Small White', 'PRESS ANY KEY TO RESUME', 32
+        )
+      }
+    }, this)
+
+    // Zurück zum Spiel, nicht mehr pausiert
+    this.game.onResume.add(() => {
+      if (this.game.state.callbackContext.player) {
+        this.game.pausedOverlay.kill()
+        this.game.pausedText1.kill()
+        this.game.pausedText2.kill()
+      }
+    }, this)
 
     // Pixels runden, Behebung Zittereffekt
     // (Lösung von: http://www.html5gamedevs.com/topic/12485-sprite-jittering-

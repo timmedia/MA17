@@ -172,7 +172,17 @@ class Preload extends Phaser.State {
     loadImg('Level14 Michael', '14/michael.png')
 
     // Level15
+    loadImg('Level15 Foreground', '15/foreground.png')
+    loadImg('Level15 Midground', '15/midground.png')
+    loadImg('Level15 Background', '15/background.png')
+    loadSpr('Level15 Gabbie', '15/gabbie.png', 53, 161)
+    loadSpr('Level15 Notes', '15/notes.gif', 16, 20)
+    loadSpr('Level15 Speechbubbles', '15/speechbubbles.png', 169, 55)
 
+    // Level17
+    loadImg('Level17 Background', '17/background.png')
+    loadSpr('Level17 Gus', '17/gus.png', 171, 171)
+    loadSpr('Level17 Speechbubbles', '17/speechbubbles.png', 225, 57)
 
     // Cutscene01
     loadImg('Cutscene01 Title', 'cutscenes/01/title.png')
@@ -194,6 +204,9 @@ class Preload extends Phaser.State {
       'Cutscene04 Speechbubbles', 'cutscenes/04/speechbubbles.png', 180, 68
     )
 
+    // Cutscene06
+    loadSequence('Gus', 6)
+
     // Karten
     loadMap('Tutorial Map', 'tutorial.json')
     loadMap('Level01 Map', '01.json')
@@ -208,6 +221,8 @@ class Preload extends Phaser.State {
     loadMap('Level11 Map', '11.json')
     loadMap('Level12 Map', '12.json')
     loadMap('Level13 Map', '13.json')
+    loadMap('Level15 Map', '15.json')
+    loadMap('Level17 Map', '17.json')
 
     // Debug-Grafiken
     loadImg('Debug tile10x10', 'debug/tile10x10.gif')
