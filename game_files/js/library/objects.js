@@ -183,7 +183,7 @@ class Player extends DynamicGameObject {
         // Geschwindigkeit = eigentliche Geschwindigkeit
         this.body.velocity.x = -this.walkSpeed
       }
-    } else if (!controls.right.isDown && !controls.left.isDown) {
+    } else {
       // Links und rechts nicht unten
       if (this.body.velocity.x != 0) {  // Ist Geschwindigkeit nicht 0?
         if (this.wind === 0) {
@@ -212,7 +212,7 @@ class Player extends DynamicGameObject {
 
     if (grounded) {                                     // Spieler ist am Boden
       if (controls.up1.isDown || controls.up2.isDown) { // Sprungtaste betätigt
-        if (Math.round(this.body.velocity.x) != 0) {    // Spieler bewegt sich
+        if (~~(this.body.velocity.x) != 0) {    // Spieler bewegt sich
           this.animations.play('jump_up')               // Sprunganimation
           this.body.velocity.y = this.jumpSpeed         // Bewegung nach oben
         } else {                                        // keine Bewegung

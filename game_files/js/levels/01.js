@@ -12,6 +12,9 @@ class Level01 extends GameState {
       'blue_white'          // Akzentfarbe
     )
 
+    // Musik
+    game.switchMusic('Lab', 1)
+
     // Hinzufügen Wasserfall mit Animationen
     this.waterfall = new StaticGameObject(this, 400, 270, 'Level01 Waterfall')
     this.waterfall.animations.add('down', [0, 1, 2, 3], 10, true)
@@ -25,6 +28,7 @@ class Level01 extends GameState {
     // Brücke wird hinzugefügt, Hitbox vergrössert
     this.bridge = new StaticGameObject(this, 420, 150, 'Level01 Bridge')
     this.bridge.body.setSize(20, 150, 0, 0)
+    this.bridge.angle = 0
     this.bridge.down = false                 // Brücke unten? (für später)
     this.collidePlayerList.push(this.bridge) // kollidiert mit Spieler
 

@@ -12,8 +12,7 @@ class Level06 extends GameState {
       'green'              // Akzentfarbe
     )
 
-
-    // Andere Musik
+    // Musik
     game.switchMusic('Level06', 1)
 
     // Grafik für geöffnete (!) Tür am Ende des Levels
@@ -139,6 +138,7 @@ class Enemy extends StaticGameObject {
         }
       }
     })
+    
     // Funktion um Gegner zu aktivieren
     this.start = () => {
       this.loop = setInterval(() => {
@@ -154,7 +154,7 @@ class Enemy extends StaticGameObject {
           // Gegner tod, Schleife soll beendet werden
           clearInterval(this.loop)
         }
-      }, 900 + Math.random() * 200)
+      }, 900 + Math.random() * 500)
     }
 
     // Überprüfen ob Pfeile Spieler treffen

@@ -3,7 +3,7 @@ class Menu extends Phaser.State {
   create() {
 
     // Musik abspielen
-    game.playMusic('Menu', 1)
+    game.switchMusic('Menu', 1)
 
     // Modus des Spieles
     game.status.setMode('menu', 1)

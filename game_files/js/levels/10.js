@@ -3,7 +3,7 @@ class Level10 extends GameState {
   build() {
     this.setup(
       'Level10 Map',        // Karte
-      1900, 480,            // Kartengrösse
+      2000, 480,            // Kartengrösse
       1300,                 // Gravitation
       'Level01',            // nächstes Level
       'Debug empty10x10',   // leeres Vordergrund-Bild

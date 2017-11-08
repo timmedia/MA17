@@ -12,6 +12,9 @@ class Level02 extends GameState {
       'blue_white'
     )
 
+    // Musik
+    game.switchMusic('Lab', 1)
+
     // Schlüssel um Türe zu öffnen (this.collectKey ist Callback-Funktion)
     this.key = new Key(this, 390, 400, 'General Key', 0, true, this.collectKey)
 

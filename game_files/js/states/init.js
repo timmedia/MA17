@@ -41,6 +41,7 @@ class Game extends Phaser.Game {
     this.state.add('Level15', Level15)
     this.state.add('Level16', Level16)
     this.state.add('Level17', Level17)
+    this.state.add('Level18', Level18)
     this.state.add('Cutscene01', Cutscene01)
     this.state.add('Cutscene02', Cutscene02)
     this.state.add('Cutscene03', Cutscene03)

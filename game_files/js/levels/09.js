@@ -4,13 +4,16 @@ class Level09 extends GameState {
     // Initialisierung der Ebene
     this.setup(
       'Level09 Map',        // Karte
-      null, 480,            // Weltgrösse (x) wird später bestimmt
+      5000, 480,            // Weltgrösse (x) wird später bestimmt
       1300,                 // Gravitation
-      'Menu',               // nächstes Level
+      'Level17',               // nächstes Level
       'Level08 Foreground', // Vordergrund-Bild
       'Level08 Midground',  // Mittelgrund-Bild
       'Level08 Background'  // Hintergrund-Bild
     )
+
+    // Musik
+    game.switchMusic('Labfight', 1)
 
     // Spieler, soll mit Weltrand kollidieren
     this.player = new Player(this, 2400, 405, 'Player 01', 250, -600, null, null, true)
@@ -128,7 +131,7 @@ class Level09 extends GameState {
         this.camera.shake() // Kamera zittert
         // Kamera kann sich wieder mit Spieler bewegen
         this.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-        this.world.setBounds(0, 0, 5000, 480) // Welt vergrössert
+        this.world.setBounds(0, 0, 6000, 480) // Welt vergrössert
         this.player.body.moves = true         // Spieler bewegbar
         this.player.body.velocity.y = -50     // mini Sprung -> Animation reset
         this.enemy.kill()                     // Gegner wird gelöscht
@@ -153,7 +156,7 @@ class Level09 extends GameState {
       (player, bullet) => {
         // Kollision: Kugel verschwindet, Spieler nimmmt 3x 0.5 Herzen Schaden
         bullet.kill()
-        this.player.damage.call(this, this.player, 3)
+        this.player.damage.call(this, this.player, 1)
       }, null, this
     )
     // Kollision Gegner und Kugeln vom Spieler
@@ -170,6 +173,8 @@ class Level09 extends GameState {
     )
     // Passende Animation für den Gegner anzeigen
     this.renderEnemy()
+
+    if (this.player.position.x > 3500) this.goToNextLevel()
   }
 
   // Gegener: Bewegungen des Spielers verzögert kopieren

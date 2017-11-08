@@ -31,7 +31,7 @@
       height: 100%;
     }
     .game-button {
-      width: calc(20% - 5px);
+      width: calc(33% - 5px);
       margin-left: 2px;
       margin-right: 2px;
     }
@@ -54,28 +54,32 @@
   <script>
     var container = window.document.getElementById('buttons')
     var iframe = window.document.getElementById('gameFrame')
-    var buttons = [
-      'Menu',
-      'Tutorial',
-      'Level01',
-      'Level02',
-      'Level03',
-      'Level04',
-      'Level05',
-      'Level06',
-      'Level07',
-      'Level08',
-      'Level09',
-      'Cutscene01',
-      'Cutscene02']
-    for (var name in buttons) {
+    var buttons = {
+      'Hauptmenu': 'Menu',
+      'Tutorial': 'Tutorial',
+      'Bekanntschaft Michael': 'Level13',
+      'Security Town': 'Level06',
+      'Urielle': 'Level11',
+      'Flooded Town': 'Level05',
+      'Ice / Clouds, Raphael': 'Level04',
+      'Desert': 'Level07',
+      'Gabbie': 'Level15',
+      'Well': 'Level03',
+      'Industrial Area': 'Level10',
+      'Laboratory': 'Level01',
+      'Doppelgänger': 'Level08',
+      'Gus': 'Level17'
+    }
+    var n = Object.keys(buttons)
+    for (var name in n) {
       let button = window.document.createElement('button')
-      button.name = buttons[name]
+      button.name = n[name]
       button.className = 'mdl-button mdl-js-button mdl-js-ripple-effect game-button'
       button.innerHTML = button.name
       button.addEventListener('click', () => {
         iframe.focus()
-        iframe.contentWindow.game.state.start(button.name)
+        var id = buttons[button.name]
+        iframe.contentWindow.game.state.start(id)
       })
       container.appendChild(button)
     }

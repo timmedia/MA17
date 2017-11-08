@@ -14,21 +14,20 @@ class Startup extends Phaser.State {
 
     // Musik abspielen
     game.playMusic = (file, volume) => {
-      game.song = game.add.audio(file)
-
+      game.song = game.add.audio(file, null, true)
       game.song.onDecoded.add(() => {
-        game.song.play(null, null, null, true)
-        game.song.loop = true
-        game.song.fadeIn(1000)
+        game.song.fadeIn(1000, true)
       })
     }
 
     game.switchMusic = (file, volume) => {
       if (game.song) {
-        game.song.fadeOut(1000)
-        game.song.onFadeComplete.add(() => {
-          game.playMusic(file, volume)
-        })
+        if (file != game.song.key) {
+          game.song.fadeOut(1000)
+          game.song.onFadeComplete.add(() => {
+            game.playMusic(file, volume)
+          })
+        }
       } else {
           game.playMusic(file, volume)
       }

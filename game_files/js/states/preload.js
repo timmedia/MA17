@@ -50,6 +50,9 @@ class Preload extends Phaser.State {
     // Musik
     loadAudio('Menu')
     loadAudio('Level06')
+    loadAudio('Lab')
+    loadAudio('Labfight')
+    loadAudio('Cottoncandy')
 
     // Menu Dateien
     loadImg('Menu Background', 'menu/background.gif')

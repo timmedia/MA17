@@ -6,7 +6,7 @@ class Level07 extends GameState {
       null,             // Keine Karte
       4200, 480,        // Weltgrösse (x, y)
       1300,             // Gravitation
-      'Level08',        // nächstes Level
+      'Level15',        // nächstes Level
       null, null, null, // Keine Hinter-, Mittle und Vordergrund-Bilder
       'yellow_white'    // Farbakzent
     )

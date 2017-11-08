@@ -7,6 +7,9 @@ class Cutscene02 extends Cutscene {
       6000       // Totaldauer
     )
 
+    // Musik
+    game.switchMusic('Lab', 1)
+
     // Bild anzeigen
     this.createImage(this, 0, 0, 0, 7000, 'Cutscene02 Background')
 

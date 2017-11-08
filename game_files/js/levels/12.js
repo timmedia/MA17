@@ -82,7 +82,7 @@ class Level12 extends GameState {
         // Nach einer vorgegebenen Zeit beginnt die Attacke
         this.time.events.add(duration, () => {
           // Animation Stab nach unten, Kamera bewegt scih
-          this.camera.shake(0.01, 1000, null)
+          this.camera.shake(0.01, 200, null)
           this.urielle.animations.play('attack down')
 
           // Pfeile kommen von oben her

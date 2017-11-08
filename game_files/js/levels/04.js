@@ -12,6 +12,9 @@ class Level04 extends GameState {
       'pink'               // Akzentfarbe
     )
 
+    // Musik
+    game.switchMusic('Cottoncandy', 1)
+
     // Spieler, Kamera soll nur auf y-Achse folgen
     this.player = new Player(
       this, 100, 1745, 'Player 01', 250, -600, false, true
