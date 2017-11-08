@@ -9,6 +9,31 @@ class Startup extends Phaser.State {
     // Spiel horizontal zentrieren
     this.scale.pageAlignHorizontally = true
 
+    // Standard Lautstärke
+    game.sound.volume = 0.01
+
+    // Musik abspielen
+    game.playMusic = (file, volume) => {
+      game.song = game.add.audio(file)
+
+      game.song.onDecoded.add(() => {
+        game.song.play(null, null, null, true)
+        game.song.loop = true
+        game.song.fadeIn(1000)
+      })
+    }
+
+    game.switchMusic = (file, volume) => {
+      if (game.song) {
+        game.song.fadeOut(1000)
+        game.song.onFadeComplete.add(() => {
+          game.playMusic(file, volume)
+        })
+      } else {
+          game.playMusic(file, volume)
+      }
+    }
+
     // Spiel wird pausiert wenn das HTML-Element den Fokus verliert (http://www.
     // html5gamedevs.com/topic/3054-detect-when-the-game-change-visibility/)
     this.game.onPause.add(() => {

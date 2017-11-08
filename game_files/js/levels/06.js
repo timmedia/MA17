@@ -12,6 +12,10 @@ class Level06 extends GameState {
       'green'              // Akzentfarbe
     )
 
+
+    // Andere Musik
+    game.switchMusic('Level06', 1)
+
     // Grafik für geöffnete (!) Tür am Ende des Levels
     this.door = new StaticGameObject(this, 6190, 440, 'Level06 Door')
     this.door.alpha = 0 // Standardgemöss verschlossen

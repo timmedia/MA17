@@ -2,8 +2,11 @@
 class Menu extends Phaser.State {
   create() {
 
+    // Musik abspielen
+    game.playMusic('Menu', 1)
+
     // Modus des Spieles
-    game.status.setMode('menu')
+    game.status.setMode('menu', 1)
 
     this.add.sprite(0, 0, 'Menu Background')                // Hintergrund-Bild
     this.lights = this.add.sprite(174, 308, 'Menu Lights')  // Lampen

@@ -31,6 +31,12 @@ class Preload extends Phaser.State {
       )
     }
 
+    // Audiodateien laden
+    var loadAudio = (name) => {
+      let str = 'assets/audio/' + name.toLowerCase()
+      this.load.audio(name, [str + '.mp3', str + '.ogg'])
+    }
+
     // Bildfolge laden
     var loadSequence = (name, frames) => {
       for (let i = 1; i <= frames; i++) { // jedes Frame wird geladen
@@ -40,6 +46,10 @@ class Preload extends Phaser.State {
         )
       }
     }
+
+    // Musik
+    loadAudio('Menu')
+    loadAudio('Level06')
 
     // Menu Dateien
     loadImg('Menu Background', 'menu/background.gif')
