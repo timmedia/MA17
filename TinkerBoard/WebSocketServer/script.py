@@ -121,6 +121,9 @@ delay = 0.05
 # Idee: https://unix.stackexchange.com/q/188182 & https://stackoverflow.com/q/1196074
 Popen(['firefox', 'file:///home/linaro/MA17/game_files/game.html?mode=arcade'])
 
+# Maximale Lautstärke verdoppeln
+Popen(['pactl', 'set-sink-volume', '2', '200%'])
+
 while not stopped:
     # Phase (für Trig. Funktionen) nach Zeit, nicht abhängig von Durchlaufszeit einer Iteration
     phase = 20 * clock()
