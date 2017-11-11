@@ -76,6 +76,9 @@ class Leaderboard extends Phaser.State {
     // http://www.html5gamedevs.com/topic/5905-what-is-function-check-any-key-
     // press-in-phaser/)
 
+    // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
+    controls.esc.onDown.add(() => console.log('esc'), this)
+
     this.game.input.keyboard.onDownCallback = () => {
       this.state.start('Menu')
     }

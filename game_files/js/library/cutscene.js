@@ -6,6 +6,9 @@ class Cutscene extends Phaser.State {
       // nach Fade soll nächstes Level starten
       this.time.events.add(1000, () => { context.state.start(nextLevel) })
     })
+
+    // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
+    controls.esc.onDown.add(() => console.log('esc'), this)
   }
 
   // Funktion um Bild zu erstellen
