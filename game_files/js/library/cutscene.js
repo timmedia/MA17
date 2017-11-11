@@ -8,7 +8,7 @@ class Cutscene extends Phaser.State {
     })
 
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
-    controls.esc.onDown.add(() => console.log('esc'), this)
+    if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
   }
 
   // Funktion um Bild zu erstellen

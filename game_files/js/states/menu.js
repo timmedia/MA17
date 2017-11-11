@@ -54,7 +54,7 @@ class Menu extends Phaser.State {
     this.game.input.keyboard.onDownCallback = () => {}
 
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
-    if (this.arcade) controls.esc.onDown.add(() => this.server.end(), this)
+    if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
 
     // Flackern der Lichter
     this.lights.flicker = () => {

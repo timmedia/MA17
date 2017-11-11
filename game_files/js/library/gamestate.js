@@ -21,7 +21,7 @@ class GameState extends Phaser.State {
     controls.backspace.onDown.add(() => game.state.start('Menu'), this)
 
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
-    if (this.arcade) controls.esc.onDown.add(() => this.server.end(), this)
+    if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
 
     // Status, z.B. für Arcade Farbanzeige
     game.status.setMode(mode)
