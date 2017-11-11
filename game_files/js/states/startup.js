@@ -10,7 +10,7 @@ class Startup extends Phaser.State {
     this.scale.pageAlignHorizontally = true
 
     // Standard Lautstärke
-    game.sound.volume = 0.01
+    game.sound.volume = 1
 
     // Musik abspielen
     game.playMusic = (file, volume) => {
