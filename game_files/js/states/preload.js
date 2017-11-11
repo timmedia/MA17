@@ -34,7 +34,7 @@ class Preload extends Phaser.State {
     // Audiodateien laden
     var loadAudio = (name) => {
       let str = 'assets/audio/' + name.toLowerCase()
-      this.load.audio(name, [str + '.mp3', str + '.ogg'])
+      this.load.audio(name, [str + '.ogg', str + '.mp3'])
     }
 
     // Bildfolge laden

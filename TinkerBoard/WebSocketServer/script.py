@@ -54,7 +54,6 @@ def readMessage(client, server, message):
         previousDeathCount = info['deathCount']
         previousMode = info['mode']
         mode = 'damage'
-    print('Mode: ' + str(message))
 server.set_fn_message_received(readMessage)
 
 # Farbe einer LED setzen
