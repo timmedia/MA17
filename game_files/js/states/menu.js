@@ -49,9 +49,6 @@ class Menu extends Phaser.State {
     controls.up1.onDown.add(this.startSelected, this)
     controls.up2.onDown.add(this.startSelected, this)
 
-    // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
-    controls.esc.onDown.add(() => game.server.end(), this)
-
     // Falls vorher Leaderboard offen war, callback zu jeder beliebigen
     // Eingabe wieder gelöscht
     this.game.input.keyboard.onDownCallback = () => {}

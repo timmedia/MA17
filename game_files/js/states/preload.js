@@ -256,6 +256,9 @@ class Preload extends Phaser.State {
       esc:       this.input.keyboard.addKey(Phaser.Keyboard.ESC),
       backspace: this.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE)
     }
+
+    // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
+    controls.esc.onDown.add(() => game.server.end(), this)
   }
   create() {
     this.state.start(game.startLevel) // ersten State starten
