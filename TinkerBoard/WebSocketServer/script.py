@@ -151,7 +151,7 @@ while not stopped:
         # Grüner Farbakzent: rot Welleneffekt, 50% Helligkeit; grün 100%, blau 'Sins'-Kurve
         setColourRipple(0, phase, 50)
         setColourAllLeds(1, 100)
-        setColour(2, phase, 50)
+        setColourRipple(2, phase, 50)
         delay = 0.05
     elif mode == 'red_white':
         # Rot-Weisser Farbakzent: rot immer 100%, blau & grün gleichzeitiger Welleneffekt
