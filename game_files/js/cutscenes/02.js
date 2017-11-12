@@ -8,7 +8,7 @@ class Cutscene02 extends Cutscene {
     )
 
     // Musik
-    game.switchMusic('Lab', 1)
+    game.switchMusic('Labfight', 1)
 
     // Bild anzeigen
     this.createImage(this, 0, 0, 0, 7000, 'Cutscene02 Background')

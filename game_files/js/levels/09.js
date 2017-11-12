@@ -12,9 +12,6 @@ class Level09 extends GameState {
       'Level08 Background'  // Hintergrund-Bild
     )
 
-    // Musik
-    game.switchMusic('Labfight', 1)
-
     // Spieler, soll mit Weltrand kollidieren
     this.player = new Player(this, 2400, 405, 'Player 01', 250, -600, null, null, true)
     this.player.checkWorldBounds = true

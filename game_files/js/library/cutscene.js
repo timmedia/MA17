@@ -9,6 +9,14 @@ class Cutscene extends Phaser.State {
 
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
     if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
+
+    var fade = this.add.sprite(0, 0, 'Blackscreen') // schwarz ab Grafik
+    fade.fixedToCamera = true                       // bewegt sich mit Kamera
+    fade.bringToTop()
+    this.add.tween(fade).to(
+      {alpha: 0}, 1000, Phaser.Easing.Quadratic.InOut, true
+    )
+    this.time.events.add(1000, fade.kill, this) // wird nach 1s wieder gelöscht
   }
 
   // Funktion um Bild zu erstellen
@@ -30,6 +38,7 @@ class Cutscene extends Phaser.State {
     context.time.events.add(delay + duration, () => {
       image.kill()
     })
+    image.sendToBack()
     return image
   }
 

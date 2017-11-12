@@ -53,7 +53,8 @@ class Level04 extends GameState {
       [300, 740, 4],
       [560, 620, 5],
       [440, 525, 8],
-      [550, 400, 1]
+      [550, 400, 1],
+      [700, 450, 2]
     ]
 
     // Eisblöcke als Physikgruppe

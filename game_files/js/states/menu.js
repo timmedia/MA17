@@ -49,6 +49,9 @@ class Menu extends Phaser.State {
     controls.up1.onDown.add(this.startSelected, this)
     controls.up2.onDown.add(this.startSelected, this)
 
+    // Man kann in diesem Level nicht schiessen
+    game.status.info.shootEnabled = false
+
     // Falls vorher Leaderboard offen war, callback zu jeder beliebigen
     // Eingabe wieder gelöscht
     this.game.input.keyboard.onDownCallback = () => {}

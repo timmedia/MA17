@@ -20,7 +20,7 @@ class Tutorial extends GameState {
     this.michael.anchor.setTo(0.5, 1)
 
     // Sprechblasen, Ankerpunkt unten links, erstes Frame angezeigt, Grösse 0
-    this.speechbubble = this.add.sprite(178, 330, 'Tutorial Speechbubbles')
+    this.speechbubble = this.add.sprite(178, 315, 'Tutorial Speechbubbles')
     this.speechbubble.anchor.setTo(0, 1)
     this.speechbubble.scale.setTo(0, 0)
 

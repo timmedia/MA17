@@ -104,7 +104,7 @@ class Level12 extends GameState {
 
     // Spieler wird hinzugefügt, kann schiessen
     this.player = new Player(
-      this, 50, 300, 'Player 01', 300, -600, false, false, true
+      this, 150, 300, 'Player 01', 300, -600, false, false, true
     )
 
     // Erste Attacke

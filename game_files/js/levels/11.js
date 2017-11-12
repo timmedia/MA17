@@ -12,7 +12,8 @@ class Level11 extends GameState {
     )
 
     // Spieler wird hinzugefügt
-    this.player = new Player(this, 50, 300, 'Player 01', 300, -600)
+    this.player = new Player(this, 150, 415, 'Player 01', 300, -600)
+    this.player.body.moves = false
 
     // Sprechblase, Ankerpunkt unten rechts, auf 0 skaliert
     this.bubble = this.add.sprite(640, 330, 'Level11 Speechbubbles')
