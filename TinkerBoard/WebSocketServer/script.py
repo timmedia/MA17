@@ -48,6 +48,10 @@ def readMessage(client, server, message):
     global mode, previousMode, previousDeathCount
     # JSON (String) in Python lesen: https://stackoverflow.com/q/7771011
     info = json.loads(message)
+    if info['shootEnabled'] == 'true':
+        GPIO.output(40, GPIO.HIGH)
+    else:
+        GPIO.output(40, GPIO.LOW)
     if info['deathCount'] == previousDeathCount:
         setMode(info['mode'])
     else:
@@ -87,6 +91,9 @@ GPIO.setmode(GPIO.BOARD)
 
 # Fehler in Konsole nicht anzeigen
 GPIO.setwarnings(False)
+
+# LED für Schiess-Knopf
+GPIO.setup(40, GPIO.OUT)
 
 # jede Zeile ist eine LED, mit jeweils Pinnummern von Rot, Grün und Blau
 pins = [

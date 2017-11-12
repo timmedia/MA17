@@ -113,6 +113,9 @@ class Player extends DynamicGameObject {
     if (enableShoot) {
       this.enableShoot = true  // Spieler darf schiessen
       this.setupShoot(context) // Schiessmechanismus wir initialisiert
+      game.status.info.shootEnabled = true
+    } else {
+      game.status.info.shootEnabled = true
     }
 
     // Variablen für Laufmechanismus

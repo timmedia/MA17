@@ -68,6 +68,5 @@ class Cutscene extends Phaser.State {
         )
       }
     }
-    console.log(delays)
   }
 }
