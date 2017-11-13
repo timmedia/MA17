@@ -127,9 +127,15 @@ class Player extends DynamicGameObject {
     controls.right.onDown.add(this.pressRight, this)
     controls.left.onDown.add(this.pressLeft, this)
 
+    if (game.mobileControls) {
+      game.mobileControls[0].addEventListener('mousedown', () => this.pressRight.call(this))
+    }
+
     // Falls der Spieler schiessen kann, soll die Schiess-Taste überprüft wer-
     // den und falls betätig 'this-shoot' aufgerufen werden
     if (enableShoot) controls.shift.onDown.add(this.shoot, this)
+
+
   }
 
   // Spieler soll sich nach rechts bewegen

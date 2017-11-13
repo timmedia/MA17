@@ -116,7 +116,12 @@ class Startup extends Phaser.State {
       setShootMode: function (boolean) {
         this.info.shootEnabled = boolean
         this.info.changeCounter += 1
-      }
+      },
+
+      // Knöpfe
+      up:    false,
+      left:  false,
+      right: false,
     }
 
     if (game.options.mode) {
@@ -127,6 +132,7 @@ class Startup extends Phaser.State {
       } else if (game.options.mode === 'mobile') {
         game.isArcade = false
         game.isMobile = true
+        setupMobile()
       } else {
         game.isArcade = false
         game.isMobile = false

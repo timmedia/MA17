@@ -8,6 +8,13 @@ div {
   position: absolute;
   top: 0px;
   left: 0px;
+  width: 100vw;
+  max-width: calc(100vh * 1.7);
+  max-height: 100vh;
+}
+canvas {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 /* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
 /* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */
