@@ -14,7 +14,7 @@ function init() {
 class Game extends Phaser.Game {
   constructor() {
     // Grösse (x, y), Anzeigeart, parent-Objekt, default state, transparent
-    super(800, 480, Phaser.CANVAS, null, null, null, false)
+    super(800, 480, Phaser.CANVAS, 'gameBox', null, null, false)
 
     // Alle States hinzufügen
     this.state.add('Startup', Startup)

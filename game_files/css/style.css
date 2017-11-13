@@ -1,7 +1,13 @@
 /* keine Ränder  */
-html, body, canvas {
+html, body, canvas, div {
   margin: 0px;
   padding: 0px;
+  border: 0px;
+}
+div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 /* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
 /* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */

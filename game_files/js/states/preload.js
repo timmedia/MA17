@@ -100,7 +100,7 @@ class Preload extends Phaser.State {
     loadSpr('Level01 Waterfall', '01/waterfall.gif', 200, 240)
 
     // Level02
-    loadImg('Level02 Background', '02/background.gif')
+    loadImg('Level02 Background', '02/background.png')
     loadImg('Level02 Midground', '02/midground.gif')
     loadSpr('Level02 Waterfall', '02/waterfall.png', 122, 310)
 
@@ -162,7 +162,7 @@ class Preload extends Phaser.State {
     loadImg('Level10 Background', '10/background.png')
     loadImg('Level10 Midground', '10/midground.png')
     loadImg('Level10 Door', '10/door.png')
-    loadSpr('Level10 Speechbubbles', '10/speechbubbles.png', 154, 72)
+    loadSpr('Level10 Speechbubbles', '10/speechbubbles.png', 154, 88)
 
     // Level11
     loadImg('Level11 Background', '11/background.png')
