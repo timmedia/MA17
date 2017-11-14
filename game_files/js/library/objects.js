@@ -64,6 +64,12 @@ class Player extends DynamicGameObject {
   ) {
     super(context, x, y, key, null, null, bounce)   // Parent-Objekt
 
+    if (game.isMobile) {
+      game.mobileControls.left.style.opacity = 1
+      game.mobileControls.right.style.opacity = 1
+      game.mobileControls.jump.style.opacity = 1
+    }
+
     // Animationen: (name, Array frames ab spritesheet, Bilder/s., Wiederholen?)
     this.animations.add('idle', [10, 11, 12, 13], 5, true)
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true)
@@ -127,19 +133,44 @@ class Player extends DynamicGameObject {
     controls.right.onDown.add(this.pressRight, this)
     controls.left.onDown.add(this.pressLeft, this)
 
-    if (game.mobileControls) {
-      game.mobileControls[0].addEventListener('mousedown', () => this.pressRight.call(this))
-    }
-
     // Falls der Spieler schiessen kann, soll die Schiess-Taste überprüft wer-
     // den und falls betätig 'this-shoot' aufgerufen werden
     if (enableShoot) controls.shift.onDown.add(this.shoot, this)
 
+    if (game.isMobile) {
+      game.mobileControls.left.addEventListener('touchstart', () => this.pressLeft())
+      game.mobileControls.left.addEventListener('touchenter', () => this.pressLeft())
+      game.mobileControls.left.addEventListener('touchmove', () => this.pressLeft())
+      game.mobileControls.left.addEventListener('touchleave', () => {
+        controls.left.isDown = false
+      })
+      game.mobileControls.left.addEventListener('touchend', () => {
+        controls.left.isDown = false
+      })
+      game.mobileControls.left.addEventListener('mousedown', () => this.pressLeft())
+      game.mobileControls.left.addEventListener('mouseup', () => {
+        controls.left.isDown = false
+      })
 
+      game.mobileControls.right.addEventListener('touchstart', () => this.pressRight())
+      game.mobileControls.right.addEventListener('touchenter', () => this.pressRight())
+      game.mobileControls.right.addEventListener('touchmove', () => this.pressRight())
+      game.mobileControls.right.addEventListener('touchleave', () => {
+        controls.right.isDown = false
+      })
+      game.mobileControls.right.addEventListener('touchend', () => {
+        controls.right.isDown = false
+      })
+      game.mobileControls.right.addEventListener('mousedown', () => this.pressRight())
+      game.mobileControls.right.addEventListener('mouseup', () => {
+        controls.right.isDown = false
+      })
+    }
   }
 
   // Spieler soll sich nach rechts bewegen
   pressRight() {
+    controls.right.isDown = true
     this.body.acceleration.x += 2000       // Beschleunigung +2000 Pixel/s^2
     if (this.body.acceleration.x > 2000) {
       this.body.acceleration.x = 2000      // soll 2000 nicht übersteigen
@@ -151,6 +182,7 @@ class Player extends DynamicGameObject {
 
   // Spieler soll sich nach links bewegen
   pressLeft() {
+    controls.left.isDown = true
     this.body.acceleration.x -= 2000        // Beschleunigung -2000 Pixel/s^2
     if (this.body.acceleration.x < -2000) {
       this.body.acceleration.x = -2000      // soll max -2000 sein
@@ -158,9 +190,9 @@ class Player extends DynamicGameObject {
     // Richtung der Schwerkraft, gleich wie bei pressRight()
     this.scale.x = (this.jumpSpeed < 0)? -1 : 1
   }
-
   // Update-Funktion, wird in jedem Physik-Durchgang durchlaufen
   update() {
+
     if (this.hp < 0) {  // Hat der Spieler noch Herzen?
       this.killPlayer() // Nein, Spieler stirbt
       return            // Rest ist egal
@@ -220,7 +252,7 @@ class Player extends DynamicGameObject {
     var delta_y = ~~(this.body.position.y - this.body.prev.y)
 
     if (grounded) {                                     // Spieler ist am Boden
-      if (controls.up1.isDown || controls.up2.isDown) { // Sprungtaste betätigt
+      if (controls.up1.isDown || controls.up2.isDown || game.mobileJumpDown) { // Sprungtaste betätigt
         if (~~(this.body.velocity.x) != 0) {    // Spieler bewegt sich
           this.animations.play('jump_up')               // Sprunganimation
           this.body.velocity.y = this.jumpSpeed         // Bewegung nach oben
@@ -284,6 +316,11 @@ class Player extends DynamicGameObject {
   // Schiess-Fuktion, Idee von https://www.codecaptain.io/blog/game-development/
   // shooting-bullets-using-phaser-groups/518
   setupShoot(context) {
+    if (game.isMobile) {
+      game.mobileControls.shoot.addEventListener('touchstart', () => this.shoot(this))
+      game.mobileControls.shoot.addEventListener('mousedown', () => this.shoot(this))
+      game.mobileControls.shoot.style.opacity = 1
+    }
     // Es werden 20 Schussobjekte generiert, somit müssen während dem Spielen
     // keine Grafiken mehr hinzugefügt werden
     this.bullets = context.game.add.group() // Phaser-Objektgruppe

@@ -84,6 +84,12 @@ class GameState extends Phaser.State {
   // Zum nächsten Level gehen
   goToNextLevel() {
     this.camera.fade() // Bildschirm wird schwarz
+    if (game.isMobile) {
+      game.mobileControls.left.style.opacity = 0
+      game.mobileControls.right.style.opacity = 0
+      game.mobileControls.jump.style.opacity = 0
+      game.mobileControls.shoot.style.opacity = 0
+    }
     this.time.events.add(500,() => {
       game.state.start(this.nextLevel) // nach 0.5s nächstes Level
     })

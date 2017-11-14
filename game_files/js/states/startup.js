@@ -147,6 +147,8 @@ class Startup extends Phaser.State {
 
     // Start-Level ab Argument festlegen
     game.startLevel = game.options.state || 'Menu'
+
+    game.mobileJumpDown = false
   }
 
   // Ladebalken-Grafik laden

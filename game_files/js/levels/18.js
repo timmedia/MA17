@@ -3,7 +3,7 @@ class Level18 extends GameState {
   build() {
     this.setup(
       'Level17 Map',        // Karte
-      2200, 480,            // Kartengrösse
+      3200, 480,            // Kartengrösse
       1300,                 // Gravitation
       'Menu',         // nächstes Level
       null, null,
@@ -12,16 +12,16 @@ class Level18 extends GameState {
     )
 
     // Gus, mit Animation
-    this.gus = new DynamicGameObject(this, 100, 260, 'Level17 Gus')
+    this.gus = new DynamicGameObject(this, 640, 260, 'Level17 Gus')
     this.gus.animations.add('running', [0, 1, 2, 3], 5, true)
     this.gus.animations.play('running')
 
     // Sprechblasen
-    this.bubble = this.add.sprite(200, 200, 'Level17 Speechbubbles')
+    this.bubble = this.add.sprite(400, 200, 'Level17 Speechbubbles')
     this.bubble.scale.setTo(0, 0)
 
     // Spieler wird hinzugefügt
-    this.player = new Player(this, 500, 415, 'Player 01', 230, -600, true)
+    this.player = new Player(this, 900, 415, 'Player 01', 230, -600, true)
     this.player.body.moves = false
 
     this.time.events.add(0, this.openBubble, this, 8)
@@ -30,15 +30,15 @@ class Level18 extends GameState {
     this.time.events.add(7000, () => {
       this.player.body.moves = true
       this.camera.shake()
-      this.gus.body.acceleration.x = 100
-      this.gus.body.maxVelocity.x = this.player.body.maxVelocity.x
+      this.gus.body.velocity.x = 100
+      this.gus.body.acceleration.x = 20
+      this.gus.body.maxVelocity.x = this.player.body.maxVelocity.x -20
     })
   }
 
   // Spiel-Schleife
   loop() {
-    console.log(this.player.position.x)
-    if (this.player.position.x > 1740) this.goToNextLevel()
+    if (this.player.position.x > 3000) this.goToNextLevel()
     this.physics.arcade.collide(this.layer, this.gus)
     this.physics.arcade.overlap(
       this.player, this.gus, () => this.player.damage.call(this, this.player, 1)

@@ -42,7 +42,7 @@ class Leaderboard extends Phaser.State {
     // Dateien laden und anzeigen (passiert asynchron)
     this.path.get().then(entry => {
       // Falls in der Zwischenzeit der State veränder wird
-      if (this.key === "Leaderboard") {
+      if (game.state.current === "Leaderboard") {
         this.loadingText.kill() // Ladetext löschen
         let data = entry.data()
         for (let i in data) {
@@ -51,9 +51,7 @@ class Leaderboard extends Phaser.State {
             40, 150 + i * 60, 'Small White', data[i][1].toUpperCase() , 64
           )
           // Resultate
-          this.add.bitmapText(
-            240, 150 + i * 60, 'Small White', data[i][0], 64
-          )
+          this.add.bitmapText(240, 150 + i * 60, 'Small White', data[i][0], 64)
         }
       }
     })
@@ -79,8 +77,8 @@ class Leaderboard extends Phaser.State {
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
     if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
 
-    this.game.input.keyboard.onDownCallback = () => {
-      this.state.start('Menu')
-    }
+    this.game.input.mouse.mouseDownCallback = () => this.state.start('Menu')
+
+    this.game.input.keyboard.onDownCallback = () =>  this.state.start('Menu')
   }
 }

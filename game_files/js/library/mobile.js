@@ -1,39 +1,36 @@
 function setupMobile () {
 
   const doc = document
+
+  game.mobileRunning = true
+
+  var gameBox = doc.getElementById('gameBox')
+
   let totalWidth = doc.body.clientWidth
 
-  function createButton(x, y) {
+  function createButton(x, y, g) {
     let button = doc.createElement('div')
-    let height = totalWidth / 6
+    let height = totalWidth / 8
     button.style.width = ~~height + 'px'
     button.style.height = ~~height + 'px'
-    button.style.background = 'red'
+    button.style.opacity = 0
     button.style.position = 'absolute'
-    button.style.top = ~~(height * 2.5)  + 'px'
-    button.style.left = ~~(height * 5)  + 'px'
-    button.startCallback = function () {console.log('hey')}
-    button.endCallback = function () {}
+    button.style.background = 'url("assets/graphics/general/' + g + '.png")'
+    button.style.backgroundSize = 'cover'
+    button.style.top = ~~(height * y)  + 'px'
+    button.style.left = ~~(height * x)  + 'px'
+    button.pressed = false
     button.playerContext = null
+    gameBox.append(button)
     return button
   }
-
-  let gameBox = doc.getElementById('gameBox')
-  let jumpButton = createButton(100, 100)
-
-  game.mobileControls = [jumpButton]
-
-  // Knopf unten
-  jumpButton.addEventListener('touchstart', () => {
-    game.mobileControls[0].startCallback()
-  })
-  jumpButton.addEventListener('mousedown', jumpButton.startCallback)
-
-  // Knopf wieder oben
-  jumpButton.addEventListener('touchend', jumpButton.endCallback)
-  jumpButton.addEventListener('mouseup', jumpButton.endCallback)
-
-
-
-  gameBox.append(jumpButton)
+  game.mobileControls = {}
+  game.mobileControls.left = createButton(0.2, 3.5, 'left')
+  game.mobileControls.right = createButton(1.5, 3.5, 'right')
+  game.mobileControls.jump = createButton(6.6, 3.5, 'jump')
+  game.mobileControls.shoot = createButton(6.6, 2, 'shoot')
+  game.mobileControls.jump.addEventListener('mousedown', () => game.mobileJumpDown = true)
+  game.mobileControls.jump.addEventListener('mouseup', () => game.mobileJumpDown = false)
+  game.mobileControls.jump.addEventListener('touchstart', () => game.mobileJumpDown = true)
+  game.mobileControls.jump.addEventListener('touchend', () => game.mobileJumpDown = false)
 }

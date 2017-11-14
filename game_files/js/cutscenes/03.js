@@ -42,6 +42,8 @@ class Cutscene03 extends Cutscene {
     // zweiter Text abhängig vom Gerättyp
     if (game.isArcade) {
       this.createText(this, 400, 420, 6000, 6000, txt2 + 'the red button.', 32)
+    } else if (game.isMobile){
+      this.createText(this, 400, 440, 6000, 6000, txt2 + 'the shoot button.', 32)
     } else {
       this.createText(this, 400, 440, 6000, 6000, txt2 + 'the shift key.', 32)
     }

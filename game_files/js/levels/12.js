@@ -97,8 +97,12 @@ class Level12 extends GameState {
         })
 
         // Nächste Attacke, Pause hängt vom Schaden ab
-        var delay = 9000 - this.tree.damage * 100
-        this.time.events.add(delay, this.urielle.attack, this, 500)
+        if (!game.urielleStarted) {
+          var delay = 9000 - this.tree.damage * 100
+          this.time.events.add(delay, this.urielle.attack, this, 500)
+          game.urielleStarted = true
+        }
+
       }
     }
 
@@ -210,7 +214,7 @@ class Level12 extends GameState {
       this.add.tween(this.urielle)
         .to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true)
     })
-
+    game.urielleStarted = false
     // Nach dem Verschwinden rüttelt die Kamera sich, es geht zum nächsten Level
     this.time.events.add(8000, () => this.camera.shake(0.05, 200), this)
     this.time.events.add(9000, () => this.goToNextLevel())

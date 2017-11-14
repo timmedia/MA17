@@ -12,7 +12,7 @@ class Level17 extends GameState {
     )
 
     // Gus, mit Animation
-    this.gus = this.add.sprite(300, 260, 'Level17 Gus')
+    this.gus = this.add.sprite(664, 260, 'Level17 Gus')
     this.gus.animations.add('running', [0, 1, 2, 3], 5, true)
     this.gus.animations.play('running')
 

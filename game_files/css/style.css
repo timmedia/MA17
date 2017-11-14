@@ -11,10 +11,12 @@ div {
   width: 100vw;
   max-width: calc(100vh * 1.7);
   max-height: 100vh;
+  transition: opacity 2s ease;  
 }
 canvas {
   margin-left: 0px !important;
   margin-right: 0px !important;
+  cursor: none;
 }
 /* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
 /* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */
