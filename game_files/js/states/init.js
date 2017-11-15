@@ -48,6 +48,7 @@ class Game extends Phaser.Game {
     this.state.add('Cutscene04', Cutscene04)
     this.state.add('Cutscene05', Cutscene05)
     this.state.add('Cutscene06', Cutscene06)
+    this.state.add('Cutscene07', Cutscene07)
 
     // Startup-State starten
     this.state.start('Startup')

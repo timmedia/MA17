@@ -4,14 +4,13 @@ html, body, canvas, div {
   padding: 0px;
   border: 0px;
 }
-div {
-  position: absolute;
+#gameBox {
+  position: relative;
   top: 0px;
-  left: 0px;
   width: 100vw;
   max-width: calc(100vh * 1.7);
   max-height: 100vh;
-  transition: opacity 2s ease;  
+  transition: opacity 2s ease;
 }
 canvas {
   margin-left: 0px !important;

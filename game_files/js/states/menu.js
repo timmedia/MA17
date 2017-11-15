@@ -51,6 +51,7 @@ class Menu extends Phaser.State {
 
     // Man kann in diesem Level nicht schiessen
     game.status.info.shootEnabled = false
+    game.status.info.deathCount = 0
 
     // Falls vorher Leaderboard offen war, callback zu jeder beliebigen
     // Eingabe wieder gelöscht

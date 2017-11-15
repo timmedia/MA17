@@ -5,7 +5,7 @@ class Level18 extends GameState {
       'Level17 Map',        // Karte
       3200, 480,            // Kartengrösse
       1300,                 // Gravitation
-      'Menu',         // nächstes Level
+      'Cutscene07',         // nächstes Level
       null, null,
       'Level17 Background', // nur Hintergrund-Bild
       'pink'                // Akzentfarbe

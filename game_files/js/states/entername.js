@@ -30,7 +30,7 @@ class EnterName extends Phaser.State {
       300, 100, 'Small White', 'PLEASE WAIT' , 32
     )
 
-    this.score = 400
+    this.score = game.status.info.deathCount
 
     // Dateien laden um zu vergleichen
     this.path.get().then(entry => {
@@ -74,15 +74,74 @@ class EnterName extends Phaser.State {
 
         // Name eingeben
         this.add.bitmapText(
-          40, 200, 'Small White', 'PLEASE ENTER YOUR NAME:', 32
+          40, 170, 'Small White', 'PLEASE ENTER YOUR NAME:', 32
         )
 
-        // Felder Anzeige der verschiedenen Buchstaben
-        this.field1 = this.add.bitmapText(80, 290, 'Small White', 'A', 128)
-        this.field1 = this.add.bitmapText(200, 290, 'Small White', 'A', 128)
-        this.field1 = this.add.bitmapText(320, 290, 'Small White', 'A', 128)
-        this.field1 = this.add.bitmapText(440, 290, 'Small White', 'A', 128)
-        this.field1 = this.add.bitmapText(560, 290, 'Small White', 'A', 128)
+        if (game.isArcade) {
+
+        } else {
+
+          var indexes = [0, 0, 0]
+
+          function createArrowUp (x, y, i, field) {
+            var arrow = this.add.button(x, y, 'Menu Arrow', () => {
+              indexes[i] = (indexes[i] > 24)? 0 : indexes[i] + 1
+              field.setText(letters[indexes[i]])
+            }, this)
+            arrow.anchor.setTo(0.5, 0.5)
+            arrow.angle = 90
+          }
+
+          function createArrowDown (x, y, i, field) {
+            var arrow = this.add.button(x, y, 'Menu Arrow', () => {
+              indexes[i] = (indexes[i] < 1)? 25 : indexes[i] - 1
+              field.setText(letters[indexes[i]])
+            }, this)
+            arrow.anchor.setTo(0.5, 0.5)
+            arrow.angle = -90
+          }
+
+          var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+          // Felder Anzeige der verschiedenen Buchstaben
+          this.field1 = this.add.bitmapText(80, 230, 'Small White', 'A', 128)
+          createArrowUp.call(this, 125, 355, 0, this.field1)
+          createArrowDown.call(this, 125, 235, 0, this.field1)
+
+
+          this.field2 = this.add.bitmapText(200, 230, 'Small White', 'A', 128)
+          createArrowUp.call(this, 245, 355, 1, this.field2)
+          createArrowDown.call(this, 245, 235, 1, this.field2)
+
+          this.field3 = this.add.bitmapText(320, 230, 'Small White', 'A', 128)
+          createArrowUp.call(this, 365, 355, 2, this.field3)
+          createArrowDown.call(this, 365, 235, 2, this.field3)
+
+          this.submit = this.add.button(600, 230, 'Menu Arrow', () => {
+            var name = this.field1._text + this.field2._text + this.field3._text
+            var p = this.database.doc('scoring/highscores')
+            switch (ranking) {
+              case 0:
+                p.update({0: {0: this.score, 1: name}})
+                break;
+              case 1:
+                p.update({1: {0: this.score, 1: name}})
+                break;
+              case 2:
+                p.update({2: {0: this.score, 1: name}})
+                break;
+              case 3:
+                p.update({3: {0: this.score, 1: name}})
+                break;
+              case 4:
+                p.update({4: {0: this.score, 1: name}})
+                break;
+              default:
+            }
+            game.state.start('Menu')
+          }, this)
+          this.submit.scale.setTo(3, 3)
+        }
+
       } else {
         // Kein Eintrag
         this.add.bitmapText(

@@ -220,6 +220,9 @@ class Preload extends Phaser.State {
     // Cutscene06
     loadSequence('Gus', 6)
 
+    // Cutscene07
+    loadImg('Cutscene07 Background', 'cutscenes/07/background.png')
+
     // Karten
     loadMap('Tutorial Map', 'tutorial.json')
     loadMap('Level01 Map', '01.json')

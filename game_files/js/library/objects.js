@@ -138,12 +138,6 @@ class Player extends DynamicGameObject {
     if (enableShoot) controls.shift.onDown.add(this.shoot, this)
 
     if (game.isMobile) {
-      game.mobileControls.left.addEventListener('touchstart', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchenter', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchmove', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchleave', () => {
-        controls.left.isDown = false
-      })
       game.mobileControls.left.addEventListener('touchend', () => {
         controls.left.isDown = false
       })
