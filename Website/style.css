@@ -95,11 +95,6 @@ body {
   width: 100%;
 }
 
-.play-button {
-  width: 150px;
-  margin-left: calc(50% - 75px);
-}
-
 .header-image {
   position: fixed;
   width: 100%;

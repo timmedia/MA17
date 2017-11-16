@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Reset</title>
+  <!-- Material Design Lite Components -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="http://code.getmdl.io/1.3.0/material.indigo-orange.min.css">
+  <link rel="stylesheet" href="Website/style.css">
+  <style>
+  h3 {
+    font-weight: 700;
+  }
+  .mdl-layout {
+    flex: 1 0 auto;
+  }
+  .mdl-button {
+    width: calc(100% - 30px);
+  }
+  .game-container {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 60%;
+    max-height: 100vh;
+    width: 100%;
+  }
+  iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: calc(100vh * 1.5);
+  }
+  </style>
+  <script defer src="http://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+<body>
+  <main class="mdl-layout__content">
+    <div class="mdl-grid center-items">
+      <div class="mdl-cell mdl-cell--11-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone" style="width: 100%; height 100%;">
+        <div class="game-container">
+          <iframe src="game_files/game.html?mode=mobile" frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

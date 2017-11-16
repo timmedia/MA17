@@ -11,6 +11,14 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="http://code.getmdl.io/1.3.0/material.indigo-orange.min.css">
   <link rel="stylesheet" href="Website/style.css">
+  <style>
+  .mdl-layout {
+    flex: 1 0 auto;
+  }
+  .mdl-button {
+    width: calc(100% - 30px);
+  }
+  </style>
   <script defer src="http://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
@@ -18,46 +26,62 @@
     <div class="header-image"></div>
     <div class="header-image header-image-overlay"></div>
   </div>
-  <div class="mdl-grid center-items">
-    <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-      <div class="mdl-tabs mdl-js-tabs">
-        <div class="mdl-tabs__tab-bar mdl-js-ripple-effect">
-          <a href="#about" class="mdl-tabs__tab is-active tab-about">About</a>
-          <a href="#docs" class="mdl-tabs__tab tab-docs">Documentation</a>
-          <a href="game.html" class="mdl-tabs__tab tab-game">Game <i class="material-icons md-18">exit_to_app</i></a>
-        </div>
-        <div class="mdl-tabs__panel is-active" id="about">
-          <div class="mdl-grid mdl-grid--no-spacing center-items">
-            <div class="main-content mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-              <h1>Welcome to Mission Reset.</h1>
+  <div class="mdl-layout mdl-js-layout">
+    <main class="mdl-layout__content">
+
+    <div class="mdl-grid center-items">
+      <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-tabs mdl-js-tabs">
+          <div class="mdl-tabs__tab-bar mdl-js-ripple-effect">
+            <a href="#about" class="mdl-tabs__tab is-active tab-about">About</a>
+            <a href="#docs" class="mdl-tabs__tab tab-docs">Documentation</a>
+            <a href="game.html" class="mdl-tabs__tab tab-game">Game <i class="material-icons md-18">exit_to_app</i></a>
+          </div>
+          <div class="mdl-tabs__panel is-active" id="about">
+            <div class="mdl-grid mdl-grid--no-spacing center-items">
+              <div class="main-content mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                <h1>Welcome to Mission Reset.</h1>
+              </div>
+              <div class="main-content main-content-text mdl-cell mdl-cell--8-col-desktop mdl-cell--7-col-tablet mdl-cell--4-col-phone">
+                <p>Your world is dying fast and the leaders are in disagreement over what to do. The Queen of Earth has retreated and forced her Kingdom back to ancient times, before the most simplest of medicines even existed. The King of Winter is oblivious to problem, and refuses to accept any advice from others. The Queen of Water is all alone, since all of her people have died due her own selfish acts.</p>
+                <p>In order to tackle the issue, the King of Fire has artificially created you to be the perfect hero. He wants you to beat the game, and hopefully reset everything back to normal, before the great suffering began. Because that’s what happens when you finish a game, right?</p>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent play-button">
+                  Play game
+                </a>
+              </div>
             </div>
-            <div class="main-content main-content-text mdl-cell mdl-cell--8-col-desktop mdl-cell--7-col-tablet mdl-cell--4-col-phone">
-              <p>Your world is dying fast and the leaders are in disagreement over what to do. The Queen of Earth has retreated and forced her Kingdom back to ancient times, before the most simplest of medicines even existed. The King of Winter is oblivious to problem, and refuses to accept any advice from others. The Queen of Water is all alone, since all of her people have died due her own selfish acts.</p>
-              <p>In order to tackle the issue, the King of Fire has artificially created you to be the perfect hero. He wants you to beat the game, and hopefully reset everything back to normal, before the great suffering began. Because that’s what happens when you finish a game, right?</p>
-              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent play-button">
-                Play game
-              </button>
+          </div>
+
+          <div class="mdl-tabs__panel" id="docs">
+            <div class="mdl-grid mdl-grid--no-spacing center-items">
+              <div class="main-content mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+                <h1>Docs</h1>
+              </div>
+              <div class="main-content main-content-text mdl-cell mdl-cell--8-col-desktop mdl-cell--7-col-tablet mdl-cell--4-col-phone">
+                <p>The following documents show how the game was created.</p>
+                <a href="https://1drv.ms/b/s!ArIhtmi3Aeyu13t2tsmJVZzlwkyi" class="mdl-button mdl-js-button mdl-button--accent">Artbook</a>
+                <hr>
+                <a href="https://1drv.ms/b/s!AmgrxT9ol1Fpg_N40f0oGLvoPT8FDQ" class="mdl-button mdl-js-button mdl-button--accent">Appendix</a>
+                <a href="https://1drv.ms/b/s!AmgrxT9ol1Fpg_QiXcdoyZGfR4lD-g" class="mdl-button mdl-js-button mdl-button--accent">Documentation</a>
+                <a href="https://github.com/timmedia/MA17" class="mdl-button mdl-js-button mdl-button--accent">Code</a>
+                <hr>
+                <a href="https://drive.google.com/open?id=1OH6Bt6rWP4LRqT3PDygkl8bYfFF9eTsq" class="mdl-button mdl-js-button mdl-button--accent">Presskit</a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="mdl-tabs__panel" id="game">
-          <p>Game</p>
-        </div>
-        <div class="mdl-tabs__panel" id="docs">
-          <p>Documentation</p>
-        </div>
       </div>
     </div>
-    <div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone footer-box">
-      <footer class="mdl-mini-footer">
-        <div class="mdl-mini-footer__left-section">
-          <div class="mdl-logo"><b>Mission Reset</b></div>
-          <ul class="mdl-mini-footer__link-list">
-            <li><a>&copy; 2017 Tim-Media</a></li>
-          </ul>
-        </div>
-      </footer>
+  </main>
+
+  <footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer__left-section">
+      <div class="mdl-logo"><b>Mission Reset</b></div>
+      <ul class="mdl-mini-footer__link-list">
+        <li><a>&copy; 2017 Tim-Media</a></li>
+      </ul>
     </div>
+  </footer>
   </div>
   <script src="Website/script.js"></script>
 </body>
