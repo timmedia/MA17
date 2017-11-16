@@ -5,6 +5,9 @@ class EnterName extends Phaser.State {
     this.add.sprite(0, 0, 'Credits Background')
     this.vignette = this.add.sprite(0, 0, 'Menu Vignette')
 
+    // Musik abspielen
+    game.switchMusic('Menu', 1)
+
     if (!game.firebaseStarted) {
       // Firebase initialisieren
       var config = {

@@ -12,6 +12,9 @@ class Tutorial extends GameState {
       'blue_white'           // Farbmodus (Arcade)
     )
 
+    // Musik
+    game.switchMusic('Tutorial', 1)
+
     // Michael mit Animation (versetzt damit nicht gleiche Bewegun wie Spieler
     // selbst), Ankerpunk unten mittig
     this.michael = this.add.sprite(155, 460, 'Tutorial Michael')

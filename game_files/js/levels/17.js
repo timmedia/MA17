@@ -8,7 +8,7 @@ class Level17 extends GameState {
       'Cutscene06',         // nächstes Level
       null, null,
       'Level17 Background', // nur Hintergrund-Bild
-      'pink'                // Akzentfarbe
+      'red_white'           // Akzentfarbe
     )
 
     // Gus, mit Animation

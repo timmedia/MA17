@@ -9,7 +9,7 @@ class Level04 extends GameState {
       'Debug empty10x10',  // Leeres Vordergrund-Bild damit Parallaxing läuft
       'Debug empty10x10',  // Leeres Mittelgrund, gleicher Grund
       'Level04 Background',// Hintergrund-Bild, mit Parallaxing
-      'pink'               // Akzentfarbe
+      'yellow_white'       // Akzentfarbe
     )
 
     // Musik

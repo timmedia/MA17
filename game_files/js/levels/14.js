@@ -9,7 +9,7 @@ class Level14 extends GameState {
       'Level13 Foreground', // Vordergrund-Bild
       'Level13 Midground',  // Mittelgrund-Bild
       'Level13 Background', // Hintergrund-Bild
-      'pink'                // Akzentfarbe
+      'blue_white'          // Akzentfarbe
     )
 
     // Michael

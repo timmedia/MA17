@@ -9,7 +9,7 @@ class Level02 extends GameState {
       null,                // kein Vordergrund-Bild
       'Level02 Midground', // Mittelgrund-Bild
       'Level02 Background',// Hintergrund-Bild
-      'blue_white'
+      'green'
     )
 
     // Musik

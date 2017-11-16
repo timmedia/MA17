@@ -9,7 +9,7 @@ class Level01 extends GameState {
       'Level01 Foreground', // Vordergrund-Bild
       'Level01 Midground',  // Mittelgrund-Bild
       'Level01 Background', // Hintergrund-Bild
-      'blue_white'          // Akzentfarbe
+      'green'               // Akzentfarbe
     )
 
     // Musik

@@ -8,7 +8,7 @@ class Level11 extends GameState {
       'Cutscene01',         // nächstes Level
       null, null,           // Keine Mittel-/Vordergrundbilder
       'Level11 Background', // Hintergrund-Bild
-      'pink'                // Akzentfarbe
+      'blue_white'          // Akzentfarbe
     )
 
     // Spieler wird hinzugefügt
