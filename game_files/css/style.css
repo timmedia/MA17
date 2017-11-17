@@ -44,8 +44,8 @@ canvas {
   padding-bottom: 0px;
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (max-aspect-ratio: 5/7){
   .not-landscape {
-    display: box;
+    display: inline;
   }
 }

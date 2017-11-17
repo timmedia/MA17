@@ -9,11 +9,14 @@ function setupMobile () {
 
   var gameBox = doc.getElementById('gameBox')
 
-  let totalWidth = doc.body.clientWidth
+  var totalWidth = doc.body.clientWidth
+  var totalHeight = doc.body.clientHeight
+
+  var dim = (totalHeight > totalWidth)? totalHeight : totalWidth
 
   function createButton(x, y, g) {
     let button = doc.createElement('div')
-    let height = totalWidth / 8
+    let height = dim / 8
     button.style.width = ~~height + 'px'
     button.style.height = ~~height + 'px'
     button.style.opacity = 0
