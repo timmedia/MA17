@@ -26,3 +26,26 @@ canvas {
   image-rendering:        crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
 }
+
+.not-landscape {
+  display: none;
+  font-family: sans-serif;
+  z-index: 2;
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 55vh;
+  background: black;
+  color: white;
+  text-align: center;
+  padding-top: 45vh;
+  padding-bottom: 0px;
+}
+
+@media screen and (orientation: portrait) {
+  .not-landscape {
+    display: box;
+  }
+}

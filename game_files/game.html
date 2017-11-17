@@ -59,9 +59,13 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+    <div class="not-landscape" id="warningBox"><h1>Please rotate your Device!</h1></div>
     <div id="gameBox"></div>
     <script type="text/javascript">
-      window.onload = init;
+      window.onload = init
+      window.screen.addEventListener("orientationchange", () => {
+        window.location.reload()
+      })
     </script>
   </body>
 </html>

@@ -1,5 +1,8 @@
 function setupMobile () {
 
+  var warningBox = document.getElementById('warningBox')
+  warningBox.style.width = '100%'
+
   const doc = document
 
   game.mobileRunning = true

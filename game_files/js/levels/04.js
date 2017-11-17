@@ -109,6 +109,7 @@ class Level04 extends GameState {
       }
     } else if (this.player.position.y > 480) {
       // Spieler ist bei den Wolken heruntergefallen
+      game.status.increaseDeathCount()
       this.clouds.callAll('kill') // Wolken löschen
       this.createClouds()         // neue Wolken an Ursprungsposition
       this.startClouds()          // Wolken starten
