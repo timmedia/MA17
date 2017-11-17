@@ -55,8 +55,10 @@
   </div>
   <main class="mdl-layout__content">
     <div class="mdl-grid center-items">
-      <div class="mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--hide-desktop" style="background: white; width: 100%; margin: 0px; text-align: center; padding-top: 10px;  ">
-        <p>On a device with touch support? Check out the  <a class="mdl-button mdl-button--accent" href="game_files/game.html?mode=mobile" style="width: auto;">mobile version</a>!</p>
+      <div id="orientationBox" class="mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--hide-desktop" style="background: white; width: 100%; margin: 0px; text-align: center; padding-top: 10px;  ">
+        <p>On a device with touch support? Check out the
+          <a class="mdl-button mdl-button--accent" href="game_files/game.html?mode=mobile" style="width: auto;">
+            mobile version</a>!<br>Tap to continue anyways.</p>
       </div>
       <div class="mdl-cell mdl-cell--11-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone">
         <div class="game-container">
@@ -66,7 +68,15 @@
     </div>
   </main>
 </div>
-
-
+<script>
+  window.onload = () => {
+    let box = document.getElementById('orientationBox')
+    function remove () {
+      box.style.width = '0px'
+    }
+    box.addEventListener('touchstart', remove)
+    box.addEventListener('onclick', remove)
+  }
+</script>
 </body>
 </html>
