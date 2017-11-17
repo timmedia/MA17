@@ -22,12 +22,12 @@ class Leaderboard extends Phaser.State {
         projectId: "mission-reset"
       }
       firebase.initializeApp(config)
-      this.database = firebase.firestore()
+      game.database = firebase.firestore()
       game.firebaseStarted = true
     }
 
     // Pfad der Dateien
-    this.path = this.database.doc('scoring/highscores')
+    this.path = game.database.doc('scoring/highscores')
 
     // Text, wird angezeigt bis Daten eintreffen
     this.loadingText = this.add.bitmapText(

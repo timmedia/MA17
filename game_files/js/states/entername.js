@@ -16,12 +16,12 @@ class EnterName extends Phaser.State {
         projectId: "mission-reset"
       }
       firebase.initializeApp(config)
-      this.database = firebase.firestore()
+      game.database = firebase.firestore()
       game.firebaseStarted = true
     }
 
     // Pfad der Dateien
-    this.path = this.database.doc('scoring/highscores')
+    this.path = game.database.doc('scoring/highscores')
 
     // Text, wird angezeigt bis Daten eintreffen
     this.loadingText1 = this.add.bitmapText(
@@ -121,7 +121,7 @@ class EnterName extends Phaser.State {
 
           this.submit = this.add.button(600, 230, 'Menu Arrow', () => {
             var name = this.field1._text + this.field2._text + this.field3._text
-            var p = this.database.doc('scoring/highscores')
+            var p = game.database.doc('scoring/highscores')
             switch (ranking) {
               case 0:
                 p.update({0: {0: this.score, 1: name}})
