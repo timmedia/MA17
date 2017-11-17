@@ -124,15 +124,25 @@ class EnterName extends Phaser.State {
             var p = game.database.doc('scoring/highscores')
             switch (ranking) {
               case 0:
+                p.update({4: {0: data[3][0], 1: data[3][1]}})
+                p.update({3: {0: data[2][0], 1: data[2][1]}})
+                p.update({2: {0: data[1][0], 1: data[1][1]}})
+                p.update({1: {0: data[0][0], 1: data[0][1]}})
                 p.update({0: {0: this.score, 1: name}})
                 break;
               case 1:
+                p.update({4: {0: data[3][0], 1: data[3][1]}})
+                p.update({3: {0: data[2][0], 1: data[2][1]}})
+                p.update({2: {0: data[1][0], 1: data[1][1]}})
                 p.update({1: {0: this.score, 1: name}})
                 break;
-              case 2:
+                case 2:
+                p.update({4: {0: data[3][0], 1: data[3][1]}})
+                p.update({3: {0: data[2][0], 1: data[2][1]}})
                 p.update({2: {0: this.score, 1: name}})
                 break;
               case 3:
+                p.update({4: {0: data[3][0], 1: data[3][1]}})
                 p.update({3: {0: this.score, 1: name}})
                 break;
               case 4:

@@ -198,25 +198,27 @@ class Level12 extends GameState {
 
   // Endszene
   endScene() {
-    // Schüsse werden gestoppt, Spieler kann sich nicht bewegen
-    clearInterval(this.arrowInterval)
-    this.urielle.defeated = true
-    this.player.body.moves = false
-    // Endanimation: Zuerst flackert Urielle, dann verschwindet sie
-    this.urielle.animations.play('end')
-    this.time.events.add(1000, () => this.urielle.animations.play('none'))
-    this.time.events.add(2000, () => this.urielle.animations.play('end'))
-    this.time.events.add(3000, () => this.urielle.animations.play('none'))
-    this.time.events.add(4000, () => this.urielle.animations.play('end'))
-    this.time.events.add(5000, () => this.urielle.animations.play('none'))
-    this.time.events.add(6000, () => this.urielle.animations.play('end'))
-    this.time.events.add(7000, () => {
-      this.add.tween(this.urielle)
-        .to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true)
-    })
-    game.urielleStarted = false
-    // Nach dem Verschwinden rüttelt die Kamera sich, es geht zum nächsten Level
-    this.time.events.add(8000, () => this.camera.shake(0.05, 200), this)
-    this.time.events.add(9000, () => this.goToNextLevel())
+    if (!this.urielle.defeated) {
+      // Schüsse werden gestoppt, Spieler kann sich nicht bewegen
+      clearInterval(this.arrowInterval)
+      this.urielle.defeated = true
+      this.player.body.moves = false
+      // Endanimation: Zuerst flackert Urielle, dann verschwindet sie
+      this.urielle.animations.play('end')
+      this.time.events.add(1000, () => this.urielle.animations.play('none'))
+      this.time.events.add(2000, () => this.urielle.animations.play('end'))
+      this.time.events.add(3000, () => this.urielle.animations.play('none'))
+      this.time.events.add(4000, () => this.urielle.animations.play('end'))
+      this.time.events.add(5000, () => this.urielle.animations.play('none'))
+      this.time.events.add(6000, () => this.urielle.animations.play('end'))
+      this.time.events.add(7000, () => {
+        this.add.tween(this.urielle)
+          .to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true)
+      })
+      game.urielleStarted = false
+      // Nach dem Verschwinden rüttelt die Kamera sich, es geht zum nächsten Level
+      this.time.events.add(8000, () => this.camera.shake(0.05, 200), this)
+      this.time.events.add(9000, () => this.goToNextLevel())
+    }
   }
 }
