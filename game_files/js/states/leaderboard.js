@@ -80,8 +80,6 @@ class Leaderboard extends Phaser.State {
     // ESC: Verbindung mit Server unterbrechen, Arcade shutdown
     if (this.game.isArcade) controls.esc.onDown.add(() => game.server.end())
 
-    this.game.input.mouse.mouseDownCallback = () => this.state.start('Menu')
-
     this.game.input.keyboard.onDownCallback = () =>  this.state.start('Menu')
   }
 }
