@@ -139,17 +139,8 @@ class Player extends DynamicGameObject {
 
     if (game.isMobile) {
       game.mobileControls.left.addEventListener('touchstart', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchenter', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchmove', () => this.pressLeft())
-      game.mobileControls.left.addEventListener('touchleave', () => {
-        controls.left.isDown = false
-      })
       game.mobileControls.left.addEventListener('touchend', () => {
         controls.left.isDown = false
-      })
-      game.mobileControls.right.addEventListener('mousedown', () => this.pressRight())
-      game.mobileControls.right.addEventListener('mouseup', () => {
-        controls.right.isDown = false
       })
       game.mobileControls.left.addEventListener('mousedown', () => this.pressLeft())
       game.mobileControls.left.addEventListener('mouseup', () => {
@@ -157,11 +148,6 @@ class Player extends DynamicGameObject {
       })
 
       game.mobileControls.right.addEventListener('touchstart', () => this.pressRight())
-      game.mobileControls.right.addEventListener('touchenter', () => this.pressRight())
-      game.mobileControls.right.addEventListener('touchmove', () => this.pressRight())
-      game.mobileControls.right.addEventListener('touchleave', () => {
-        controls.right.isDown = false
-      })
       game.mobileControls.right.addEventListener('touchend', () => {
         controls.right.isDown = false
       })
