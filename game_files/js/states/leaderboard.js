@@ -39,7 +39,7 @@ class Leaderboard extends Phaser.State {
 
     // 'zurück'-Text
     this.add.bitmapText(
-      500, 275, 'Small White', 'PRESS ANY KEY\nTO GO TO MENU', 32
+      500, 275, 'Small White', 'PRESS BACKSPACE\nTO RETURN TO MENU', 32
     )
 
     // Dateien laden und anzeigen (passiert asynchron)

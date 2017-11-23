@@ -185,6 +185,7 @@ class Player extends DynamicGameObject {
 
     if (this.hp < 0) {  // Hat der Spieler noch Herzen?
       this.killPlayer() // Nein, Spieler stirbt
+      if (game.isMobile) window.navigator.vibrate(200)
       return            // Rest ist egal
     }
     // Falls Sprungkraft > 0, ist Schwerkraft nach oben
