@@ -16,11 +16,7 @@ class Leaderboard extends Phaser.State {
 
     if (!game.firebaseStarted) {
       // Firebase initialisieren
-      var config = {
-        apiKey: "AIzaSyDip3wz7_-m13S1-i-sOLOS6PBlanqSrj4",
-        authDomain: "mission-reset.firebaseapp.com",
-        projectId: "mission-reset"
-      }
+      var config = {} // config goes here
       firebase.initializeApp(config)
       game.database = firebase.firestore()
       game.firebaseStarted = true

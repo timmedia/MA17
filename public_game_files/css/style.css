@@ -1,0 +1,51 @@
+/* keine Ränder  */
+html, body, canvas, div {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+#gameBox {
+  position: relative;
+  top: 0px;
+  width: 100vw;
+  max-width: calc(100vh * 1.7);
+  max-height: 100vh;
+  transition: opacity 2s ease;
+}
+canvas {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  cursor: none;
+}
+/* kein Anti-Aliasing, Pixel sollen nicht verschwommen sein */
+/* von: https://developer.mozilla.org/en/docs/Web/CSS/image-rendering */
+canvas {
+  image-rendering:        -moz-crisp-edges;
+  image-rendering:        -o-crisp-edges;
+  image-rendering:        -webkit-optimize-contrast;
+  image-rendering:        crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.not-landscape {
+  display: none;
+  font-family: sans-serif;
+  z-index: 2;
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 55vh;
+  background: black;
+  color: white;
+  text-align: center;
+  padding-top: 45vh;
+  padding-bottom: 0px;
+}
+
+@media screen and (max-aspect-ratio: 5/7){
+  .not-landscape {
+    display: inline;
+  }
+}

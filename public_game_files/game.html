@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Game Canvas</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Minimized Phaser -->
+    <script src="js/phaser/phaser.min.js"></script>
+    <script src="js/phaser/phaser-debug.js"></script>
+
+    <script src="js/library/objects.js"></script>
+    <script src="js/library/gamestate.js"></script>
+    <script src="js/library/cutscene.js"></script>
+    <script src="js/library/websocket.js"></script>
+    <script src="js/library/mobile.js"></script>
+
+    <script src="js/states/init.js"></script>
+    <script src="js/states/startup.js"></script>
+    <script src="js/states/preload.js"></script>
+    <script src="js/states/menu.js"></script>
+    <script src="js/states/credits.js"></script>
+    <script src="js/states/leaderboard.js"></script>
+    <script src="js/states/entername.js"></script>
+
+    <script src="js/levels/tutorial.js"></script>
+    <script src="js/levels/01.js"></script>
+    <script src="js/levels/02.js"></script>
+    <script src="js/levels/03.js"></script>
+    <script src="js/levels/04.js"></script>
+    <script src="js/levels/05.js"></script>
+    <script src="js/levels/06.js"></script>
+    <script src="js/levels/07.js"></script>
+    <script src="js/levels/08.js"></script>
+    <script src="js/levels/09.js"></script>
+    <script src="js/levels/10.js"></script>
+    <script src="js/levels/11.js"></script>
+    <script src="js/levels/12.js"></script>
+    <script src="js/levels/13.js"></script>
+    <script src="js/levels/14.js"></script>
+    <script src="js/levels/15.js"></script>
+    <script src="js/levels/16.js"></script>
+    <script src="js/levels/17.js"></script>
+    <script src="js/levels/18.js"></script>
+
+    <script src="js/cutscenes/01.js"></script>
+    <script src="js/cutscenes/02.js"></script>
+    <script src="js/cutscenes/03.js"></script>
+    <script src="js/cutscenes/04.js"></script>
+    <script src="js/cutscenes/05.js"></script>
+    <script src="js/cutscenes/06.js"></script>
+    <script src="js/cutscenes/07.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="not-landscape" id="warningBox"><h1>Please rotate your Device and reload the page!</h1></div>
+    <div id="gameBox"></div>
+    <!-- Firebase utilities -->
+    <script src="https://gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <script src="https://gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+    <script type="text/javascript">
+      window.onload = init
+      window.screen.addEventListener("orientationchange", () => {
+        window.location.reload()
+      })
+    </script>
+  </body>
+</html>
